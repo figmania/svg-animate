@@ -1,0 +1,52 @@
+body {
+  font-feature-settings: "liga" on, "calt" on;
+  font: normal 400 11px/16px Inter, sans-serif;
+  font-weight: 400;
+  color: #FFFFFF;
+  background-color: #2e3440;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .theme-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  padding: 8px;
+}
+
+.row > .col {
+  flex: 1;
+  min-width: 0;
+  margin-right: 8px;
+}
+
+.row > .col:last-child {
+  margin-right: 0px;
+}
+
+.warning {
+  font-size: 11px;
+  color: #999999;
+  line-height: 18px;
+  margin-right: 16px;
+  white-space: nowrap;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}

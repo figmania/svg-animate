@@ -1,0 +1,11 @@
+{
+  "extends": "@magloft/devkit-core/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "build/",
+    "rootDir": "src/",
+    "jsx": "react-jsx",
+    "types": ["@figma/plugin-typings"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["../../node_modules", "build"]
+}

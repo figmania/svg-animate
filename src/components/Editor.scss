@@ -1,0 +1,54 @@
+.navbar:first-child {
+  z-index: 3;
+}
+
+.navbar:last-child {
+  z-index: 1;
+}
+
+.animations-wrapper {
+  background-color: var(--background-color);
+  box-shadow: 0px 1px 0px var(--border-color);
+  z-index: 2;
+}
+
+.animations {
+  background-color: var(--background-color);
+}
+
+.animation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 4px;
+  box-shadow: 0px 1px 0px var(--border-color);
+}
+
+.animation > div:first-child {
+  flex: 1;
+}
+
+label.input.field-input {
+  min-width: 80px;
+  width: 80px;
+  margin-left: 8px;
+}
+
+input.unset {
+  color: #a9a9a9;
+}
+
+.notice {
+  padding: 16px;
+  text-align: center;
+  font-size: 11px;
+  line-height: 16px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notice > .icon {
+  display: inline-flex;
+}

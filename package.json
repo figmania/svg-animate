@@ -1,0 +1,41 @@
+{
+  "name": "@figmania/svg-animate",
+  "private": "true",
+  "repository": "https://github.com/figmania/svg-animate.git",
+  "description": "Bring your Figma creations to life with stunning animations and seamless export to web.",
+  "author": "Tobias Strebitzer <tobias.strebitzer@magloft.com>",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rimraf build/",
+    "build": "vite build",
+    "watch": "vite build --watch",
+    "prepack": "yarn clean && yarn build",
+    "lint": "eslint 'src/**/*.ts' 'src/**/*.tsx'"
+  },
+  "dependencies": {
+    "@figmania/common": "^2.0.1",
+    "@figmania/webcomponent": "^2.0.1",
+    "@figmania/ui": "^2.0.1",
+    "debounce": "^1.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.58.0",
+    "@figmania/vite-plugin-figma": "^1.0.1",
+    "@magloft/devkit-core": "^1.1.4",
+    "@magloft/eslint-config": "^1.1.4",
+    "@types/debounce": "^1.2.0",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.10",
+    "@vitejs/plugin-react": "^3.0.0",
+    "sass": "^1.58.0",
+    "typescript": "^4.9.3",
+    "vite": "^4.1.1",
+    "vite-plugin-singlefile": "^0.13.3"
+  },
+  "resolutions": {
+    "@types/react": "18.0.28",
+    "@types/react-dom": "18.0.10"
+  }
+}

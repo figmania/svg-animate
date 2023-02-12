@@ -1,0 +1,25 @@
+{
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "typescript.format.enable": true,
+  "typescript.format.semicolons": "remove",
+  "typescript.preferences.quoteStyle": "single",
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.suggest.autoImports": true,
+  "editor.formatOnSaveMode": "file",
+  "json.format.enable": false,
+  "scss.format.enable": false,
+  "html.format.enable": false,
+  "xml.format.enabled": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": true
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/build": true
+  },
+  "[svg]": { "editor.formatOnSave": false }
+}
