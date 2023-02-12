@@ -7,10 +7,7 @@ export default defineConfig({
   root: '.',
   base: './',
   server: { host: 'localhost', port: 8080 },
-  build: {
-    minify: false,
-    outDir: 'build'
-  },
+  build: { outDir: 'build' },
   plugins: [react(), figma({
     editorType: ['figma'],
     name: 'SVG Animate',

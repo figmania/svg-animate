@@ -18,7 +18,7 @@ export interface ExportState {
   duration: number
 }
 
-const EMBED_URL = 'https://cdn.jsdelivr.net/npm/@figmania/svg-animate/lib/index.min.js'
+const EMBED_URL = 'https://cdn.jsdelivr.net/npm/@figmania/webcomponent/build/index.umd.js'
 
 let lastExportMode: ExportMode = 'playback'
 
