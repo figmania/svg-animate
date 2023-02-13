@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "configurations": [{
+    "type": "node",
+    "request": "launch",
+    "name": "vite:build",    
+    "skipFiles": ["<node_internals>/**"],
+    "program": "${workspaceFolder}/node_modules/.bin/vite",
+    "args": ["build"]
+  }, {
+    "type": "node",
+    "request": "launch",
+    "name": "vite:watch",    
+    "skipFiles": ["<node_internals>/**"],
+    "program": "${workspaceFolder}/node_modules/.bin/vite",
+    "args": ["build", "--watch", "--mode=development"]
+  }, {
+    "type": "node",
+    "request": "launch",
+    "name": "vite:serve",    
+    "skipFiles": ["<node_internals>/**"],
+    "program": "${workspaceFolder}/node_modules/.bin/vite"
+  }]
+}

@@ -346,28 +346,19 @@
   resolved "https://registry.yarnpkg.com/@figma/plugin-typings/-/plugin-typings-1.58.0.tgz#88ae0e57e2ac74203d401f2a70e95e93c470e093"
   integrity sha512-to6hFysqZYACz4VNgaBXflOVS+1pbXGNVcezDmQEMcADDkIZeAZ71Zfqf/B2YDRmU3sM1xX5Q5NkRGhjCuLOLg==
 
-"@figmania/common@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@figmania/common/-/common-1.2.0.tgz#9f75488fea26daaca7ac6b5435ff558010f17873"
-  integrity sha512-4yo0zwJ08FfQwZ3ClV+yvDWqMM9xwZwXCo53+vqjipmJA2I37W3D/o9TeAfSnm199okUCyBGfQlWHjTohNWpjg==
+"@figmania/common@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@figmania/common/-/common-2.0.4.tgz#c8f07c4be86c573e991ffbee49b6ae9ef69c40f5"
+  integrity sha512-qYhPsId07JgLlvhqHk0FiFub45hl8oxtWqv25Obbz3c0o2BV39kHGa2mqbyoa40vJHHyKB9/L0fCn1U22wtWew==
   dependencies:
     html "^1.0.0"
     md5 "^2.3.0"
 
-"@figmania/common@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@figmania/common/-/common-2.0.1.tgz#393f8c75f12a01bad0abaf868a1475763fd1d061"
-  integrity sha512-4qSchXmOykdzHOnjjihf5YvRK2Gi4MOUQsR8xvVeITxB+0TVAZYHIzDQ0A6nq//KLClDU0vSogTHPPyN8kCeUw==
+"@figmania/ui@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@figmania/ui/-/ui-2.0.4.tgz#4da2a0077e392e765c4207ed4b3e65e814185ac5"
+  integrity sha512-WNC7WDpl9vptA74hwTqdbjyF6FB0Yzl1H+KeCN/HZwdKgHf3lXkZ0hUNVs2LLuYEMAQu0pjJ77DY9tszfy5FXQ==
   dependencies:
-    html "^1.0.0"
-    md5 "^2.3.0"
-
-"@figmania/ui@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@figmania/ui/-/ui-2.0.1.tgz#4df931a7beb2378580bb3b10deba50ad970845e6"
-  integrity sha512-6h3YDw1sTxYCggz/PJb1mIgwrozLBn7tGgzCT2Ku4HYRMY9YuqERHCsGtE5kgYK7Wl8jvkHfszX9epH9oBzK/A==
-  dependencies:
-    "@figmania/common" "^1.2.0"
     clsx "^1.2.1"
     react "^18.2.0"
     react-dom "^18.2.0"
@@ -379,10 +370,10 @@
   resolved "https://registry.yarnpkg.com/@figmania/vite-plugin-figma/-/vite-plugin-figma-1.0.1.tgz#f924d249889a71d2749685e44533741fbb78eddc"
   integrity sha512-K1uLH4xfhnRwG6CsJAsJNRkFw33bIfVFWO0fnKnrHjyHWRmkIIc3POXlS9uxLNOphjxjgJZRxetj0LQWhsEzfA==
 
-"@figmania/webcomponent@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@figmania/webcomponent/-/webcomponent-2.0.1.tgz#18905dc24eddaefa419cc7d5c39108379e87c7d3"
-  integrity sha512-f8eJbBQbFCJJwSb+CN/FMzbmBJqVa5IFWPWCfIsCZX8BIUJLnhbAXxP5cXVEgCmLQU8fPJpoXlbRJMvlqPMCOA==
+"@figmania/webcomponent@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@figmania/webcomponent/-/webcomponent-2.0.4.tgz#1f3c18b70d36c73c6c18a758afaa10e9baa6a90a"
+  integrity sha512-7tXuexzlX92Vq/jr5Iphk7HN11tjwQi1EHSEufxPLQzhaK34aK0dHcqeqMgT3swMdDcArQGc2rFkJ1NBNZz3sQ==
   dependencies:
     camelcase "^6.2.0"
     decamelize "^4.0.0"

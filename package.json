@@ -8,14 +8,14 @@
   "scripts": {
     "clean": "rimraf build/",
     "build": "vite build",
-    "watch": "vite build --watch",
+    "watch": "vite build --watch --mode=development",
     "prepack": "yarn clean && yarn build",
     "lint": "eslint 'src/**/*.ts' 'src/**/*.tsx'"
   },
   "dependencies": {
-    "@figmania/common": "^2.0.1",
-    "@figmania/webcomponent": "^2.0.1",
-    "@figmania/ui": "^2.0.1",
+    "@figmania/common": "^2.0.4",
+    "@figmania/webcomponent": "^2.0.4",
+    "@figmania/ui": "^2.0.4",
     "debounce": "^1.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
