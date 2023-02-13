@@ -1,7 +1,7 @@
 import { TreeNode } from '@figmania/common'
 import { Button, Icon, Input, Navbar } from '@figmania/ui'
-import { Component } from 'react'
-import { Animation, ANIMATION_SELECT_OPTIONS, NodeData } from '../utils/shared'
+import { FunctionComponent, useState } from 'react'
+import { ANIMATION_SELECT_OPTIONS, NodeData } from '../utils/shared'
 import { AnimationRow } from './AnimationRow'
 import { HoverInfo } from './HoverInfo'
 
@@ -11,103 +11,68 @@ export interface EditorProps {
   update: (data: Partial<NodeData>) => Promise<void>
 }
 
-export interface EditorState {
-  info: string
-}
+export const Editor: FunctionComponent<EditorProps> = ({ node, exportData, update }) => {
+  const [info, setInfo] = useState('Hover over an element for additional information')
 
-export class Editor extends Component<EditorProps, EditorState> {
-  state: EditorState = { info: 'Hover over an element for additional information' }
-
-  constructor(props: EditorProps) {
-    super(props)
-    this.onDelayChange = this.onDelayChange.bind(this)
-    this.onDurationChange = this.onDurationChange.bind(this)
-    this.onAnimationAddClick = this.onAnimationAddClick.bind(this)
-    this.onAnimationUpdate = this.onAnimationUpdate.bind(this)
-    this.onAnimationRemove = this.onAnimationRemove.bind(this)
-    this.onHoverInfo = this.onHoverInfo.bind(this)
+  const onHoverInfo = (enter: boolean, text?: string) => {
+    setInfo((enter && text) ? text : 'Hover over an element for additional information')
   }
 
-  async onDelayChange(value: string | number) {
-    if (value === '') { return this.props.update({ delay: this.props.exportData.delay ?? 0.5 }) }
-    const delay = (+value) / 1000
-    if (this.data.delay === delay) { return }
-    await this.props.update({ delay })
-  }
+  const defaultDuration = exportData?.duration ?? 0.5
+  const assignedTypes = node.data.animations.map(({ type }) => type)
+  const options = ANIMATION_SELECT_OPTIONS.filter(({ value }) => assignedTypes.indexOf(value) === -1)
 
-  async onDurationChange(value: string | number) {
-    if (value === '') { return this.props.update({ duration: this.props.exportData.duration ?? 0.5 }) }
-    const duration = (+value) / 1000
-    if (this.data.duration === duration) { return }
-    await this.props.update({ duration })
-  }
-
-  onAnimationUpdate(animation: Animation, index: number) {
-    this.data.animations[index] = animation
-    this.props.update({ animations: this.data.animations })
-  }
-
-  onAnimationRemove(_: Animation, index: number) {
-    if (index < 0 || index >= this.data.animations.length) { return }
-
-    // Build Data
-    const data: Partial<NodeData> = { animations: [...this.data.animations] }
-    data.animations!.splice(index, 1)
-
-    // Set Inactive if last animation was removed
-    if (data.animations!.length === 0) { data.active = false }
-
-    // Enable Node
-    this.props.update(data)
-  }
-
-  onHoverInfo(enter: boolean, text?: string) {
-    this.setState({
-      info: (enter && text) ? text : 'Hover over an element for additional information'
-    })
-  }
-
-  async onAnimationAddClick() {
-    const data: Partial<NodeData> = { animations: [...this.data.animations] }
-    const assignedTypes = this.data.animations.map(({ type }) => type)
-    const nextOption = ANIMATION_SELECT_OPTIONS.find(({ value }) => assignedTypes.indexOf(value) === -1)
-    if (!nextOption) { return }
-    data.animations!.push({ type: nextOption.value, from: nextOption.from, to: nextOption.to })
-    if (data.animations!.length === 1) { data.active = true }
-    await this.props.update(data)
-  }
-
-  render() {
-    const assignedTypes = this.data.animations.map(({ type }) => type)
-    const options = ANIMATION_SELECT_OPTIONS.filter(({ value }) => assignedTypes.indexOf(value) === -1)
-    return <>
-      <Navbar icon={this.data.active ? 'ui-animate-on' : 'ui-animate-off'} title={this.name} isDisabled={!this.data.active}>
-        <HoverInfo text="Set the Delay before this Animation starts" emit={this.onHoverInfo}>
-          <Input name="transition-delay" isDisabled={!this.data.active} icon="transition-delay" suffix="ms" className={`field-input ${this.data.delay ? 'set' : 'unset'}`} placeholder="0" type="number" value={this.data.delay * 1000} onChange={(value) => { this.onDelayChange(value) }} style={{ width: 100 }} />
+  return (
+    <>
+      <Navbar icon={node.data.active ? 'ui-animate-on' : 'ui-animate-off'} title={node.name} isDisabled={!node.data.active}>
+        <HoverInfo text="Set the Delay before this Animation starts" emit={onHoverInfo}>
+          <Input name="transition-delay" isDisabled={!node.data.active} icon="transition-delay" suffix="ms" className={`field-input ${node.data.delay ? 'set' : 'unset'}`} placeholder="0" type="number" value={node.data.delay * 1000} onChange={(value) => {
+            if (value === '') { update({ delay: exportData.delay ?? 0.5 }); return }
+            const delay = (+value) / 1000
+            if (node.data.delay === delay) { return }
+            update({ delay })
+          }} style={{ width: 100 }} />
         </HoverInfo>
-        <HoverInfo text="Set the Duration of this Animation" emit={this.onHoverInfo}>
-          <Input name="transition-duration" isDisabled={!this.data.active} icon="transition-duration" suffix="ms" className={`field-input ${this.data.duration ? 'set' : 'unset'}`} placeholder={String(this.defaultDuration)} type="number" value={this.data.duration * 1000} onChange={(value) => { this.onDurationChange(value) }} style={{ width: 100 }} />
+        <HoverInfo text="Set the Duration of this Animation" emit={onHoverInfo}>
+          <Input name="transition-duration" isDisabled={!node.data.active} icon="transition-duration" suffix="ms" className={`field-input ${node.data.duration ? 'set' : 'unset'}`} placeholder={String(defaultDuration)} type="number" value={node.data.duration * 1000} onChange={(value) => {
+            if (value === '') { update({ duration: exportData.duration ?? 0.5 }); return }
+            const duration = (+value) / 1000
+            if (node.data.duration === duration) { return }
+            update({ duration })
+          }} style={{ width: 100 }} />
         </HoverInfo>
-        <HoverInfo text="Add a new Animation" emit={this.onHoverInfo}>
-          <Button icon="ui-plus" onClick={() => { this.onAnimationAddClick() }} isDisabled={assignedTypes.length === ANIMATION_SELECT_OPTIONS.length}></Button>
+        <HoverInfo text="Add a new Animation" emit={onHoverInfo}>
+          <Button icon="ui-plus" onClick={() => {
+            const data: Partial<NodeData> = { animations: [...node.data.animations] }
+            const newAssignedTypes = node.data.animations.map(({ type }) => type)
+            const nextOption = ANIMATION_SELECT_OPTIONS.find(({ value }) => newAssignedTypes.indexOf(value) === -1)
+            if (!nextOption) { return }
+            data.animations!.push({ type: nextOption.value, from: nextOption.from, to: nextOption.to })
+            if (data.animations!.length === 1) { data.active = true }
+            update(data)
+          }} isDisabled={assignedTypes.length === ANIMATION_SELECT_OPTIONS.length}></Button>
         </HoverInfo>
       </Navbar>
       <div className="flex-1 animations-wrapper">
         <div className="animations">
-          {this.data.animations.map((animation, index) => (<AnimationRow hoverInfo={this.onHoverInfo} key={`${this.id}:${animation.type}`} index={index} animation={animation} options={options} update={this.onAnimationUpdate} remove={this.onAnimationRemove}></AnimationRow>))}
+          {node.data.animations.map((animation, index) => (
+            <AnimationRow hoverInfo={onHoverInfo} key={`${node.id}:${animation.type}`} index={index} animation={animation} options={options} update={(newAnimation, newIndex) => {
+              node.data.animations[newIndex] = newAnimation
+              update({ animations: node.data.animations })
+            }} remove={(_, newIndex) => {
+              if (newIndex < 0 || newIndex >= node.data.animations.length) { return }
+              const data: Partial<NodeData> = { animations: [...node.data.animations] }
+              data.animations!.splice(newIndex, 1)
+              if (data.animations!.length === 0) { data.active = false }
+              update(data)
+            }}></AnimationRow>
+          ))}
         </div>
-        {(this.data.animations.length === 0) && (
+        {(node.data.animations.length === 0) && (
           <div className="notice">Click the <Icon icon="ui-plus"></Icon> icon to animate a property of the selected node.</div>
         )}
       </div>
-      <Navbar icon="ui-info" title={this.state.info}></Navbar>
+      <Navbar icon="ui-info" title={info}></Navbar>
     </>
-  }
-
-  get id() { return this.props.node.id }
-  get name() { return this.props.node.name }
-  get data() { return this.props.node.data }
-  get exportData() { return this.props.exportData }
-  get children() { return this.props.node.children }
-  get defaultDuration() { return this.props.exportData?.duration ?? 0.5 }
+  )
 }

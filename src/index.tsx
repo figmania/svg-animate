@@ -1,9 +1,12 @@
 import { Theme } from '@figmania/ui'
-import * as ReactDOM from 'react-dom'
-import { Ui } from './components/Ui'
+import { createRoot } from 'react-dom/client'
+import { App } from './components/App'
+import { FigmaProvider } from './providers/FigmaProvider'
 
-ReactDOM.render((
-  <Theme className='theme-container' theme='dark'>
-    <Ui />
-  </Theme>
-), document.getElementById('root'))
+createRoot(document.getElementById('root')!).render(
+  <FigmaProvider>
+    <Theme className='theme-container' theme='dark'>
+      <App />
+    </Theme>
+  </FigmaProvider>
+)
