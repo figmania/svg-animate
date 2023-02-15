@@ -1,0 +1,13 @@
+.controls {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.scrubber {
+  flex: 1;
+}

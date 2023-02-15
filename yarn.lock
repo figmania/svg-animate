@@ -346,38 +346,39 @@
   resolved "https://registry.yarnpkg.com/@figma/plugin-typings/-/plugin-typings-1.58.0.tgz#88ae0e57e2ac74203d401f2a70e95e93c470e093"
   integrity sha512-to6hFysqZYACz4VNgaBXflOVS+1pbXGNVcezDmQEMcADDkIZeAZ71Zfqf/B2YDRmU3sM1xX5Q5NkRGhjCuLOLg==
 
-"@figmania/common@^2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@figmania/common/-/common-2.0.4.tgz#c8f07c4be86c573e991ffbee49b6ae9ef69c40f5"
-  integrity sha512-qYhPsId07JgLlvhqHk0FiFub45hl8oxtWqv25Obbz3c0o2BV39kHGa2mqbyoa40vJHHyKB9/L0fCn1U22wtWew==
+"@figmania/anim@^2.0.8":
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/@figmania/anim/-/anim-2.0.8.tgz#06c7e478233fbaf6364bc76e59958db53ab9acea"
+  integrity sha512-8s84SOjeYdsMzgDreuzTSSE3vU6wKELhIlUvFqzYJxm9XK0XvUWM52JRj9WdwYOfyZHZhrwr+sUXJ1NjEOx6Fg==
+  dependencies:
+    camelcase "^6.2.0"
+    decamelize "^4.0.0"
+    gsap "^3.6.1"
+
+"@figmania/common@^2.0.8":
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/@figmania/common/-/common-2.0.8.tgz#08261decb4aeb125c40b8ed238a95705222b38e7"
+  integrity sha512-yYLpgqw+hXMbvU8rwu+31pr+03FAvhaIQNnKHdOufZwC2uAOgN5fv7hzzKgVoLqapkcdXOygXLNFgWOgt7NbZw==
   dependencies:
     html "^1.0.0"
     md5 "^2.3.0"
 
-"@figmania/ui@^2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@figmania/ui/-/ui-2.0.4.tgz#4da2a0077e392e765c4207ed4b3e65e814185ac5"
-  integrity sha512-WNC7WDpl9vptA74hwTqdbjyF6FB0Yzl1H+KeCN/HZwdKgHf3lXkZ0hUNVs2LLuYEMAQu0pjJ77DY9tszfy5FXQ==
+"@figmania/ui@^2.0.8":
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/@figmania/ui/-/ui-2.0.8.tgz#0b2f6b507723ad8d42fd4890313d44749fd09c05"
+  integrity sha512-yFM866BXH6Mc2OXofMIt+tHRQTCnzz8PHReBXFHD76Zr4U1abpKYruFjUU4TSyocvk/N1n9u6I8mp/OWZz504Q==
   dependencies:
     clsx "^1.2.1"
     react "^18.2.0"
     react-dom "^18.2.0"
     react-outside-click-handler "^1.3.0"
+    react-scrubber "^1.1.1"
     shiki-es "^0.2.0"
 
 "@figmania/vite-plugin-figma@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@figmania/vite-plugin-figma/-/vite-plugin-figma-1.0.1.tgz#f924d249889a71d2749685e44533741fbb78eddc"
   integrity sha512-K1uLH4xfhnRwG6CsJAsJNRkFw33bIfVFWO0fnKnrHjyHWRmkIIc3POXlS9uxLNOphjxjgJZRxetj0LQWhsEzfA==
-
-"@figmania/webcomponent@^2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@figmania/webcomponent/-/webcomponent-2.0.4.tgz#1f3c18b70d36c73c6c18a758afaa10e9baa6a90a"
-  integrity sha512-7tXuexzlX92Vq/jr5Iphk7HN11tjwQi1EHSEufxPLQzhaK34aK0dHcqeqMgT3swMdDcArQGc2rFkJ1NBNZz3sQ==
-  dependencies:
-    camelcase "^6.2.0"
-    decamelize "^4.0.0"
-    gsap "^3.6.1"
 
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.8"
@@ -525,6 +526,13 @@
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@types/debounce/-/debounce-1.2.1.tgz#79b65710bc8b6d44094d286aecf38e44f9627852"
   integrity sha512-epMsEE85fi4lfmJUH/89/iV/LI+F5CvNIvmgs5g5jYFPfhO2S/ae8WSsLOKWdwtoaZw9Q2IhJ4tQ5tFCcS/4HA==
+
+"@types/gsap@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/gsap/-/gsap-3.0.0.tgz#28dc350ad89b6d19b13c8edbdf1dd74e8ee5c84f"
+  integrity sha512-BbWLi4WRHGze4C8NV7U7yRevuBFiPkPZZyGa0rryanvh/9HPUFXTNBXsGQxJZJq7Ix7j4RXMYodP3s+OsqCErg==
+  dependencies:
+    gsap "*"
 
 "@types/json-schema@^7.0.9":
   version "7.0.11"
@@ -1512,7 +1520,7 @@ grapheme-splitter@^1.0.4:
   resolved "https://registry.yarnpkg.com/grapheme-splitter/-/grapheme-splitter-1.0.4.tgz#9cf3a665c6247479896834af35cf1dbb4400767e"
   integrity sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==
 
-gsap@^3.6.1:
+gsap@*, gsap@^3.11.4, gsap@^3.6.1:
   version "3.11.4"
   resolved "https://registry.yarnpkg.com/gsap/-/gsap-3.11.4.tgz#e6d972d3509a7431b86d81d6fc3bbeb6862e5ff1"
   integrity sha512-McHhEguHyExMMnjqKA8G+7TvxmlKQGMbjgwAilnFe1e4id7V/tFveRQ2YMZhTYu0oxHGWvbPltdVYQOu3z1SCA==
@@ -1974,6 +1982,15 @@ object.entries@^1.1.2:
     define-properties "^1.1.4"
     es-abstract "^1.20.4"
 
+object.fromentries@^2.0.0:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/object.fromentries/-/object.fromentries-2.0.6.tgz#cdb04da08c539cffa912dcd368b886e0904bfa73"
+  integrity sha512-VciD13dswC4j1Xt5394WR4MzmAQmlgN72phd/riNp9vtD7tp4QQWJ0R4wvclXcafgcYK8veHRed2W6XeGBvcfg==
+  dependencies:
+    call-bind "^1.0.2"
+    define-properties "^1.1.4"
+    es-abstract "^1.20.4"
+
 object.values@^1.1.0, object.values@^1.1.5:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/object.values/-/object.values-1.1.6.tgz#4abbaa71eba47d63589d402856f908243eea9b1d"
@@ -2133,6 +2150,13 @@ react-refresh@^0.14.0:
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.14.0.tgz#4e02825378a5f227079554d4284889354e5f553e"
   integrity sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==
+
+react-scrubber@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-scrubber/-/react-scrubber-1.1.1.tgz#d5c568088e9f0d4da32fec235de0b4c20ca90aba"
+  integrity sha512-PJKKOGM+3Jzqn2yCI6ScBhSZi90InRRCHPxaBVvSVpLuM6FhmOqjryWKopR2b5rd5s4HA2xINXkgYsFLVrwfEA==
+  dependencies:
+    object.fromentries "^2.0.0"
 
 react@^18.2.0:
   version "18.2.0"

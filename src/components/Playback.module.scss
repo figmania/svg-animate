@@ -1,0 +1,13 @@
+.container {
+  position: relative;
+  height: 100%;
+}
+
+.svg {
+  flex: 1;
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}

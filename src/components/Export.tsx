@@ -1,10 +1,10 @@
 import { Messenger, svgPrettify, uiDownload } from '@figmania/common'
 import { Accordion, Button, Code, Input, Select } from '@figmania/ui'
-import { SvgAnimateEase, SvgAnimateTrigger } from '@figmania/webcomponent'
 import { debounce } from 'debounce'
 import { createRef, FunctionComponent, useState } from 'react'
 import { NotifyRequest } from '../types/messages'
-import { DOWNLOAD_OPTIONS_MAP, EASE_SELECT_OPTIONS, ExportFormat, ExportMode, EXPORT_FORMAT_LABELS, EXPORT_FORMAT_SELECT_OPTIONS, NodeData, TRIGGER_LABELS, TRIGGER_SELECT_OPTIONS } from '../utils/shared'
+import { DOWNLOAD_OPTIONS_MAP, EASE_SELECT_OPTIONS, ExportFormat, ExportMode, EXPORT_FORMAT_SELECT_OPTIONS, NodeData, TRIGGER_SELECT_OPTIONS } from '../utils/shared'
+import { Playback } from './Playback'
 
 export interface ExportProps {
   name: string
@@ -35,10 +35,6 @@ export const Export: FunctionComponent<ExportProps> = ({ name, data, code, updat
     update({ duration }, true)
   }, 500)
 
-  const getCodeForPlayback = () => {
-    return code ? `<svg-animate trigger="${trigger}">${code}</svg-animate>` : ''
-  }
-
   const getCodeForRender = () => {
     if (!code) { return '...' }
     switch (exportFormat) {
@@ -52,14 +48,23 @@ export const Export: FunctionComponent<ExportProps> = ({ name, data, code, updat
   if (!code) { return <div className="flex-1"></div> }
   return (
     <>
-      <Accordion title={`Play ${TRIGGER_LABELS[trigger]}`} active={exportMode === 'playback'} activate={() => {
+      <Accordion title={'Preview'} active={exportMode === 'playback'} activate={() => {
         updateExportMode('playback')
       }} renderHeader={() => (
-        <Select isDisabled={exportMode !== 'playback'} className="header-select" placeholder="Trigger" value={trigger} options={TRIGGER_SELECT_OPTIONS} onChange={(option) => {
-          const newTrigger = option.value as SvgAnimateTrigger
-          if (trigger === newTrigger) { return }
-          update({ trigger: newTrigger }, true)
-        }} />
+        <>
+          <Button icon={'ui-clipboard'} onClick={() => {
+            if (!code || !textarea.current) { return }
+            textarea.current.value = getCodeForRender()
+            textarea.current.select()
+            document.execCommand('copy')
+            messenger.request<NotifyRequest, void>('notify', { message: 'Code copied to clipboard' })
+          }} />
+          <Button icon={'ui-download'} onClick={() => {
+            if (!code) { return }
+            const { type, extension } = DOWNLOAD_OPTIONS_MAP[exportFormat]
+            uiDownload(svgPrettify(getCodeForRender()), { type, filename: `${name}.${extension}` })
+          }} />
+        </>
       )} renderSettings={() => (
         <div className="row">
           <div className="col">
@@ -72,16 +77,16 @@ export const Export: FunctionComponent<ExportProps> = ({ name, data, code, updat
           <div className="col">
             <label className="field-label">Default Easing</label>
             <Select placeholder="Default Easing" value={ease} options={EASE_SELECT_OPTIONS} onChange={(option) => {
-              const newEase = option.value as SvgAnimateEase
+              const newEase = option.value
               if (ease === newEase) { return }
               update({ ease: newEase }, true)
             }} />
           </div>
         </div>
       )}>
-        <div className="playback" dangerouslySetInnerHTML={{ __html: getCodeForPlayback() }}></div>
+        <Playback code={code} />
       </Accordion>
-      <Accordion title={`Export as ${EXPORT_FORMAT_LABELS[exportFormat]}`} active={exportMode === 'code'} activate={() => {
+      <Accordion title={'Export Settings'} active={exportMode === 'code'} activate={() => {
         updateExportMode('code')
       }} renderHeader={() => (
         <>
@@ -90,17 +95,10 @@ export const Export: FunctionComponent<ExportProps> = ({ name, data, code, updat
             if (exportFormat === newExportFormat) { return }
             update({ exportFormat: newExportFormat }, true)
           }}></Select>
-          <Button icon={'ui-clipboard'} onClick={() => {
-            if (!code || !textarea.current) { return }
-            textarea.current.value = getCodeForRender()
-            textarea.current.select()
-            document.execCommand('copy')
-            messenger.request<NotifyRequest, void>('notify', { message: 'Code copied to clipboard' })
-          }} />
-          <Button icon={'ui-download'} onClick={() => {
-            if (!code) { return }
-            const { type, extension } = DOWNLOAD_OPTIONS_MAP[exportFormat]
-            uiDownload(svgPrettify(getCodeForRender()), { type, filename: `${name}.${extension}` })
+          <Select isDisabled={exportMode !== 'code' || exportFormat === 'svg'} className="header-select-small" placeholder="Trigger" value={trigger} options={TRIGGER_SELECT_OPTIONS} onChange={(option) => {
+            const newTrigger = option.value
+            if (trigger === newTrigger) { return }
+            update({ trigger: newTrigger }, true)
           }} />
         </>
       )}>

@@ -1,5 +1,5 @@
 import { FigmaController, figmaExportAsync, FigmaNode, figmaNodeById, nodeClosest, nodeData, nodeHasSvgExport, nodeList, nodeTree } from '@figmania/common'
-import { ExportRequest, ExportResponse, NotifyRequest, SelectRequest, UpdateRequest } from './types/messages'
+import { AppSchema, ExportRequest, ExportResponse, NotifyRequest, SelectRequest, UpdateRequest } from './messenger/AppSchema'
 import { DataModel, NodeData } from './utils/shared'
 
 function nodeCreateHash(node: FigmaNode): string {
@@ -7,7 +7,7 @@ function nodeCreateHash(node: FigmaNode): string {
   return parts.map(String).join(':')
 }
 
-class Controller extends FigmaController {
+class Controller extends FigmaController<AppSchema> {
   private selectedNodeHash?: string
   private selectedNode?: FigmaNode
 
@@ -15,18 +15,18 @@ class Controller extends FigmaController {
     super({ width: 400, height: 512 })
 
     // Message Handlers
-    this.addRequestHandler<UpdateRequest>('update', this.handleUpdateRequest.bind(this))
-    this.addRequestHandler<{}, void>('enableExport', this.handleEnableExportRequest.bind(this))
-    this.addRequestHandler<ExportRequest, ExportResponse>('export', this.handleExportRequest.bind(this))
-    this.addRequestHandler<NotifyRequest, void>('notify', this.handleNotifyRequest.bind(this))
-    this.addRequestHandler<boolean, boolean>('tutorial', this.handleTutorialRequest.bind(this))
+    this.addRequestHandler('update', this.handleUpdateRequest.bind(this))
+    this.addRequestHandler('enableExport', this.handleEnableExportRequest.bind(this))
+    this.addRequestHandler('export', this.handleExportRequest.bind(this))
+    this.addRequestHandler('notify', this.handleNotifyRequest.bind(this))
+    this.addRequestHandler('tutorial', this.handleTutorialRequest.bind(this))
 
     // Observe Selection Changes
     setInterval(this.observeChanges.bind(this), 500)
 
     // Load Settings
     figma.clientStorage.getAsync('tutorial').then((result) => {
-      this.request<boolean, boolean>('tutorial', !!result)
+      this.request('tutorial', !!result)
     })
   }
 
@@ -35,12 +35,12 @@ class Controller extends FigmaController {
     const request: SelectRequest = { node: nodeTree<NodeData>(figmaNode, DataModel), hasExport: nodeHasSvgExport(figmaNode) }
     const exportNode = nodeClosest(figmaNode, nodeHasSvgExport)
     if (exportNode) { request.exportData = nodeData<NodeData>(exportNode, DataModel) }
-    this.request<SelectRequest, void>('select', request)
+    this.request('select', request)
   }
 
   deselect() {
     delete this.selectedNode
-    this.request<SelectRequest, void>('select', {})
+    this.request('select', {})
   }
 
   async handleUpdateRequest({ node }: UpdateRequest) {
@@ -73,7 +73,7 @@ class Controller extends FigmaController {
 
   async handleTutorialRequest(tutorial: boolean): Promise<boolean> {
     await figma.clientStorage.setAsync('tutorial', tutorial)
-    this.request<boolean, boolean>('tutorial', tutorial)
+    this.request('tutorial', tutorial)
     return tutorial
   }
 

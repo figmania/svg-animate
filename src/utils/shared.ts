@@ -1,6 +1,5 @@
 import { NodeDataModel } from '@figmania/common'
 import { Icons } from '@figmania/ui'
-import { SvgAnimateEase, SvgAnimateTrigger } from '@figmania/webcomponent'
 
 export type ExportMode = 'playback' | 'code'
 
@@ -10,8 +9,8 @@ export interface NodeData {
   active: boolean
   delay: number
   duration: number
-  ease: SvgAnimateEase
-  trigger: SvgAnimateTrigger
+  ease: string
+  trigger: string
   animations: Animation[]
   exportFormat: ExportFormat
 }
@@ -39,13 +38,13 @@ export interface AnimationOption {
 }
 
 export interface TriggerOption {
-  value: SvgAnimateTrigger
+  value: string
   title: string
   icon: Icons
 }
 
 export interface EaseOption {
-  value: SvgAnimateEase
+  value: string
   title: string
   icon: Icons
 }
@@ -64,10 +63,10 @@ export const ANIMATION_SELECT_OPTIONS: AnimationOption[] = [
 ]
 
 export const TRIGGER_SELECT_OPTIONS: TriggerOption[] = [
-  { value: 'hover', title: 'On Hover', icon: 'transition-trigger' },
-  { value: 'on', title: 'On Load', icon: 'transition-trigger' },
+  { value: 'hover', title: 'Hover', icon: 'transition-trigger' },
+  { value: 'on', title: 'Load', icon: 'transition-trigger' },
   { value: 'off', title: 'Never', icon: 'transition-trigger' },
-  { value: 'visible', title: 'When Visible', icon: 'transition-trigger' }
+  { value: 'visible', title: 'Visible', icon: 'transition-trigger' }
 ]
 
 export const TRIGGER_LABELS: { [key: string]: string } = {

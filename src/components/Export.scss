@@ -9,14 +9,7 @@ textarea {
   width: 32px;
   border: none;
   overflow: hidden;
-}
-
-.playback {
-  flex: 1;
-  background-color: var(--background-color);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  resize: none;
 }
 
 .header-select {
@@ -24,7 +17,7 @@ textarea {
 }
 
 .header-select-small {
-  width: 108px;
+  width: 88px;
 }
 
 pre.html {

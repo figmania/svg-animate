@@ -4,7 +4,7 @@
     "outDir": "build/",
     "rootDir": "src/",
     "jsx": "react-jsx",
-    "types": ["@figma/plugin-typings"]
+    "types": ["@figma/plugin-typings", "gsap"]
   },
   "include": ["src/**/*"],
   "exclude": ["../../node_modules", "build"]

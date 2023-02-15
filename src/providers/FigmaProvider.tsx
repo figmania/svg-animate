@@ -1,9 +1,10 @@
 
-import { FigmaMessageEvent, Messenger, MessengerDelegate } from '@figmania/common'
+import { FigmaMessageEvent, MessengerDelegate } from '@figmania/common'
 import { ComponentType, createContext, FunctionComponent, PropsWithChildren, useContext } from 'react'
+import { AppMessenger } from '../messenger/AppMessenger'
 
 export interface WithFigmaProps {
-  messenger: Messenger
+  messenger: AppMessenger
 }
 
 export const FigmaContext = createContext<WithFigmaProps>(null!)
@@ -17,7 +18,7 @@ function createUiDelegate(): MessengerDelegate {
 }
 
 export const FigmaProvider: FunctionComponent<PropsWithChildren> = ({ children }) => {
-  const messenger = new Messenger(createUiDelegate())
+  const messenger = new AppMessenger(createUiDelegate())
   return <FigmaContext.Provider value={{ messenger }}>{children}</FigmaContext.Provider>
 }
 
@@ -25,7 +26,7 @@ export function useFigma() {
   return useContext(FigmaContext)
 }
 
-export function useMessenger() {
+export function useMessenger(): AppMessenger {
   return useFigma().messenger
 }
 

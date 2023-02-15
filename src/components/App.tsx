@@ -1,17 +1,12 @@
-import { bufferDecodeUtf8, nodeIdHash, nodeList, svgTransform, TreeNode } from '@figmania/common'
+import { TreeNode } from '@figmania/common'
 import { Button, Navbar } from '@figmania/ui'
-import { setDefaultProps, setTweenProps, TweenProps } from '@figmania/webcomponent'
 import { FunctionComponent, useEffect, useState } from 'react'
+import { SelectRequest } from '../messenger/AppSchema'
 import { useMessenger } from '../providers/FigmaProvider'
-import { ExportRequest, ExportResponse, SelectRequest, UpdateRequest } from '../types/messages'
 import { NodeData } from '../utils/shared'
 import { Editor } from './Editor'
 import { Export } from './Export'
 import { Tutorial } from './Tutorial'
-
-export interface AnimationProperties {
-  [key: string]: number
-}
 
 export const App: FunctionComponent = () => {
   const [node, setNode] = useState<TreeNode<NodeData>>()
@@ -23,36 +18,14 @@ export const App: FunctionComponent = () => {
 
   const messenger = useMessenger()
 
-  const generateCode = async (targetNode?: TreeNode<NodeData>) => {
-    if (!targetNode) { return }
-    const { buffer } = await messenger.request<ExportRequest, ExportResponse>('export', { node: targetNode })
-    const contents = await bufferDecodeUtf8(buffer)
-    const result = svgTransform(contents, targetNode, { replaceIds: true }, (svg) => {
-      svg.removeAttribute('width')
-      svg.removeAttribute('height')
-      svg.setAttribute('xmlns:anim', 'http://www.w3.org/2000/anim')
-      setDefaultProps(svg, { transformOrigin: '50% 50%', duration: targetNode.data.duration, ease: targetNode.data.ease })
-      const list = nodeList<NodeData>(targetNode).filter(({ data: { active } }) => active)
-      for (const item of list) {
-        const hash = nodeIdHash(item.id)
-        const target = svg.getElementById(hash)
-        if (!target) { continue }
-        const from = item.data.animations.reduce<AnimationProperties>((obj, entry) => { obj[entry.type] = entry.from; return obj }, {})
-        const to = item.data.animations.reduce<AnimationProperties>((obj, entry) => { obj[entry.type] = entry.to; return obj }, {})
-        const props: TweenProps = { from, to, delay: item.data.delay }
-        if (item.data.duration) { props.duration = item.data.duration }
-        setTweenProps(target, props)
-      }
-      return svg
-    })
-    setCode(result)
-  }
-
   const handleSelectRequest = async (request: SelectRequest) => {
     setNode(request.node)
     setHasExport(request.hasExport)
     setExportData(request.exportData)
-    if (request.node && request.hasExport) { await generateCode(request.node) }
+    if (request.node && request.hasExport) {
+      const result = await messenger.generateCode(request.node)
+      setCode(result)
+    }
     setData(request.node?.data)
   }
 
@@ -63,15 +36,18 @@ export const App: FunctionComponent = () => {
 
   useEffect(() => {
     if (!messenger) { return }
-    messenger.addRequestHandler<SelectRequest, void>('select', handleSelectRequest)
-    messenger.addRequestHandler<boolean, boolean>('tutorial', handleTutorialRequest)
+    messenger.addRequestHandler('select', handleSelectRequest)
+    messenger.addRequestHandler('tutorial', handleTutorialRequest)
   }, [messenger])
 
   const update = async (newData: Partial<NodeData>, shouldExport = false) => {
     if (!node) { throw new Error('Invalid node for update') }
     Object.assign(node.data, newData)
-    await messenger.request<UpdateRequest, void>('update', { node })
-    if (shouldExport) { await generateCode(node) }
+    await messenger.request('update', { node })
+    if (shouldExport) {
+      const result = await messenger.generateCode(node)
+      setCode(result)
+    }
     setData((cur) => ({ ...cur!, ...newData }))
   }
 
@@ -95,7 +71,7 @@ export const App: FunctionComponent = () => {
           <Navbar icon="ui-animate-off" title={node.name} isDisabled={true}>
             <Button icon={'ui-animate-on'} onClick={() => {
               if (!node) { return }
-              messenger.request<{}, void>('enableExport', {})
+              messenger.request('enableExport', {})
             }} title="Enable SVG Export"></Button>
           </Navbar>
         ) : (
