@@ -346,39 +346,40 @@
   resolved "https://registry.yarnpkg.com/@figma/plugin-typings/-/plugin-typings-1.58.0.tgz#88ae0e57e2ac74203d401f2a70e95e93c470e093"
   integrity sha512-to6hFysqZYACz4VNgaBXflOVS+1pbXGNVcezDmQEMcADDkIZeAZ71Zfqf/B2YDRmU3sM1xX5Q5NkRGhjCuLOLg==
 
-"@figmania/anim@^2.0.8":
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/@figmania/anim/-/anim-2.0.8.tgz#06c7e478233fbaf6364bc76e59958db53ab9acea"
-  integrity sha512-8s84SOjeYdsMzgDreuzTSSE3vU6wKELhIlUvFqzYJxm9XK0XvUWM52JRj9WdwYOfyZHZhrwr+sUXJ1NjEOx6Fg==
+"@figmania/anim@^2.0.12":
+  version "2.0.12"
+  resolved "https://registry.yarnpkg.com/@figmania/anim/-/anim-2.0.12.tgz#f6b5cf2245160cdb0b6710d958bd455dfcc4d9ee"
+  integrity sha512-zSUH6Vc+1UD00eRVg1KFhqGaNEno6dVL8YlGewHli/MOziCmzaxq7PNBDsd/R9h55iYkxfy+GAA3RylsQ1ULjw==
   dependencies:
     camelcase "^6.2.0"
     decamelize "^4.0.0"
     gsap "^3.6.1"
 
-"@figmania/common@^2.0.8":
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/@figmania/common/-/common-2.0.8.tgz#08261decb4aeb125c40b8ed238a95705222b38e7"
-  integrity sha512-yYLpgqw+hXMbvU8rwu+31pr+03FAvhaIQNnKHdOufZwC2uAOgN5fv7hzzKgVoLqapkcdXOygXLNFgWOgt7NbZw==
+"@figmania/common@^2.0.12":
+  version "2.0.12"
+  resolved "https://registry.yarnpkg.com/@figmania/common/-/common-2.0.12.tgz#21c71465dcbd334cab13070b795236242192d7ff"
+  integrity sha512-KzIfQ90yegDqkQIePFbsgQ0sAN6B7Wq9zTYnkhSAnoVpqml58A0828qQ99H3g/lk7G0HAp9snekb2SRHFNBy5w==
   dependencies:
     html "^1.0.0"
     md5 "^2.3.0"
 
-"@figmania/ui@^2.0.8":
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/@figmania/ui/-/ui-2.0.8.tgz#0b2f6b507723ad8d42fd4890313d44749fd09c05"
-  integrity sha512-yFM866BXH6Mc2OXofMIt+tHRQTCnzz8PHReBXFHD76Zr4U1abpKYruFjUU4TSyocvk/N1n9u6I8mp/OWZz504Q==
+"@figmania/ui@^2.0.12":
+  version "2.0.12"
+  resolved "https://registry.yarnpkg.com/@figmania/ui/-/ui-2.0.12.tgz#07d1918aff757e79ba57432819b0630139d4cddd"
+  integrity sha512-o9Dfgmx8vdAdiR7psth1v9jpghkbnlalQpV6Ebi2jNa7iVh8e4pHYkVlbQVt1tITIVl/W/ejUfqA5aChswi7HA==
   dependencies:
     clsx "^1.2.1"
+    highlight.js "^11.7.0"
+    html "^1.0.0"
     react "^18.2.0"
     react-dom "^18.2.0"
     react-outside-click-handler "^1.3.0"
     react-scrubber "^1.1.1"
-    shiki-es "^0.2.0"
 
-"@figmania/vite-plugin-figma@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@figmania/vite-plugin-figma/-/vite-plugin-figma-1.0.1.tgz#f924d249889a71d2749685e44533741fbb78eddc"
-  integrity sha512-K1uLH4xfhnRwG6CsJAsJNRkFw33bIfVFWO0fnKnrHjyHWRmkIIc3POXlS9uxLNOphjxjgJZRxetj0LQWhsEzfA==
+"@figmania/vite-plugin-figma@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@figmania/vite-plugin-figma/-/vite-plugin-figma-1.0.2.tgz#ad77975f3685dfc2b7ba795846169ccbed6419b8"
+  integrity sha512-YCQRq5sOaIm/egBG/kr4FFJPr6sN4X/g7IJzP0sTjJc7VaU98CpeBxUGWBa/961u146ih/q/uFEtVpt5w7oWug==
 
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.8"
@@ -1571,6 +1572,11 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
+highlight.js@^11.7.0:
+  version "11.7.0"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-11.7.0.tgz#3ff0165bc843f8c9bce1fd89e2fda9143d24b11e"
+  integrity sha512-1rRqesRFhMO/PRF+G86evnyJkCgaZFOI+Z6kdj15TA18funfoqJXvgPCLSf0SWq3SRfg1j3HlDs8o4s3EGq1oQ==
+
 html@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/html/-/html-1.0.0.tgz#a544fa9ea5492bfb3a2cca8210a10be7b5af1f61"
@@ -2297,11 +2303,6 @@ shebang-regex@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
   integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
-
-shiki-es@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/shiki-es/-/shiki-es-0.2.0.tgz#ae5bced62dca0ba46ee81149e68d428565a3e6fb"
-  integrity sha512-RbRMD+IuJJseSZljDdne9ThrUYrwBwJR04FvN4VXpfsU3MNID5VJGHLAD5je/HGThCyEKNgH+nEkSFEWKD7C3Q==
 
 side-channel@^1.0.4:
   version "1.0.4"

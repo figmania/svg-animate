@@ -1,5 +1,10 @@
 import { FigmaController, figmaExportAsync, FigmaNode, figmaNodeById, nodeClosest, nodeData, nodeHasSvgExport, nodeList, nodeTree } from '@figmania/common'
-import { AppSchema, ExportRequest, ExportResponse, NotifyRequest, SelectRequest, UpdateRequest } from './messenger/AppSchema'
+import { AppConfig, DEFAULT_CONFIG } from './messenger/AppConfig'
+import { NodeSelectEvent, NodeType } from './messenger/events/NodeSelectEvent'
+import { ToastShowEvent } from './messenger/events/ToastShowEvent'
+import { ExportRequest, ExportResponse } from './messenger/requests/Export'
+import { UpdateRequest } from './messenger/requests/Update'
+import { Schema } from './messenger/Schema'
 import { DataModel, NodeData } from './utils/shared'
 
 function nodeCreateHash(node: FigmaNode): string {
@@ -7,43 +12,49 @@ function nodeCreateHash(node: FigmaNode): string {
   return parts.map(String).join(':')
 }
 
-class Controller extends FigmaController<AppSchema> {
+class Controller extends FigmaController<Schema> {
   private selectedNodeHash?: string
   private selectedNode?: FigmaNode
+  private config: AppConfig = { ...DEFAULT_CONFIG }
 
   constructor() {
     super({ width: 400, height: 512 })
 
     // Message Handlers
+    this.addRequestHandler('setConfig', this.handleSetConfigRequest.bind(this))
     this.addRequestHandler('update', this.handleUpdateRequest.bind(this))
     this.addRequestHandler('enableExport', this.handleEnableExportRequest.bind(this))
     this.addRequestHandler('export', this.handleExportRequest.bind(this))
-    this.addRequestHandler('notify', this.handleNotifyRequest.bind(this))
-    this.addRequestHandler('tutorial', this.handleTutorialRequest.bind(this))
+
+    this.on('toast:show', this.onToastShow.bind(this))
 
     // Observe Selection Changes
     setInterval(this.observeChanges.bind(this), 500)
 
     // Load Settings
-    figma.clientStorage.getAsync('tutorial').then((result) => {
-      this.request('tutorial', !!result)
+    figma.clientStorage.getAsync('config').then((config: Partial<AppConfig>) => {
+      this.config = { ...this.config, ...config }
+      this.emit('config:changed', this.config)
     })
   }
 
   select([figmaNode]: ReadonlyArray<SceneNode>): void {
     this.setSelectedNode(figmaNode)
-    const request: SelectRequest = { node: nodeTree<NodeData>(figmaNode, DataModel), hasExport: nodeHasSvgExport(figmaNode) }
-    const exportNode = nodeClosest(figmaNode, nodeHasSvgExport)
-    if (exportNode) { request.exportData = nodeData<NodeData>(exportNode, DataModel) }
-    this.request('select', request)
+    const event: NodeSelectEvent = {
+      node: nodeTree<NodeData>(figmaNode, DataModel),
+      type: nodeHasSvgExport(figmaNode) ? NodeType.MASTER : NodeType.CHILD
+    }
+    const masterNode = nodeClosest(figmaNode, nodeHasSvgExport)
+    if (masterNode) { event.masterData = nodeData<NodeData>(masterNode, DataModel) }
+    this.emit('node:select', event)
   }
 
   deselect() {
     delete this.selectedNode
-    this.request('select', {})
+    this.emit('node:select', { type: NodeType.NONE })
   }
 
-  async handleUpdateRequest({ node }: UpdateRequest) {
+  handleUpdateRequest({ node }: UpdateRequest) {
     const figmaNode = figmaNodeById(node.id)
     figmaNode.setPluginData('data', JSON.stringify(node.data))
   }
@@ -67,14 +78,13 @@ class Controller extends FigmaController<AppSchema> {
     return { buffer, children }
   }
 
-  async handleNotifyRequest({ message }: NotifyRequest): Promise<void> {
+  onToastShow({ message }: ToastShowEvent): void {
     figma.notify(message)
   }
 
-  async handleTutorialRequest(tutorial: boolean): Promise<boolean> {
-    await figma.clientStorage.setAsync('tutorial', tutorial)
-    this.request('tutorial', tutorial)
-    return tutorial
+  async handleSetConfigRequest(config: Partial<AppConfig>): Promise<void> {
+    this.config = { ...this.config, ...config }
+    await figma.clientStorage.setAsync('config', this.config)
   }
 
   private setSelectedNode(node: FigmaNode | null) {

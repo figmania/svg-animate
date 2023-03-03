@@ -1,0 +1,19 @@
+.flex-1 {
+  flex: 1;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  padding: 8px;
+
+  & > .col {
+    flex: 1;
+    min-width: 0;
+    margin-right: 8px;
+
+    &:last-child {
+      margin-right: 0px;
+    }
+  }
+}

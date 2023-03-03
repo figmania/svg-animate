@@ -1,4 +1,6 @@
-textarea {
+@import url("../scss/common.scss");
+
+textarea.textarea {
   opacity: 0;
   pointer-events: none;
   display: block;
@@ -13,18 +15,15 @@ textarea {
 }
 
 .header-select {
-  width: 140px;
-}
-
-.header-select-small {
   width: 88px;
 }
 
-pre.html {
-  overflow: auto;
-  flex: 1;
-  height: 100%;
-}
+// @TODO: Remove?
+// pre.html {
+//   overflow: auto;
+//   flex: 1;
+//   height: 100%;
+// }
 
 label.field-label {
   display: block;

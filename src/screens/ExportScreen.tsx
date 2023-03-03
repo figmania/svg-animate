@@ -1,24 +1,25 @@
-import { Messenger, svgPrettify, uiDownload } from '@figmania/common'
+import { format, uiDownload } from '@figmania/common'
 import { Accordion, Button, Code, Input, Select } from '@figmania/ui'
 import { debounce } from 'debounce'
 import { createRef, FunctionComponent, useState } from 'react'
-import { NotifyRequest } from '../types/messages'
+import { Playback } from '../components/Playback'
+import { useMessenger } from '../providers/MessengerProvider'
 import { DOWNLOAD_OPTIONS_MAP, EASE_SELECT_OPTIONS, ExportFormat, ExportMode, EXPORT_FORMAT_SELECT_OPTIONS, NodeData, TRIGGER_SELECT_OPTIONS } from '../utils/shared'
-import { Playback } from './Playback'
+import styles from './ExportScreen.module.scss'
 
-export interface ExportProps {
+export interface ExportScreenProps {
   name: string
   data: NodeData
   code?: string
   update: (data: Partial<NodeData>, shouldExport: boolean) => Promise<void>
-  messenger: Messenger
 }
 
 const EMBED_URL = 'https://cdn.jsdelivr.net/npm/@figmania/webcomponent/build/index.umd.js'
 
 let lastExportMode: ExportMode = 'playback'
 
-export const Export: FunctionComponent<ExportProps> = ({ name, data, code, update, messenger }) => {
+export const ExportScreen: FunctionComponent<ExportScreenProps> = ({ name, data, code, update }) => {
+  const messenger = useMessenger()
   const { ease, trigger, exportFormat } = data
 
   const [exportMode, setExportMode] = useState<ExportMode>(lastExportMode)
@@ -45,7 +46,7 @@ export const Export: FunctionComponent<ExportProps> = ({ name, data, code, updat
     }
   }
 
-  if (!code) { return <div className="flex-1"></div> }
+  if (!code) { return <div className={styles['flex-1']}></div> }
   return (
     <>
       <Accordion title={'Preview'} active={exportMode === 'playback'} activate={() => {
@@ -54,28 +55,28 @@ export const Export: FunctionComponent<ExportProps> = ({ name, data, code, updat
         <>
           <Button icon={'ui-clipboard'} onClick={() => {
             if (!code || !textarea.current) { return }
-            textarea.current.value = getCodeForRender()
+            textarea.current.value = format(getCodeForRender())
             textarea.current.select()
             document.execCommand('copy')
-            messenger.request<NotifyRequest, void>('notify', { message: 'Code copied to clipboard' })
+            messenger.emit('toast:show', { message: 'Code copied to clipboard' })
           }} />
           <Button icon={'ui-download'} onClick={() => {
             if (!code) { return }
             const { type, extension } = DOWNLOAD_OPTIONS_MAP[exportFormat]
-            uiDownload(svgPrettify(getCodeForRender()), { type, filename: `${name}.${extension}` })
+            uiDownload(format(getCodeForRender()), { type, filename: `${name}.${extension}` })
           }} />
         </>
       )} renderSettings={() => (
-        <div className="row">
-          <div className="col">
-            <label className="field-label">Default Duration</label>
+        <div className={styles['row']}>
+          <div className={styles['col']}>
+            <label className={styles['field-label']}>Default Duration</label>
             <Input name="transition-duration" icon="transition-duration" placeholder="500ms" suffix="ms" type="number" value={duration * 1000} onChange={(value) => {
               setDuration(value === '' ? 0.5 : (+value) / 1000)
               debouncedUpdateDuration()
             }} />
           </div>
-          <div className="col">
-            <label className="field-label">Default Easing</label>
+          <div className={styles['col']}>
+            <label className={styles['field-label']}>Default Easing</label>
             <Select placeholder="Default Easing" value={ease} options={EASE_SELECT_OPTIONS} onChange={(option) => {
               const newEase = option.value
               if (ease === newEase) { return }
@@ -86,16 +87,16 @@ export const Export: FunctionComponent<ExportProps> = ({ name, data, code, updat
       )}>
         <Playback code={code} />
       </Accordion>
-      <Accordion title={'Export Settings'} active={exportMode === 'code'} activate={() => {
+      <Accordion title={'View Code'} active={exportMode === 'code'} activate={() => {
         updateExportMode('code')
       }} renderHeader={() => (
         <>
-          <Select isDisabled={exportMode !== 'code'} className="header-select-small" placeholder="Export Format" value={exportFormat} options={EXPORT_FORMAT_SELECT_OPTIONS} onChange={(option) => {
+          <Select isDisabled={exportMode !== 'code'} className={styles['header-select']} placeholder="Export Format" value={exportFormat} options={EXPORT_FORMAT_SELECT_OPTIONS} onChange={(option) => {
             const newExportFormat = option.value as ExportFormat
             if (exportFormat === newExportFormat) { return }
             update({ exportFormat: newExportFormat }, true)
           }}></Select>
-          <Select isDisabled={exportMode !== 'code' || exportFormat === 'svg'} className="header-select-small" placeholder="Trigger" value={trigger} options={TRIGGER_SELECT_OPTIONS} onChange={(option) => {
+          <Select isDisabled={exportMode !== 'code' || exportFormat === 'svg'} className={styles['header-select']} placeholder="Trigger" value={trigger} options={TRIGGER_SELECT_OPTIONS} onChange={(option) => {
             const newTrigger = option.value
             if (trigger === newTrigger) { return }
             update({ trigger: newTrigger }, true)
@@ -103,10 +104,10 @@ export const Export: FunctionComponent<ExportProps> = ({ name, data, code, updat
         </>
       )}>
         {exportMode === 'code' && (
-          <Code className='html' source={getCodeForRender()} lang='xml' />
+          <Code language='html' source={getCodeForRender()} indent />
         )}
       </Accordion>
-      <textarea ref={textarea} wrap="soft" readOnly={true} />
+      <textarea ref={textarea} wrap="soft" readOnly={true} className={styles['textarea']} />
     </>
   )
 }

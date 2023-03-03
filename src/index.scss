@@ -1,5 +1,27 @@
 @import "@figmania/ui/build/style.css";
-@import "./components/App.scss";
-@import "./components/Editor.scss";
-@import "./components/Export.scss";
-@import "./components/Tutorial.scss";
+
+body {
+  font-feature-settings: "liga" on, "calt" on;
+  font: normal 400 11px/16px Inter, sans-serif;
+  font-weight: 400;
+  color: #FFFFFF;
+  background-color: #2e3440;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .theme-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+

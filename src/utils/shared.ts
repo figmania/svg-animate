@@ -64,6 +64,7 @@ export const ANIMATION_SELECT_OPTIONS: AnimationOption[] = [
 
 export const TRIGGER_SELECT_OPTIONS: TriggerOption[] = [
   { value: 'hover', title: 'Hover', icon: 'transition-trigger' },
+  { value: 'loop', title: 'Loop', icon: 'transition-trigger' },
   { value: 'on', title: 'Load', icon: 'transition-trigger' },
   { value: 'off', title: 'Never', icon: 'transition-trigger' },
   { value: 'visible', title: 'Visible', icon: 'transition-trigger' }
@@ -71,6 +72,7 @@ export const TRIGGER_SELECT_OPTIONS: TriggerOption[] = [
 
 export const TRIGGER_LABELS: { [key: string]: string } = {
   hover: 'On Hover',
+  loop: 'Loop',
   on: 'On Load',
   off: 'Never',
   visible: 'When Visible'

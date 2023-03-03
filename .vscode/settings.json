@@ -1,4 +1,5 @@
 {
+  "figma.document": "4BtumkL75MoeYWUuh2zvLK",
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
   "typescript.format.enable": true,
@@ -19,7 +20,9 @@
     "**/.git": true,
     "**/.DS_Store": true,
     "**/node_modules": true,
-    "**/build": true
+    "**/build": false
   },
-  "[svg]": { "editor.formatOnSave": false }
+  "[svg]": {
+    "editor.formatOnSave": false
+  }
 }

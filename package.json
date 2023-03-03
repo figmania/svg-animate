@@ -7,15 +7,18 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf build/",
+    "serve": "vite",
     "build": "vite build",
     "watch": "vite build --watch --mode=development",
     "prepack": "yarn clean && yarn build",
-    "lint": "eslint 'src/**/*.ts' 'src/**/*.tsx'"
+    "lint": "tsc --noEmit && eslint 'src/**/*.ts' 'src/**/*.tsx'",
+    "figma": "/Applications/Figma.app/Contents/MacOS/Figma --args --remote-debugging-port=9222 --inspect --disable-web-security --log-level=2 -v=2"
   },
   "dependencies": {
-    "@figmania/anim": "^2.0.8",
-    "@figmania/common": "^2.0.8",
-    "@figmania/ui": "^2.0.8",
+    "@figmania/anim": "^2.0.12",
+    "@figmania/common": "^2.0.12",
+    "@figmania/ui": "^2.0.12",
+    "clsx": "^1.2.1",
     "debounce": "^1.2.1",
     "gsap": "^3.11.4",
     "react": "^18.2.0",
@@ -23,7 +26,7 @@
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.58.0",
-    "@figmania/vite-plugin-figma": "^1.0.1",
+    "@figmania/vite-plugin-figma": "^1.0.2",
     "@magloft/devkit-core": "^1.1.4",
     "@magloft/eslint-config": "^1.1.4",
     "@types/debounce": "^1.2.0",

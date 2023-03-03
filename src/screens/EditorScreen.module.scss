@@ -1,10 +1,13 @@
-.navbar:first-child {
-  z-index: 3;
-}
+@import url("../scss/common.scss");
 
-.navbar:last-child {
-  z-index: 1;
-}
+// @TODO: Remove?
+// .navbar:first-child {
+//   z-index: 3;
+// }
+
+// .navbar:last-child {
+//   z-index: 1;
+// }
 
 .animations-wrapper {
   background-color: var(--background-color);
@@ -14,18 +17,6 @@
 
 .animations {
   background-color: var(--background-color);
-}
-
-.animation {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 4px;
-  box-shadow: 0px 1px 0px var(--border-color);
-}
-
-.animation > div:first-child {
-  flex: 1;
 }
 
 label.input.field-input {
