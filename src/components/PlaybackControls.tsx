@@ -8,7 +8,7 @@ export interface PlaybackControlsProps {
 }
 
 export const PlaybackControls: FunctionComponent<PlaybackControlsProps> = ({ timeline }) => {
-  const [loop, setLoop] = useState(false)
+  const [loop, setLoop] = useState(timeline.repeat() === -1)
   const [paused, setPaused] = useState(false)
   const [time, setTime] = useState(timeline.time())
 

@@ -6,19 +6,20 @@ import { PlaybackControls } from './PlaybackControls'
 
 export interface PlaybackProps {
   code: string
+  loop: boolean
 }
 
-export const Playback: FunctionComponent<PlaybackProps> = ({ code }) => {
+export const Playback: FunctionComponent<PlaybackProps> = ({ code, loop }) => {
   const [timeline, setTimeline] = useState<Timeline>()
   const ref = createRef<HTMLDivElement>()
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const svg = ref.current!.firstChild as SVGSVGElement
-      setTimeline(anim(svg, { paused: false }))
+      setTimeline(anim(svg, { paused: false, repeat: loop ? -1 : 0 }))
       return () => ctx.revert()
     }, ref)
-  }, [code])
+  }, [code, loop])
 
   return (
     <div className={styles['container']}>

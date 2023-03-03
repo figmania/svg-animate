@@ -85,7 +85,7 @@ export const ExportScreen: FunctionComponent<ExportScreenProps> = ({ name, data,
           </div>
         </div>
       )}>
-        <Playback code={code} />
+        <Playback code={code} loop={trigger === 'loop'} />
       </Accordion>
       <Accordion title={'View Code'} active={exportMode === 'code'} activate={() => {
         updateExportMode('code')

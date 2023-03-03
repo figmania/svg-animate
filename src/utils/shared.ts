@@ -3,7 +3,7 @@ import { Icons } from '@figmania/ui'
 
 export type ExportMode = 'playback' | 'code'
 
-export type ExportFormat = 'svg' | 'element' | 'html'
+export type ExportFormat = 'html' | 'element' | 'svg'
 
 export interface NodeData {
   active: boolean
@@ -17,7 +17,7 @@ export interface NodeData {
 
 export const DataModel: NodeDataModel<NodeData> = {
   key: 'data',
-  defaults: { active: false, delay: 0, duration: 0.5, ease: 'power1.inOut', trigger: 'hover', animations: [], exportFormat: 'svg' }
+  defaults: { active: false, delay: 0, duration: 0.5, ease: 'power1.inOut', trigger: 'hover', animations: [], exportFormat: 'html' }
 }
 
 export type AnimationType = 'x' | 'y' | 'scale' | 'rotation' | 'opacity'
@@ -86,15 +86,15 @@ export const EASE_SELECT_OPTIONS: EaseOption[] = [
 ]
 
 export const EXPORT_FORMAT_SELECT_OPTIONS: ExportFormatOption[] = [
-  { value: 'svg', title: 'SVG' },
+  { value: 'html', title: 'HTML' },
   { value: 'element', title: 'Element' },
-  { value: 'html', title: 'HTML' }
+  { value: 'svg', title: 'SVG' }
 ]
 
 export const EXPORT_FORMAT_LABELS: { [key: string]: string } = {
-  svg: 'SVG',
+  html: 'HTML',
   element: 'Element',
-  html: 'HTML'
+  svg: 'SVG'
 }
 
 export type FormatDownloadMap = {
