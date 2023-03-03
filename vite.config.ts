@@ -10,7 +10,11 @@ export default defineConfig(({ command, mode }) => {
     api: '1.0.0',
     id: '980366185319754464',
     main: 'src/main.ts',
-    esbuild: { sourcemap: 'inline' }
+    esbuild: {
+      sourcemap: mode === 'production' ? false : 'inline',
+      minify: mode === 'production',
+      legalComments: 'none'
+    }
   })]
 
   if (command === 'build') {
@@ -21,10 +25,14 @@ export default defineConfig(({ command, mode }) => {
     server: { host: 'localhost', port: 8080 },
     root: '.',
     base: './',
+    esbuild: {
+      legalComments: 'none'
+    },
     build: {
       outDir: 'build',
       minify: mode === 'production',
-      sourcemap: 'inline'
+      sourcemap: mode === 'production' ? false : 'inline'
+
     },
     plugins
   }

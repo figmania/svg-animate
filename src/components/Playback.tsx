@@ -1,6 +1,6 @@
 import { anim, Timeline } from '@figmania/anim'
 import { gsap } from 'gsap'
-import { createRef, FunctionComponent, useLayoutEffect, useState } from 'react'
+import { createRef, FunctionComponent, useEffect, useLayoutEffect, useState } from 'react'
 import styles from './Playback.module.scss'
 import { PlaybackControls } from './PlaybackControls'
 
@@ -9,22 +9,67 @@ export interface PlaybackProps {
   loop: boolean
 }
 
-export const Playback: FunctionComponent<PlaybackProps> = ({ code, loop }) => {
+export const Playback: FunctionComponent<PlaybackProps> = ({ code, loop: initialLoop }) => {
+  const [loop, setLoop] = useState(initialLoop)
+  const [paused, setPaused] = useState(false)
+  const [time, setTime] = useState(0)
+  const [duration, setDuration] = useState(0)
   const [timeline, setTimeline] = useState<Timeline>()
   const ref = createRef<HTMLDivElement>()
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const svg = ref.current!.firstChild as SVGSVGElement
-      setTimeline(anim(svg, { paused: false, repeat: loop ? -1 : 0 }))
+      const tl = anim(svg, { paused: false, repeat: initialLoop ? -1 : 0 })
+      setTimeline(tl)
+      setDuration(tl.duration())
+      setTime(tl.time())
+      setPaused(false)
+      setLoop(initialLoop)
       return () => ctx.revert()
     }, ref)
-  }, [code, loop])
+  }, [code, initialLoop])
+
+  useEffect(() => {
+    if (!timeline) { return }
+    console.log('timeline changed', timeline)
+    timeline.eventCallback('onUpdate', () => {
+      setTime(timeline.time())
+      setPaused(!timeline.isActive() || timeline.paused())
+    })
+    timeline.eventCallback('onComplete', () => {
+      timeline.pause(undefined, false)
+    })
+    return () => {
+      timeline.eventCallback('onUpdate', null)
+      timeline.eventCallback('onComplete', null)
+    }
+  }, [timeline])
 
   return (
     <div className={styles['container']}>
       <div ref={ref} className={styles['svg']} dangerouslySetInnerHTML={{ __html: code }} />
-      {timeline && (<PlaybackControls timeline={timeline} />)}
+      {timeline && (
+        <PlaybackControls loop={loop} time={time} duration={duration} paused={paused}
+          onPlay={() => {
+            if (timeline.progress() === 1) { timeline.seek(0, false) }
+            timeline.resume(undefined, false)
+            setPaused(false)
+          }} onPause={() => {
+            timeline.pause(undefined, false)
+            setPaused(true)
+          }} onLoop={(value) => {
+            timeline.repeat(value ? -1 : 0)
+            setLoop(value)
+          }} onReset={() => {
+            timeline.pause().seek(0, false)
+            setTime(0)
+            setPaused(true)
+          }} onScrub={(value) => {
+            timeline.pause(value, false)
+            setTime(value)
+          }} />
+      )}
     </div>
   )
 }

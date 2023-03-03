@@ -104,7 +104,7 @@ export const ExportScreen: FunctionComponent<ExportScreenProps> = ({ name, data,
         </>
       )}>
         {exportMode === 'code' && (
-          <Code language='html' source={getCodeForRender()} indent />
+          <Code source={getCodeForRender()} indent />
         )}
       </Accordion>
       <textarea ref={textarea} wrap="soft" readOnly={true} className={styles['textarea']} />

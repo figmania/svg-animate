@@ -26,7 +26,7 @@ const buildDevHtml = (html: string, config: ResolvedConfig) => html.replace('</h
 
 async function buildMain(options: FigmaOptions, config: ResolvedConfig): Promise<string> {
   const entry = join(config.root, options.main)
-  const result = await build({ ...options.esbuild, entryPoints: [entry], target: 'ES2015', bundle: true, write: false, sourcemap: 'inline' }).catch(() => process.exit(1))
+  const result = await build({ ...options.esbuild, entryPoints: [entry], target: 'ES2015', bundle: true, write: false }).catch(() => process.exit(1))
   return result.outputFiles[0].text
 }
 

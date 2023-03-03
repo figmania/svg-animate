@@ -15,10 +15,6 @@
     "targetSelection": "automatic",
     "pauseForSourceMap": true,
     "sourceMaps": true,
-    // "resolveSourceMapLocations": [
-    //   "https://www.figma.com/file/${config:figma.document}/*",
-    //   "http://localhost:8080/src/*"
-    // ],
     "pathMapping": {
       "/file/${config:figma.document}/": "${workspaceRoot}/",
       "/framework/": "/Users/magloft/projects/figmania/framework/",
