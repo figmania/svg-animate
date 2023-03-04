@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.58.0",
-    "@figmania/vite-plugin-figma": "^1.0.2",
+    "@figmania/vite-plugin-figma": "^1.0.3",
     "@magloft/devkit-core": "^1.1.4",
     "@magloft/eslint-config": "^1.1.4",
     "@types/debounce": "^1.2.0",

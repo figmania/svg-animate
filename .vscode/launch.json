@@ -1,6 +1,12 @@
 {
   "version": "0.2.0",
   "configurations": [{
+    "name": "build",
+    "type": "node",
+    "request": "launch",
+    "program": "${workspaceFolder}/node_modules/.bin/vite",
+    "args": ["build"]
+  }, {
     "name": "serve",
     "type": "node",
     "request": "launch",

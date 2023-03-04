@@ -375,10 +375,10 @@
     react-outside-click-handler "^1.3.0"
     react-scrubber "^1.1.1"
 
-"@figmania/vite-plugin-figma@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@figmania/vite-plugin-figma/-/vite-plugin-figma-1.0.2.tgz#ad77975f3685dfc2b7ba795846169ccbed6419b8"
-  integrity sha512-YCQRq5sOaIm/egBG/kr4FFJPr6sN4X/g7IJzP0sTjJc7VaU98CpeBxUGWBa/961u146ih/q/uFEtVpt5w7oWug==
+"@figmania/vite-plugin-figma@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@figmania/vite-plugin-figma/-/vite-plugin-figma-1.0.3.tgz#38dd07ae6381c9562129ae6d60da971f27e3b20c"
+  integrity sha512-kJKe5T++GYTr227Oo1wJj5ruCDgkgQaA14iYCrweKc1e8HLmwGGN9jf0zy3/aReSrtWpheoOBdt/F/ONjGcxyw==
 
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.8"
