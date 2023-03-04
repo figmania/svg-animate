@@ -346,27 +346,26 @@
   resolved "https://registry.yarnpkg.com/@figma/plugin-typings/-/plugin-typings-1.58.0.tgz#88ae0e57e2ac74203d401f2a70e95e93c470e093"
   integrity sha512-to6hFysqZYACz4VNgaBXflOVS+1pbXGNVcezDmQEMcADDkIZeAZ71Zfqf/B2YDRmU3sM1xX5Q5NkRGhjCuLOLg==
 
-"@figmania/anim@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@figmania/anim/-/anim-2.1.0.tgz#2c33eaf0000b374e42a432084ecb61d84ce671c9"
-  integrity sha512-/2ZlcEbvLjDnSgNLDgzKBdiHgsBfd6uJnr2NL9fptb4nzUO3VBkGos4kvaot2PWb3OcxianbxnJJZ+g9P0Xzkw==
+"@figmania/anim@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@figmania/anim/-/anim-2.1.1.tgz#fec482eda8cce96d0886acbceacf68be1eb7a1e1"
+  integrity sha512-4we3VdSqSWIsd+AYHVkZy5qLgIvyEpdeKHigR0awso7iK4waB95dGg4IJkev5w3vahGgTbEevDRGYxRrFsfEwA==
   dependencies:
     camelcase "^6.2.0"
     decamelize "^4.0.0"
     gsap "^3.6.1"
 
-"@figmania/common@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@figmania/common/-/common-2.1.0.tgz#155f06e52e503eb6174af06713a5dd172f726dfe"
-  integrity sha512-rWp3Kj7G7iaFlSsWjMq6eR0CxOVcwvaMV7bx6YyN7+nI8FTU0WiM3yzJr0wwt6LLZD+KLElJZJzdOLUWaJnE9w==
+"@figmania/common@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@figmania/common/-/common-2.1.1.tgz#867aafefb5c582821f9665493ecefc67f47e7cef"
+  integrity sha512-CVhj2wAUhrrrkNIQ/Dpq2hVZ09jH7pjDrBON2ypyzO0JeckoDKY4NivahSWGGL1rLFkQJGnyJF+c3zzr5ljSng==
   dependencies:
-    html "^1.0.0"
     md5 "^2.3.0"
 
-"@figmania/ui@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@figmania/ui/-/ui-2.1.0.tgz#774904a8dd9073b0a7055a508a7f3ef3c524d2a9"
-  integrity sha512-oHDmarayqisp4QKsp6jHt89ciXT9moXZoTtHu5Z9efckUQmp2a9TQLR+0Ui0eTIX16nHizT40elTjVG9dPBz7Q==
+"@figmania/ui@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@figmania/ui/-/ui-2.1.1.tgz#01b5261fd9322a471cdd3b76890a0a6e55fc4ac8"
+  integrity sha512-nGxApW78hP6bckyg7LmdtnFSQJj+VkRGKXH6VXp2mGpjfHPcfyMwQuOtRJLijPxdka5KGTudntQwjIUmHp79LA==
   dependencies:
     clsx "^1.2.1"
     highlight.js "^11.7.0"

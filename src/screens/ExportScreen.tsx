@@ -1,4 +1,4 @@
-import { format, uiDownload } from '@figmania/common'
+import { prettyPrint, uiDownload } from '@figmania/common'
 import { Accordion, Button, Code, Input, Select } from '@figmania/ui'
 import { debounce } from 'debounce'
 import { createRef, FunctionComponent, useState } from 'react'
@@ -55,7 +55,7 @@ export const ExportScreen: FunctionComponent<ExportScreenProps> = ({ name, data,
         <>
           <Button icon={'ui-clipboard'} onClick={() => {
             if (!code || !textarea.current) { return }
-            textarea.current.value = format(getCodeForRender())
+            textarea.current.value = prettyPrint(getCodeForRender())
             textarea.current.select()
             document.execCommand('copy')
             messenger.emit('toast:show', { message: 'Code copied to clipboard' })
@@ -63,7 +63,7 @@ export const ExportScreen: FunctionComponent<ExportScreenProps> = ({ name, data,
           <Button icon={'ui-download'} onClick={() => {
             if (!code) { return }
             const { type, extension } = DOWNLOAD_OPTIONS_MAP[exportFormat]
-            uiDownload(format(getCodeForRender()), { type, filename: `${name}.${extension}` })
+            uiDownload(prettyPrint(getCodeForRender()), { type, filename: `${name}.${extension}` })
           }} />
         </>
       )} renderSettings={() => (

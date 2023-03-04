@@ -15,9 +15,9 @@
     "figma": "/Applications/Figma.app/Contents/MacOS/Figma --args --remote-debugging-port=9222 --inspect --disable-web-security --log-level=2 -v=2"
   },
   "dependencies": {
-    "@figmania/anim": "^2.1.0",
-    "@figmania/common": "^2.1.0",
-    "@figmania/ui": "^2.1.0",
+    "@figmania/anim": "^2.1.1",
+    "@figmania/common": "^2.1.1",
+    "@figmania/ui": "^2.1.1",
     "clsx": "^1.2.1",
     "debounce": "^1.2.1",
     "gsap": "^3.11.4",
