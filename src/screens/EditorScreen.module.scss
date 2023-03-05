@@ -1,18 +1,10 @@
 @import url("../scss/common.scss");
 
-// @TODO: Remove?
-// .navbar:first-child {
-//   z-index: 3;
-// }
-
-// .navbar:last-child {
-//   z-index: 1;
-// }
-
 .animations-wrapper {
   background-color: var(--background-color);
   box-shadow: 0px 1px 0px var(--border-color);
   z-index: 2;
+  overflow-y: auto;
 }
 
 .animations {

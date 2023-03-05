@@ -1,108 +1,67 @@
-import { FigmaController, figmaExportAsync, FigmaNode, figmaNodeById, nodeClosest, nodeData, nodeHasSvgExport, nodeList, nodeTree } from '@figmania/common'
-import { AppConfig, DEFAULT_CONFIG } from './messenger/AppConfig'
-import { NodeSelectEvent, NodeType } from './messenger/events/NodeSelectEvent'
-import { ToastShowEvent } from './messenger/events/ToastShowEvent'
-import { ExportRequest, ExportResponse } from './messenger/requests/Export'
-import { UpdateRequest } from './messenger/requests/Update'
-import { Schema } from './messenger/Schema'
-import { DataModel, NodeData } from './utils/shared'
+import { configPlugin, createController, createFigmaDelegate, figmaExportAsync, FigmaNode, figmaNodeById, nodeList, nodePlugin, notifyPlugin, resizePlugin } from '@figmania/common'
+import { Config, NodeType, Schema } from './Schema'
+import { NodeData } from './types/NodeData'
+import { nodeToEvent } from './utils/figma'
+
+interface NodeSelection {
+  node?: FigmaNode
+  hash?: string
+}
 
 function nodeCreateHash(node: FigmaNode): string {
   const parts = [node.exportSettings ? node.exportSettings.filter(({ format }) => format === 'SVG').length : 0]
   return parts.map(String).join(':')
 }
 
-class Controller extends FigmaController<Schema> {
-  private selectedNodeHash?: string
-  private selectedNode?: FigmaNode
-  private config: AppConfig = { ...DEFAULT_CONFIG }
+createController<Schema>(createFigmaDelegate(), async (controller) => {
+  const selection: NodeSelection = {}
 
-  constructor() {
-    super({ width: 400, height: 512 })
-
-    // Message Handlers
-    this.addRequestHandler('setConfig', this.handleSetConfigRequest.bind(this))
-    this.addRequestHandler('update', this.handleUpdateRequest.bind(this))
-    this.addRequestHandler('enableExport', this.handleEnableExportRequest.bind(this))
-    this.addRequestHandler('export', this.handleExportRequest.bind(this))
-
-    this.on('toast:show', this.onToastShow.bind(this))
-
-    // Observe Selection Changes
-    setInterval(this.observeChanges.bind(this), 500)
-
-    // Load Settings
-    figma.clientStorage.getAsync('config').then((config: Partial<AppConfig>) => {
-      this.config = { ...this.config, ...config }
-      this.emit('config:changed', this.config)
-    })
-  }
-
-  select([figmaNode]: ReadonlyArray<SceneNode>): void {
-    this.setSelectedNode(figmaNode)
-    const event: NodeSelectEvent = {
-      node: nodeTree<NodeData>(figmaNode, DataModel),
-      type: nodeHasSvgExport(figmaNode) ? NodeType.MASTER : NodeType.CHILD
+  const size = await resizePlugin(controller, { width: 400, height: 512 })
+  figma.showUI(__html__, { visible: true, ...size })
+  configPlugin<Config>(controller, { theme: 'dark', tutorial: true })
+  notifyPlugin(controller)
+  nodePlugin(controller, (node) => {
+    if (!node) {
+      delete selection.node
+      delete selection.hash
+      return { type: NodeType.NONE }
+    } else {
+      selection.node = node
+      selection.hash = nodeCreateHash(node)
+      return nodeToEvent(node)
     }
-    const masterNode = nodeClosest(figmaNode, nodeHasSvgExport)
-    if (masterNode) { event.masterData = nodeData<NodeData>(masterNode, DataModel) }
-    this.emit('node:select', event)
-  }
+  })
 
-  deselect() {
-    delete this.selectedNode
-    this.emit('node:select', { type: NodeType.NONE })
-  }
+  setInterval(() => {
+    if (!selection.node) { return }
+    const hash = nodeCreateHash(selection.node)
+    if (selection.hash === hash) { return }
+    selection.hash = hash
+    controller.emit('node:select', nodeToEvent(selection.node))
+  }, 500)
 
-  handleUpdateRequest({ node }: UpdateRequest) {
+  controller.addRequestHandler('update', (node) => {
     const figmaNode = figmaNodeById(node.id)
     figmaNode.setPluginData('data', JSON.stringify(node.data))
-  }
+  })
 
-  async handleEnableExportRequest(): Promise<void> {
-    if (!this.selectedNode) { return }
-    this.selectedNode.exportSettings = [...this.selectedNode.exportSettings, {
+  controller.addEventHandler('export:enable', () => {
+    if (!selection.node) { return }
+    selection.node.exportSettings = [...selection.node.exportSettings, {
       format: 'SVG',
       contentsOnly: true,
       svgOutlineText: true,
       svgIdAttribute: true,
       svgSimplifyStroke: true
     }]
-    this.select([this.selectedNode])
-  }
+    selection.hash = nodeCreateHash(selection.node)
+    controller.emit('node:select', nodeToEvent(selection.node))
+  })
 
-  async handleExportRequest({ node }: ExportRequest): Promise<ExportResponse> {
+  controller.addRequestHandler('export', async (node) => {
     const figmaNode = figmaNodeById(node.id)
     const buffer = await figmaExportAsync(figmaNode)
     const children = nodeList<NodeData>(node).filter(({ data }) => data.active)
     return { buffer, children }
-  }
-
-  onToastShow({ message }: ToastShowEvent): void {
-    figma.notify(message)
-  }
-
-  async handleSetConfigRequest(config: Partial<AppConfig>): Promise<void> {
-    this.config = { ...this.config, ...config }
-    await figma.clientStorage.setAsync('config', this.config)
-  }
-
-  private setSelectedNode(node: FigmaNode | null) {
-    if (node) {
-      this.selectedNode = node
-      this.selectedNodeHash = nodeCreateHash(node)
-    } else {
-      delete this.selectedNode
-      delete this.selectedNodeHash
-    }
-  }
-
-  private observeChanges() {
-    if (!this.selectedNode) { return }
-    const selectedNodeHash = nodeCreateHash(this.selectedNode)
-    if (this.selectedNodeHash === selectedNodeHash) { return }
-    this.select([this.selectedNode])
-  }
-}
-
-new Controller()
+  })
+})

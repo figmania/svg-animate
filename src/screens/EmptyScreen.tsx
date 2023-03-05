@@ -1,8 +1,8 @@
 import { TreeNode } from '@figmania/common'
-import { Button, Icons, Navbar } from '@figmania/ui'
+import { Button, ICON, Navbar, useConfig, useController } from '@figmania/ui'
 import { FunctionComponent } from 'react'
-import { useConfig, useMessenger } from '../providers/MessengerProvider'
-import { NodeData } from '../utils/shared'
+import { Config, Schema } from '../Schema'
+import { NodeData } from '../types/NodeData'
 import styles from './EmptyScreen.module.scss'
 
 export interface EmptyScreenProps {
@@ -10,15 +10,22 @@ export interface EmptyScreenProps {
 }
 
 export const EmptyScreen: FunctionComponent<EmptyScreenProps> = ({ node }) => {
-  const [config, saveConfig] = useConfig()
-  const messenger = useMessenger()
+  const [config, saveConfig] = useConfig<Config>()
+  const controller = useController<Schema>()
   const title = node ? node.name : 'No node selected'
-  const icon: Icons = node ? 'ui-animate-on' : 'ui-animate-off'
+  const icon = node ? ICON.UI_ANIMATE_ON : ICON.UI_ANIMATE_OFF
+
   return (
     <>
-      <Navbar icon={icon} title={title} isDisabled={true}>
-        {node && <Button icon={'ui-animate-on'} onClick={() => { messenger.request('enableExport', undefined) }} title="Enable SVG Export"></Button>}
-        <Button className={styles['tutorial-button']} title={config.tutorial ? 'Hide Tutorial' : 'Show Tutorial'} isSelected={config.tutorial} onClick={() => { saveConfig({ tutorial: !config.tutorial }) }} />
+      <Navbar icon={icon} title={title} disabled={true}>
+        {node && (
+          <Button icon={ICON.UI_ANIMATE_ON} title="Enable SVG Export" onClick={() => {
+            controller.emit('export:enable', undefined)
+          }} />
+        )}
+        <Button className={styles['tutorial-button']} title={config.tutorial ? 'Hide Tutorial' : 'Show Tutorial'} selected={config.tutorial} onClick={() => {
+          saveConfig({ tutorial: !config.tutorial })
+        }} />
       </Navbar>
       {config.tutorial && (
         <div className={styles['tutorial']}>

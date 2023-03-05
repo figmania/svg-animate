@@ -1,6 +1,7 @@
-import { Button, Input, Select } from '@figmania/ui'
+import { Button, ICON, Input, Select } from '@figmania/ui'
 import { FunctionComponent, useState } from 'react'
-import { Animation, AnimationOption, AnimationType, ANIMATION_SELECT_OPTIONS } from '../utils/shared'
+import { Animation, AnimationType } from '../types/Animation'
+import { AnimationOption, ANIMATION_SELECT_OPTIONS } from '../utils/shared'
 import styles from './AnimationRow.module.scss'
 import { HoverInfo } from './HoverInfo'
 
@@ -50,19 +51,19 @@ export const AnimationRow: FunctionComponent<AnimationRowProps> = ({ animation, 
         }} />
       </HoverInfo>
       <HoverInfo text="Set the From / Start value of this Animation" emit={hoverInfo}>
-        <Input name="transition-from" icon="transition-from" suffix={selectedOption.suffix} className={styles['field-input']} placeholder="..." type="number" value={from} onChange={(value) => {
+        <Input name="transition-from" icon={ICON.TRANSITION_FROM} suffix={selectedOption.suffix} className={styles['field-input']} placeholder="..." type="number" value={from} onChange={(value) => {
           setFrom(+value)
           update(convertStateToAnimation({ from: +value, to, type }), index)
         }} style={{ width: 100 }} />
       </HoverInfo>
       <HoverInfo text="Set the To / End value of this Animation" emit={hoverInfo}>
-        <Input name="transition-to" icon="transition-to" suffix={selectedOption.suffix} className={styles['field-input']} placeholder="..." type="number" value={to} onChange={(value) => {
+        <Input name="transition-to" icon={ICON.TRANSITION_TO} suffix={selectedOption.suffix} className={styles['field-input']} placeholder="..." type="number" value={to} onChange={(value) => {
           setTo(+value)
           update(convertStateToAnimation({ from, to: +value, type }), index)
         }} style={{ width: 100 }} />
       </HoverInfo>
       <HoverInfo text="Remove this Animation" emit={hoverInfo}>
-        <Button icon="ui-minus" onClick={() => {
+        <Button icon={ICON.UI_MINUS} onClick={() => {
           remove(convertStateToAnimation({ from, to, type }), index)
         }} />
       </HoverInfo>

@@ -1,12 +1,10 @@
 {
   "extends": "@magloft/devkit-core/tsconfig.json",
   "compilerOptions": {
-    "sourceRoot": "src/",
     "outDir": "build/",
     "rootDir": "src/",
     "jsx": "react-jsx",
-    "types": ["@figma/plugin-typings", "gsap"],
-    "sourceMap": true
+    "types": ["@figma/plugin-typings", "gsap"]
   },
   "include": ["src/**/*"],
   "exclude": ["../../node_modules", "build"]

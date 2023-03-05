@@ -1,29 +1,8 @@
 @import url("../scss/common.scss");
 
-textarea.textarea {
-  opacity: 0;
-  pointer-events: none;
-  display: block;
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
-  height: 32px;
-  width: 32px;
-  border: none;
-  overflow: hidden;
-  resize: none;
-}
-
 .header-select {
   width: 88px;
 }
-
-// @TODO: Remove?
-// pre.html {
-//   overflow: auto;
-//   flex: 1;
-//   height: 100%;
-// }
 
 label.field-label {
   display: block;

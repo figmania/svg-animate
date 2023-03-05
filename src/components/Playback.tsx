@@ -32,7 +32,6 @@ export const Playback: FunctionComponent<PlaybackProps> = ({ code, loop: initial
 
   useEffect(() => {
     if (!timeline) { return }
-    console.log('timeline changed', timeline)
     timeline.eventCallback('onUpdate', () => {
       setTime(timeline.time())
       setPaused(!timeline.isActive() || timeline.paused())
