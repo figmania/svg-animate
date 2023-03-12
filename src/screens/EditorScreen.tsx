@@ -1,5 +1,5 @@
 import { TreeNode } from '@figmania/common'
-import { Button, ICON, Icon, Input, Navbar } from '@figmania/ui'
+import { Button, ICON, Icon, Navbar, NumberInput } from '@figmania/ui'
 import clsx from 'clsx'
 import { FunctionComponent, useState } from 'react'
 import { AnimationRow } from '../components/AnimationRow'
@@ -16,7 +16,6 @@ export interface EditorScreenProps {
 
 export const EditorScreen: FunctionComponent<EditorScreenProps> = ({ node, masterData, update }) => {
   const [info, setInfo] = useState('Hover over an element for additional information')
-  const defaultDuration = masterData?.duration ?? 0.5
   const assignedTypes = node.data.animations.map(({ type }) => type)
   const options = ANIMATION_SELECT_OPTIONS.filter(({ value }) => assignedTypes.indexOf(value) === -1)
 
@@ -28,20 +27,26 @@ export const EditorScreen: FunctionComponent<EditorScreenProps> = ({ node, maste
     <>
       <Navbar icon={node.data.active ? ICON.UI_ANIMATE_ON : ICON.UI_ANIMATE_OFF} title={node.name} disabled={!node.data.active}>
         <HoverInfo text="Set the Delay before this Animation starts" emit={onHoverInfo}>
-          <Input name="transition-delay" disabled={!node.data.active} icon={ICON.TRANSITION_DELAY} suffix="ms" className={clsx(styles['field-input'], node.data.delay ? styles['set'] : styles['unset'])} placeholder="0" type="number" value={node.data.delay * 1000} onChange={(value) => {
-            if (value === '') { update({ delay: masterData.delay ?? 0.5 }); return }
-            const delay = (+value) / 1000
-            if (node.data.delay === delay) { return }
-            update({ delay })
-          }} style={{ width: 100 }} />
+          <NumberInput
+            value={node.data.delay} defaultValue={0} min={0} step={0.1} max={100} precision={3} style={{ width: 100 }}
+            name="transition-delay" disabled={!node.data.active} icon={ICON.TRANSITION_DELAY} suffix="ms" className={clsx(styles['field-input'], node.data.delay ? styles['set'] : styles['unset'])}
+            onChange={(delay) => {
+              if (node.data.delay === delay) { return }
+              update({ delay })
+            }} />
         </HoverInfo>
         <HoverInfo text="Set the Duration of this Animation" emit={onHoverInfo}>
-          <Input name="transition-duration" disabled={!node.data.active} icon={ICON.TRANSITION_DURATION} suffix="ms" className={clsx(styles['field-input'], node.data.duration ? styles['set'] : styles['unset'])} placeholder={String(defaultDuration)} type="number" value={node.data.duration * 1000} onChange={(value) => {
-            if (value === '') { update({ duration: masterData.duration ?? 0.5 }); return }
-            const duration = (+value) / 1000
-            if (node.data.duration === duration) { return }
-            update({ duration })
-          }} style={{ width: 100 }} />
+          <NumberInput
+            value={node.data.duration ?? masterData.duration} defaultValue={masterData.duration ?? 0.5} fadeDefault min={0} max={100} precision={3} style={{ width: 100 }}
+            name="transition-duration" disabled={!node.data.active} icon={ICON.TRANSITION_DURATION} suffix="ms" className={clsx(styles['field-input'], node.data.duration ? styles['set'] : styles['unset'])}
+            onChange={(duration, event) => {
+              if (node.data.duration === duration) { return }
+              if (event.target.value === '') {
+                update({ duration: undefined })
+              } else {
+                update({ duration })
+              }
+            }} />
         </HoverInfo>
         <HoverInfo text="Add a new Animation" emit={onHoverInfo}>
           <Button icon={ICON.UI_PLUS} onClick={() => {
@@ -65,7 +70,7 @@ export const EditorScreen: FunctionComponent<EditorScreenProps> = ({ node, maste
               if (newIndex < 0 || newIndex >= node.data.animations.length) { return }
               const data: Partial<NodeData> = { animations: [...node.data.animations] }
               data.animations!.splice(newIndex, 1)
-              if (data.animations!.length === 0) { data.active = false }
+              if (data.animations!.length === 0) { data.active = true }
               update(data)
             }}></AnimationRow>
           ))}

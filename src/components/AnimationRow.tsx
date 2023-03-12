@@ -1,4 +1,4 @@
-import { Button, ICON, Input, Select } from '@figmania/ui'
+import { Button, ICON, NumberInput, Select } from '@figmania/ui'
 import { FunctionComponent, useState } from 'react'
 import { Animation, AnimationType } from '../types/Animation'
 import { AnimationOption, ANIMATION_SELECT_OPTIONS } from '../utils/shared'
@@ -51,16 +51,24 @@ export const AnimationRow: FunctionComponent<AnimationRowProps> = ({ animation, 
         }} />
       </HoverInfo>
       <HoverInfo text="Set the From / Start value of this Animation" emit={hoverInfo}>
-        <Input name="transition-from" icon={ICON.TRANSITION_FROM} suffix={selectedOption.suffix} className={styles['field-input']} placeholder="..." type="number" value={from} onChange={(value) => {
-          setFrom(+value)
-          update(convertStateToAnimation({ from: +value, to, type }), index)
-        }} style={{ width: 100 }} />
+        <NumberInput
+          value={from} defaultValue={selectedOption.from}
+          min={selectedOption.min} max={selectedOption.max} precision={selectedOption.precision}
+          name="transition-from" icon={ICON.TRANSITION_FROM} suffix={selectedOption.suffix} className={styles['field-input']} style={{ width: 100 }}
+          onChange={(value) => {
+            setFrom(value)
+            update(convertStateToAnimation({ from: value, to, type }), index)
+          }} />
       </HoverInfo>
       <HoverInfo text="Set the To / End value of this Animation" emit={hoverInfo}>
-        <Input name="transition-to" icon={ICON.TRANSITION_TO} suffix={selectedOption.suffix} className={styles['field-input']} placeholder="..." type="number" value={to} onChange={(value) => {
-          setTo(+value)
-          update(convertStateToAnimation({ from, to: +value, type }), index)
-        }} style={{ width: 100 }} />
+        <NumberInput
+          value={to} defaultValue={selectedOption.to}
+          min={selectedOption.min} max={selectedOption.max} precision={selectedOption.precision}
+          name="transition-to" icon={ICON.TRANSITION_TO} suffix={selectedOption.suffix} className={styles['field-input']} style={{ width: 100 }}
+          onChange={(value) => {
+            setTo(value)
+            update(convertStateToAnimation({ from, to: value, type }), index)
+          }} />
       </HoverInfo>
       <HoverInfo text="Remove this Animation" emit={hoverInfo}>
         <Button icon={ICON.UI_MINUS} onClick={() => {

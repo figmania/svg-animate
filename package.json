@@ -21,12 +21,13 @@
     "clsx": "^1.2.1",
     "debounce": "^1.2.1",
     "gsap": "^3.11.4",
+    "nanoid": "^4.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@figma/plugin-typings": "^1.58.0",
-    "@figmania/vite-plugin-figma": "^1.0.3",
+    "@figmania/vite-plugin-figma": "^1.0.4",
     "@magloft/devkit-core": "^1.1.4",
     "@magloft/eslint-config": "^1.1.4",
     "@types/debounce": "^1.2.0",

@@ -9,4 +9,5 @@ export interface NodeData {
   trigger: string
   animations: Animation[]
   exportFormat: ExportFormat
+  uuid?: string
 }

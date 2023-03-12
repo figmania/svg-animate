@@ -1,7 +1,7 @@
 import { prettyPrint, uiDownload } from '@figmania/common'
-import { Accordion, Button, Code, ICON, Input, Select, useClipboard, useNotify } from '@figmania/ui'
+import { Accordion, Button, Code, ICON, NumberInput, Select, useClipboard, useNotify } from '@figmania/ui'
 import { debounce } from 'debounce'
-import { FunctionComponent, useMemo, useState } from 'react'
+import { FunctionComponent, useEffect, useMemo, useState } from 'react'
 import { Playback } from '../components/Playback'
 import { ExportFormat, ExportMode } from '../types/Export'
 import { NodeData } from '../types/NodeData'
@@ -27,13 +27,19 @@ export const ExportScreen: FunctionComponent<ExportScreenProps> = ({ name, data,
   const [exportMode, setExportMode] = useState<ExportMode>(lastExportMode)
   const [duration, setDuration] = useState<number>(data.duration)
 
+  /// @TODO
+  useEffect(() => {
+
+  })
+
   const updateExportMode = (mode: ExportMode) => {
     lastExportMode = mode
     setExportMode(mode)
   }
 
-  const debouncedUpdateDuration = debounce(() => {
-    update({ duration }, true)
+  const debouncedUpdateDuration = debounce((value: number) => {
+    console.log('duration', value)
+    update({ duration: value }, true)
   }, 500)
 
   const formattedCode = useMemo(() => {
@@ -67,10 +73,13 @@ export const ExportScreen: FunctionComponent<ExportScreenProps> = ({ name, data,
         <div className={styles['row']}>
           <div className={styles['col']}>
             <label className={styles['field-label']}>Default Duration</label>
-            <Input name="transition-duration" icon={ICON.TRANSITION_DURATION} placeholder="500ms" suffix="ms" type="number" value={duration * 1000} onChange={(value) => {
-              setDuration(value === '' ? 0.5 : (+value) / 1000)
-              debouncedUpdateDuration()
-            }} />
+            <NumberInput
+              value={duration} defaultValue={data.duration ?? 0.5} precision={3} min={0.1} max={100} step={0.1}
+              name="transition-duration" icon={ICON.TRANSITION_DURATION} suffix="ms"
+              onChange={(value) => {
+                setDuration(value)
+                debouncedUpdateDuration(value)
+              }} />
           </div>
           <div className={styles['col']}>
             <label className={styles['field-label']}>Default Easing</label>

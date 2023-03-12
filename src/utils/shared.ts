@@ -7,6 +7,10 @@ export interface AnimationOption {
   title: string
   from: number
   to: number
+  precision: number
+  min: number
+  max: number
+  step: number
   icon: ICON
   suffix?: string
 }
@@ -29,11 +33,11 @@ export interface ExportFormatOption {
 }
 
 export const ANIMATION_SELECT_OPTIONS: AnimationOption[] = [
-  { value: 'opacity', title: 'Opacity', from: 0, to: 1, suffix: '%', icon: ICON.ANIMATION_OPACITY },
-  { value: 'x', title: 'X', from: 0, to: 100, suffix: 'px', icon: ICON.ANIMATION_TRANSLATE_X },
-  { value: 'y', title: 'Y', from: 0, to: 100, suffix: 'px', icon: ICON.ANIMATION_TRANSLATE_Y },
-  { value: 'scale', title: 'Scale', from: 0.5, to: 1.0, suffix: '%', icon: ICON.ANIMATION_SCALE },
-  { value: 'rotation', title: 'Rotation', from: 0, to: 360, suffix: '°', icon: ICON.ANIMATION_ROTATE }
+  { value: 'opacity', title: 'Opacity', from: 0, to: 1, min: 0, max: 1, step: 0.1, precision: 2, suffix: '%', icon: ICON.ANIMATION_OPACITY },
+  { value: 'x', title: 'X', from: 0, to: 100, min: -1000, max: 1000, step: 10, precision: 0, suffix: 'px', icon: ICON.ANIMATION_TRANSLATE_X },
+  { value: 'y', title: 'Y', from: 0, to: 100, min: -1000, max: 1000, step: 10, precision: 0, suffix: 'px', icon: ICON.ANIMATION_TRANSLATE_Y },
+  { value: 'scale', title: 'Scale', from: 0.5, to: 1.0, min: 0, max: 1, step: 0.1, precision: 2, suffix: '%', icon: ICON.ANIMATION_SCALE },
+  { value: 'rotation', title: 'Rotation', from: 0, to: 360, min: 0, max: 1, step: 10, precision: 0, suffix: '°', icon: ICON.ANIMATION_ROTATE }
 ]
 
 export const TRIGGER_SELECT_OPTIONS: TriggerOption[] = [

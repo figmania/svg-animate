@@ -1,4 +1,5 @@
 import { FigmaNode, nodeClosest, nodeData, NodeDataModel, nodeHasSvgExport, nodeTree } from '@figmania/common'
+import { customAlphabet } from 'nanoid'
 import { NodeEvent, NodeType } from '../Schema'
 import { NodeData } from '../types/NodeData'
 
@@ -16,3 +17,5 @@ export function nodeToEvent(node: FigmaNode) {
   if (masterNode) { event.masterData = nodeData<NodeData>(masterNode, DataModel) }
   return event
 }
+
+export const uuid = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 12)

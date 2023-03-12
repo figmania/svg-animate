@@ -3,12 +3,15 @@ import react from '@vitejs/plugin-react'
 import { defineConfig, PluginOption } from 'vite'
 
 export default defineConfig(({ command }) => {
-  const plugins: PluginOption[] = [react(), figma(command, {
+  const plugins: PluginOption[] = [react({
+    fastRefresh: true
+  }), figma(command, {
     editorType: ['figma'],
     name: 'SVG Animate',
     api: '1.0.0',
     id: '980366185319754464',
-    main: 'src/main.ts'
+    main: 'src/main.ts',
+    permissions: ['currentuser']
   })]
 
   return {
