@@ -5,6 +5,8 @@ import { Config, Schema } from '../Schema'
 import { NodeData } from '../types/NodeData'
 import styles from './EmptyScreen.module.scss'
 
+const FIGMANIA_HOST = 'www.figmania.dev'
+
 export interface EmptyScreenProps {
   node?: TreeNode<NodeData>
 }
@@ -13,20 +15,43 @@ export const EmptyScreen: FunctionComponent<EmptyScreenProps> = ({ node }) => {
   const [config, saveConfig] = useConfig<Config>()
   const controller = useController<Schema>()
   const title = node ? node.name : 'No node selected'
-  const icon = node ? ICON.UI_ANIMATE_ON : ICON.UI_ANIMATE_OFF
 
   return (
     <>
-      <Navbar icon={icon} title={title} disabled={true}>
+      <Navbar icon={ICON.SYMBOL_COMPONENT} title={title} disabled={!node}>
         {node && (
-          <Button icon={ICON.UI_ANIMATE_ON} title="Enable SVG Export" onClick={() => {
+          <Button icon={ICON.CONTROL_CHECK} title="Enable SVG Export" onClick={() => {
             controller.emit('export:enable', undefined)
           }} />
         )}
+        <Button title="Login" onClick={() => {
+          saveConfig({ user: undefined })
+          fetch(`https://${FIGMANIA_HOST}/api/authSessions/create/${config.userId}`, { method: 'POST' }).then((response) => response.json()).then(({ readKey, writeKey }) => {
+            const interval = setInterval(() => {
+              fetch(`https://${FIGMANIA_HOST}/api/authSessions/poll/${readKey}`, { method: 'GET' })
+                .then((response) => response.json())
+                .then(({ complete, user }) => {
+                  if (!complete || !user) { return }
+                  saveConfig({ user })
+                  clearInterval(interval)
+                })
+            }, 5000)
+            console.info(`https://www.figmania.dev/authSession/${writeKey}`)
+            // window.open(`https://www.figmania.dev/authSession/${writeKey}`, 'authWindow', 'popup=1,width=320,height=480')
+          })
+        }} />
         <Button className={styles['tutorial-button']} title={config.tutorial ? 'Hide Tutorial' : 'Show Tutorial'} selected={config.tutorial} onClick={() => {
           saveConfig({ tutorial: !config.tutorial })
         }} />
       </Navbar>
+      {config.user && (
+        <div>
+          <p>Name: {config.user.name}</p>
+          <p>Email: {config.user.email}</p>
+          <p>Access Token: {config.user.accessToken}</p>
+          <p>Refresh Token: {config.user.refreshToken}</p>
+        </div>
+      )}
       {config.tutorial && (
         <div className={styles['tutorial']}>
           <div className={styles['tutorial-section']}>How to create Animations</div>
