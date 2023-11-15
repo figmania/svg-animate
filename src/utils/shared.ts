@@ -4,7 +4,7 @@ import { ExportFormat } from '../types/Export'
 
 export interface AnimationOption {
   value: AnimationType
-  title: string
+  label: string
   from: number
   to: number
   precision: number
@@ -17,35 +17,35 @@ export interface AnimationOption {
 
 export interface TriggerOption {
   value: string
-  title: string
+  label: string
   icon: ICON
 }
 
 export interface EaseOption {
   value: string
-  title: string
+  label: string
   icon: ICON
 }
 
 export interface ExportFormatOption {
   value: ExportFormat
-  title: string
+  label: string
 }
 
 export const ANIMATION_SELECT_OPTIONS: AnimationOption[] = [
-  { value: 'opacity', title: 'Opacity', from: 0, to: 1, min: 0, max: 1, step: 0.1, precision: 2, suffix: '%', icon: ICON.ANIMATION_OPACITY },
-  { value: 'x', title: 'X', from: 0, to: 100, min: -1000, max: 1000, step: 10, precision: 0, suffix: 'px', icon: ICON.ANIMATION_TRANSLATE_X },
-  { value: 'y', title: 'Y', from: 0, to: 100, min: -1000, max: 1000, step: 10, precision: 0, suffix: 'px', icon: ICON.ANIMATION_TRANSLATE_Y },
-  { value: 'scale', title: 'Scale', from: 0.5, to: 1.0, min: 0, max: 1, step: 0.1, precision: 2, suffix: '%', icon: ICON.ANIMATION_SCALE },
-  { value: 'rotation', title: 'Rotation', from: 0, to: 360, min: 0, max: 1, step: 10, precision: 0, suffix: '°', icon: ICON.ANIMATION_ROTATE }
+  { value: 'opacity', label: 'Opacity', from: 0, to: 1, min: 0, max: 1, step: 0.1, precision: 2, suffix: '%', icon: ICON.ANIMATE_OPACITY },
+  { value: 'x', label: 'X', from: 0, to: 100, min: -1000, max: 1000, step: 10, precision: 0, suffix: 'px', icon: ICON.ANIMATE_X },
+  { value: 'y', label: 'Y', from: 0, to: 100, min: -1000, max: 1000, step: 10, precision: 0, suffix: 'px', icon: ICON.ANIMATE_Y },
+  { value: 'scale', label: 'Scale', from: 0.5, to: 1.0, min: 0, max: 2, step: 0.1, precision: 2, suffix: '%', icon: ICON.ANIMATE_SCALE },
+  { value: 'rotation', label: 'Rotation', from: 0, to: 360, min: -720, max: 720, step: 10, precision: 0, suffix: '°', icon: ICON.ANIMATE_ROTATION }
 ]
 
 export const TRIGGER_SELECT_OPTIONS: TriggerOption[] = [
-  { value: 'hover', title: 'Hover', icon: ICON.TRANSITION_TRIGGER },
-  { value: 'loop', title: 'Loop', icon: ICON.TRANSITION_TRIGGER },
-  { value: 'on', title: 'Load', icon: ICON.TRANSITION_TRIGGER },
-  { value: 'off', title: 'Never', icon: ICON.TRANSITION_TRIGGER },
-  { value: 'visible', title: 'Visible', icon: ICON.TRANSITION_TRIGGER }
+  { value: 'hover', label: 'Hover', icon: ICON.TRANSITION_TRIGGER },
+  { value: 'loop', label: 'Loop', icon: ICON.TRANSITION_TRIGGER },
+  { value: 'on', label: 'Load', icon: ICON.TRANSITION_TRIGGER },
+  { value: 'off', label: 'Never', icon: ICON.TRANSITION_TRIGGER },
+  { value: 'visible', label: 'Visible', icon: ICON.TRANSITION_TRIGGER }
 ]
 
 export const TRIGGER_LABELS: { [key: string]: string } = {
@@ -57,16 +57,16 @@ export const TRIGGER_LABELS: { [key: string]: string } = {
 }
 
 export const EASE_SELECT_OPTIONS: EaseOption[] = [
-  { value: 'none', title: 'Linear', icon: ICON.EASE_LINEAR },
-  { value: 'power1.in', title: 'Ease In', icon: ICON.EASE_IN },
-  { value: 'power1.inOut', title: 'Ease In Out', icon: ICON.EASE_IN_OUT },
-  { value: 'power1.out', title: 'Ease Out', icon: ICON.EASE_OUT }
+  { value: 'linear', label: 'Linear', icon: ICON.EASE_LINEAR },
+  { value: 'ease-in', label: 'Ease In', icon: ICON.EASE_IN },
+  { value: 'ease-in-out', label: 'Ease In Out', icon: ICON.EASE_IN_OUT },
+  { value: 'ease-out', label: 'Ease Out', icon: ICON.EASE_OUT }
 ]
 
 export const EXPORT_FORMAT_SELECT_OPTIONS: ExportFormatOption[] = [
-  { value: 'html', title: 'HTML' },
-  { value: 'element', title: 'Element' },
-  { value: 'svg', title: 'SVG' }
+  { value: 'html', label: 'HTML' },
+  { value: 'element', label: 'Element' },
+  { value: 'svg', label: 'SVG' }
 ]
 
 export const EXPORT_FORMAT_LABELS: { [key: string]: string } = {

@@ -19,13 +19,15 @@ export const EditorScreen: FunctionComponent<EditorScreenProps> = ({ node, maste
   const assignedTypes = node.data.animations.map(({ type }) => type)
   const options = ANIMATION_SELECT_OPTIONS.filter(({ value }) => assignedTypes.indexOf(value) === -1)
 
+  const allowMore = assignedTypes.length < ANIMATION_SELECT_OPTIONS.length
+
   const onHoverInfo = (enter: boolean, text?: string) => {
     setInfo((enter && text) ? text : 'Hover over an element for additional information')
   }
 
   return (
     <>
-      <Navbar icon={node.data.active ? ICON.UI_ANIMATE_ON : ICON.UI_ANIMATE_OFF} title={node.name} disabled={!node.data.active}>
+      <Navbar icon={ICON.SYMBOL_COMPONENT} label={node.name} disabled={!node.data.active}>
         <HoverInfo text="Set the Delay before this Animation starts" emit={onHoverInfo}>
           <NumberInput
             value={node.data.delay} defaultValue={0} min={0} step={0.1} max={100} precision={3} style={{ width: 100 }}
@@ -57,7 +59,7 @@ export const EditorScreen: FunctionComponent<EditorScreenProps> = ({ node, maste
             data.animations!.push({ type: nextOption.value, from: nextOption.from, to: nextOption.to })
             if (data.animations!.length === 1) { data.active = true }
             update(data)
-          }} disabled={assignedTypes.length === ANIMATION_SELECT_OPTIONS.length}></Button>
+          }} focus={allowMore} disabled={!allowMore}></Button>
         </HoverInfo>
       </Navbar>
       <div className={clsx(styles['flex-1'], styles['animations-wrapper'])}>
@@ -79,7 +81,7 @@ export const EditorScreen: FunctionComponent<EditorScreenProps> = ({ node, maste
           <div className={styles['notice']}>Click the <Icon icon={ICON.UI_PLUS}></Icon> icon to animate a property of the selected node.</div>
         )}
       </div>
-      <Navbar icon={ICON.UI_INFO} title={info} />
+      <Navbar icon={ICON.APP_LIBRARY} label={info} />
     </>
   )
 }

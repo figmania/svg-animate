@@ -1,7 +1,7 @@
 import { Button, ICON, NumberInput, Select } from '@figmania/ui'
 import { FunctionComponent, useState } from 'react'
 import { Animation, AnimationType } from '../types/Animation'
-import { AnimationOption, ANIMATION_SELECT_OPTIONS } from '../utils/shared'
+import { ANIMATION_SELECT_OPTIONS, AnimationOption } from '../utils/shared'
 import styles from './AnimationRow.module.scss'
 import { HoverInfo } from './HoverInfo'
 
@@ -16,19 +16,11 @@ export interface AnimationRowProps {
 
 function convertStateToAnimation({ type, from, to }: Animation): Animation {
   const result: Animation = { type, from, to }
-  if (type === 'opacity' || type === 'scale') {
-    result.from /= 100
-    result.to /= 100
-  }
   return result
 }
 
 function convertAnimationToState({ type, from, to }: Animation): Animation {
   const result: Animation = { type, from, to }
-  if (type === 'opacity' || type === 'scale') {
-    result.from *= 100
-    result.to *= 100
-  }
   return result
 }
 
@@ -52,7 +44,7 @@ export const AnimationRow: FunctionComponent<AnimationRowProps> = ({ animation, 
       </HoverInfo>
       <HoverInfo text="Set the From / Start value of this Animation" emit={hoverInfo}>
         <NumberInput
-          value={from} defaultValue={selectedOption.from}
+          value={from} defaultValue={selectedOption.from} step={selectedOption.step}
           min={selectedOption.min} max={selectedOption.max} precision={selectedOption.precision}
           name="transition-from" icon={ICON.TRANSITION_FROM} suffix={selectedOption.suffix} className={styles['field-input']} style={{ width: 100 }}
           onChange={(value) => {
@@ -62,7 +54,7 @@ export const AnimationRow: FunctionComponent<AnimationRowProps> = ({ animation, 
       </HoverInfo>
       <HoverInfo text="Set the To / End value of this Animation" emit={hoverInfo}>
         <NumberInput
-          value={to} defaultValue={selectedOption.to}
+          value={to} defaultValue={selectedOption.to} step={selectedOption.step}
           min={selectedOption.min} max={selectedOption.max} precision={selectedOption.precision}
           name="transition-to" icon={ICON.TRANSITION_TO} suffix={selectedOption.suffix} className={styles['field-input']} style={{ width: 100 }}
           onChange={(value) => {

@@ -10,9 +10,19 @@ export interface NodeEvent {
   masterData?: NodeData
 }
 
+export interface User {
+  id: string
+  name: string
+  email: string
+  image: string
+  accessToken: string
+  refreshToken: string
+}
+
 export interface Config {
-  theme: 'dark' | 'light'
   tutorial: boolean
+  userId: string
+  user?: User
 }
 
 export type Schema = CreateSchema<{

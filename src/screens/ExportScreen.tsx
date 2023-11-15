@@ -54,7 +54,7 @@ export const ExportScreen: FunctionComponent<ExportScreenProps> = ({ name, data,
 
   return (
     <>
-      <Accordion title={'Preview'} active={exportMode === 'playback'} activate={() => {
+      <Accordion label={'Preview'} active={exportMode === 'playback'} activate={() => {
         updateExportMode('playback')
       }} renderHeader={() => (
         <>
@@ -93,7 +93,7 @@ export const ExportScreen: FunctionComponent<ExportScreenProps> = ({ name, data,
       )}>
         {code && <Playback code={code} loop={trigger === 'loop'} />}
       </Accordion>
-      <Accordion title={'View Code'} active={exportMode === 'code'} activate={() => {
+      <Accordion label={'View Code'} active={exportMode === 'code'} activate={() => {
         updateExportMode('code')
       }} renderHeader={() => (
         <>

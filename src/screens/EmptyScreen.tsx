@@ -12,18 +12,17 @@ export interface EmptyScreenProps {
 export const EmptyScreen: FunctionComponent<EmptyScreenProps> = ({ node }) => {
   const [config, saveConfig] = useConfig<Config>()
   const controller = useController<Schema>()
-  const title = node ? node.name : 'No node selected'
-  const icon = node ? ICON.UI_ANIMATE_ON : ICON.UI_ANIMATE_OFF
+  const label = node ? node.name : 'No node selected'
 
   return (
     <>
-      <Navbar icon={icon} title={title} disabled={true}>
+      <Navbar icon={ICON.SYMBOL_COMPONENT} label={label} disabled={true}>
         {node && (
-          <Button icon={ICON.UI_ANIMATE_ON} title="Enable SVG Export" onClick={() => {
+          <Button icon={ICON.CONTROL_CHECK} label="Enable SVG Export" onClick={() => {
             controller.emit('export:enable', undefined)
           }} />
         )}
-        <Button className={styles['tutorial-button']} title={config.tutorial ? 'Hide Tutorial' : 'Show Tutorial'} selected={config.tutorial} onClick={() => {
+        <Button className={styles['tutorial-button']} icon={ICON.APP_LIBRARY} label="Tutorial" selected={config.tutorial} onClick={() => {
           saveConfig({ tutorial: !config.tutorial })
         }} />
       </Navbar>

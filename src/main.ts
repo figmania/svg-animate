@@ -18,7 +18,7 @@ createController<Schema>(createFigmaDelegate(), async (controller) => {
 
   const size = await resizePlugin(controller, { width: 400, height: 512 })
   figma.showUI(__html__, { visible: true, ...size })
-  configPlugin<Config>(controller, { theme: 'dark', tutorial: true })
+  configPlugin<Config>(controller, { tutorial: true, userId: figma.currentUser?.id ?? 'unknown' })
   notifyPlugin(controller)
   nodePlugin(controller, (node) => {
     if (!node) {
