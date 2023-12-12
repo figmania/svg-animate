@@ -1,4 +1,4 @@
-import { anim, Timeline } from '@figmania/anim'
+import { render } from '@figmania/gsap'
 import { gsap } from 'gsap'
 import { createRef, FunctionComponent, useEffect, useLayoutEffect, useState } from 'react'
 import styles from './Playback.module.scss'
@@ -14,13 +14,15 @@ export const Playback: FunctionComponent<PlaybackProps> = ({ code, loop: initial
   const [paused, setPaused] = useState(false)
   const [time, setTime] = useState(0)
   const [duration, setDuration] = useState(0)
-  const [timeline, setTimeline] = useState<Timeline>()
+  const [timeline, setTimeline] = useState<gsap.core.Timeline>()
   const ref = createRef<HTMLDivElement>()
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const svg = ref.current!.firstChild as SVGSVGElement
-      const tl = anim(svg, { paused: false, repeat: initialLoop ? -1 : 0 })
+      const tl = render(svg) as gsap.core.Timeline
+      tl.paused(false)
+      tl.repeat(initialLoop ? -1 : 0)
       setTimeline(tl)
       setDuration(tl.duration())
       setTime(tl.time())

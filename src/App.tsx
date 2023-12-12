@@ -1,70 +1,72 @@
-import { setDefaultProps, setTweenProps, TweenProps } from '@figmania/anim'
-import { bufferDecodeUtf8, nodeList, svgTransform, TreeNode, uid } from '@figmania/common'
-import { useController, useNode } from '@figmania/ui'
+import { TreeNode, transformSvg } from '@figmania/common'
+import { ICON, NavigationBar, useController, useNode } from '@figmania/ui'
 import { FunctionComponent, useEffect, useState } from 'react'
 import { NodeType, Schema } from './Schema'
 import { EditorScreen } from './screens/EditorScreen'
 import { EmptyScreen } from './screens/EmptyScreen'
 import { ExportScreen } from './screens/ExportScreen'
-import { NodeData } from './types/NodeData'
+import { PreviewScreen } from './screens/PreviewScreen'
+import { NodeData } from './types/NodeModel'
+
+export enum Screen { PREVIEW, EXPORT, EDITOR }
 
 export const App: FunctionComponent = () => {
-  const [data, setData] = useState<NodeData>()
+  const [screen, setScreen] = useState(Screen.PREVIEW)
   const [code, setCode] = useState<string>()
-  const { type, node, masterData } = useNode<Schema>({ type: NodeType.NONE })
+  const { type, node, masterNode } = useNode<Schema>({ type: NodeType.NONE })
   const controller = useController<Schema>()
 
   const generateCode = async (targetNode?: TreeNode<NodeData>) => {
     if (!targetNode) { return }
-    const { buffer } = await controller.request('export', targetNode)
-    const contents = await bufferDecodeUtf8(buffer)
-    return svgTransform(contents, targetNode, (svg) => {
-      svg.removeAttribute('width')
-      svg.removeAttribute('height')
-      svg.setAttribute('xmlns:anim', 'http://www.w3.org/2000/anim')
-      setDefaultProps(svg, { transformOrigin: '50% 50%', duration: targetNode.data.duration, ease: targetNode.data.ease })
-      const list = nodeList<NodeData>(targetNode).filter(({ data: { active } }) => active)
-      for (const item of list) {
-        const hash = uid(item.id)
-        const target = svg.getElementById(hash)
-        if (!target) { continue }
-        const from = item.data.animations.reduce<Record<string, number>>((obj, entry) => { obj[entry.type] = entry.from; return obj }, {})
-        const to = item.data.animations.reduce<Record<string, number>>((obj, entry) => { obj[entry.type] = entry.to; return obj }, {})
-        const props: TweenProps = { from, to, delay: item.data.delay }
-        if (item.data.duration) { props.duration = item.data.duration }
-        setTweenProps(target, props)
-      }
-      return svg
-    })
+    const contents = await controller.request('export', targetNode)
+    return transformSvg(contents, targetNode)
   }
 
-  const update = async (newData: Partial<NodeData>, shouldExport = false) => {
+  const updateMaster = async (newData: Partial<NodeData>, shouldExport = false) => {
+    if (!masterNode) { throw new Error('Invalid node for update') }
+    Object.assign(masterNode.data, newData)
+    await controller.request('update', masterNode)
+    if (shouldExport) {
+      setCode(undefined)
+      setCode(await generateCode(masterNode))
+    }
+  }
+
+  const updateChild = async (newData: Partial<NodeData>, shouldExport = false) => {
     if (!node) { throw new Error('Invalid node for update') }
     Object.assign(node.data, newData)
     await controller.request('update', node)
     if (shouldExport) {
       setCode(undefined)
-      setCode(await generateCode(node))
+      setCode(await generateCode(masterNode))
     }
-    setData((cur) => ({ ...cur!, ...newData }))
   }
 
   useEffect(() => {
-    if (!node || type !== NodeType.MASTER) { return }
+    if (!masterNode) { return }
     setCode(undefined)
-    generateCode(node).then(setCode)
-  }, [node, type])
+    generateCode(masterNode).then(setCode)
+  }, [masterNode])
 
   useEffect(() => {
-    if (!node) { return }
-    setData(node.data)
-  }, [node])
+    if (type === NodeType.MASTER && screen === Screen.EDITOR) { setScreen(Screen.PREVIEW) }
+    if (type === NodeType.CHILD && screen === Screen.PREVIEW) { setScreen(Screen.EDITOR) }
+  }, [type])
 
-  if (type === NodeType.MASTER && node && data) {
-    return <ExportScreen name={node.name} data={data} update={update} code={code} />
-  } else if (type === NodeType.CHILD && node && masterData) {
-    return <EditorScreen node={node} update={update} masterData={masterData} />
-  } else {
-    return <EmptyScreen node={node} />
-  }
+  if (!node || type === NodeType.ORPHAN) { return <EmptyScreen node={node} /> }
+
+  return (
+    <>
+      {screen === Screen.PREVIEW && masterNode && <PreviewScreen node={masterNode} update={updateMaster} code={code} />}
+      {screen === Screen.EXPORT && masterNode && <ExportScreen node={masterNode} update={updateMaster} code={code} />}
+      {screen === Screen.EDITOR && <EditorScreen node={node} update={updateChild} duration={masterNode?.data.duration ?? 1000} />}
+      <NavigationBar selectedIndex={screen} onChange={(_, index) => { setScreen(index) }} items={[
+        { icon: ICON.CONTROL_PLAY, label: 'Preview' },
+        { icon: ICON.UI_DOWNLOAD, label: 'Export' },
+        { icon: ICON.UI_ADJUST, label: 'Editor' }
+      ]} />
+    </>
+  )
 }
+
+// disabled: type === NodeType.MASTER

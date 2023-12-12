@@ -1,13 +1,12 @@
 import { CreateSchema, TreeNode } from '@figmania/common'
-import { NodeData } from './types/NodeData'
+import { NodeData } from './types/NodeModel'
 
-export enum NodeType { NONE, MASTER, CHILD }
+export enum NodeType { NONE, MASTER, CHILD, ORPHAN }
 
 export interface NodeEvent {
-  node?: TreeNode<NodeData>
   type: NodeType
+  node?: TreeNode<NodeData>
   masterNode?: TreeNode<NodeData>
-  masterData?: NodeData
 }
 
 export interface User {
@@ -31,7 +30,7 @@ export type Schema = CreateSchema<{
     data: [TreeNode<NodeData>, void]
   } | {
     name: 'export'
-    data: [TreeNode<NodeData>, { buffer: Uint8Array, children: TreeNode<NodeData>[] }]
+    data: [TreeNode<NodeData>, string]
   }
   events: {
     name: 'node:select'

@@ -1,9 +1,9 @@
+import { AnimEase, AnimProperty } from '@figmania/common'
 import { ICON } from '@figmania/ui'
-import { AnimationType } from '../types/Animation'
 import { ExportFormat } from '../types/Export'
 
 export interface AnimationOption {
-  value: AnimationType
+  value: AnimProperty
   label: string
   from: number
   to: number
@@ -22,7 +22,7 @@ export interface TriggerOption {
 }
 
 export interface EaseOption {
-  value: string
+  value: AnimEase
   label: string
   icon: ICON
 }

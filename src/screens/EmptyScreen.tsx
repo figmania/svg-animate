@@ -2,7 +2,7 @@ import { TreeNode } from '@figmania/common'
 import { Button, ICON, Navbar, useConfig, useController } from '@figmania/ui'
 import { FunctionComponent } from 'react'
 import { Config, Schema } from '../Schema'
-import { NodeData } from '../types/NodeData'
+import { NodeData } from '../types/NodeModel'
 import styles from './EmptyScreen.module.scss'
 
 export interface EmptyScreenProps {

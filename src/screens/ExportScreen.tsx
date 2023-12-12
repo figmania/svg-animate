@@ -1,46 +1,22 @@
-import { prettyPrint, uiDownload } from '@figmania/common'
-import { Accordion, Button, Code, ICON, NumberInput, Select, useClipboard, useNotify } from '@figmania/ui'
-import { debounce } from 'debounce'
-import { FunctionComponent, useEffect, useMemo, useState } from 'react'
-import { Playback } from '../components/Playback'
-import { ExportFormat, ExportMode } from '../types/Export'
-import { NodeData } from '../types/NodeData'
-import { DOWNLOAD_OPTIONS_MAP, EASE_SELECT_OPTIONS, EXPORT_FORMAT_SELECT_OPTIONS, TRIGGER_SELECT_OPTIONS } from '../utils/shared'
+import { TreeNode, prettyPrint, uiDownload } from '@figmania/common'
+import { Button, Code, ICON, Navbar, Select, useClipboard, useNotify } from '@figmania/ui'
+import { FunctionComponent, useMemo } from 'react'
+import { ExportFormat } from '../types/Export'
+import { NodeData } from '../types/NodeModel'
+import { EMBED_URL } from '../utils/contants'
+import { DOWNLOAD_OPTIONS_MAP, EXPORT_FORMAT_SELECT_OPTIONS, TRIGGER_SELECT_OPTIONS } from '../utils/shared'
 import styles from './ExportScreen.module.scss'
 
 export interface ExportScreenProps {
-  name: string
-  data: NodeData
+  node: TreeNode<NodeData>
   code?: string
   update: (data: Partial<NodeData>, shouldExport: boolean) => Promise<void>
 }
 
-const EMBED_URL = 'https://cdn.jsdelivr.net/npm/@figmania/webcomponent/build/index.umd.js'
-
-let lastExportMode: ExportMode = 'playback'
-
-export const ExportScreen: FunctionComponent<ExportScreenProps> = ({ name, data, code, update }) => {
+export const ExportScreen: FunctionComponent<ExportScreenProps> = ({ node, code, update }) => {
   const clipboard = useClipboard()
   const notify = useNotify()
-  const { ease, trigger, exportFormat } = data
-
-  const [exportMode, setExportMode] = useState<ExportMode>(lastExportMode)
-  const [duration, setDuration] = useState<number>(data.duration)
-
-  /// @TODO
-  useEffect(() => {
-
-  })
-
-  const updateExportMode = (mode: ExportMode) => {
-    lastExportMode = mode
-    setExportMode(mode)
-  }
-
-  const debouncedUpdateDuration = debounce((value: number) => {
-    console.log('duration', value)
-    update({ duration: value }, true)
-  }, 500)
+  const { trigger, exportFormat } = node.data
 
   const formattedCode = useMemo(() => {
     if (!code) { return 'Loading ...' }
@@ -54,65 +30,31 @@ export const ExportScreen: FunctionComponent<ExportScreenProps> = ({ name, data,
 
   return (
     <>
-      <Accordion label={'Preview'} active={exportMode === 'playback'} activate={() => {
-        updateExportMode('playback')
-      }} renderHeader={() => (
-        <>
-          <Button icon={ICON.UI_CLIPBOARD} onClick={() => {
-            if (!code) { return }
-            clipboard(prettyPrint(formattedCode))
-            notify('Code copied to clipboard')
-          }} />
-          <Button icon={ICON.UI_DOWNLOAD} onClick={() => {
-            if (!code) { return }
-            const { type, extension } = DOWNLOAD_OPTIONS_MAP[exportFormat]
-            uiDownload(prettyPrint(formattedCode), { type, filename: `${name}.${extension}` })
-          }} />
-        </>
-      )} renderSettings={() => (
-        <div className={styles['row']}>
-          <div className={styles['col']}>
-            <label className={styles['field-label']}>Default Duration</label>
-            <NumberInput
-              value={duration} defaultValue={data.duration ?? 0.5} precision={3} min={0.1} max={100} step={0.1}
-              name="transition-duration" icon={ICON.TRANSITION_DURATION} suffix="ms"
-              onChange={(value) => {
-                setDuration(value)
-                debouncedUpdateDuration(value)
-              }} />
-          </div>
-          <div className={styles['col']}>
-            <label className={styles['field-label']}>Default Easing</label>
-            <Select placeholder="Default Easing" value={ease} options={EASE_SELECT_OPTIONS} onChange={(option) => {
-              const newEase = option.value
-              if (ease === newEase) { return }
-              update({ ease: newEase }, true)
-            }} />
-          </div>
-        </div>
-      )}>
-        {code && <Playback code={code} loop={trigger === 'loop'} />}
-      </Accordion>
-      <Accordion label={'View Code'} active={exportMode === 'code'} activate={() => {
-        updateExportMode('code')
-      }} renderHeader={() => (
-        <>
-          <Select disabled={exportMode !== 'code'} className={styles['header-select']} placeholder="Export Format" value={exportFormat} options={EXPORT_FORMAT_SELECT_OPTIONS} onChange={(option) => {
-            const newExportFormat = option.value as ExportFormat
-            if (exportFormat === newExportFormat) { return }
-            update({ exportFormat: newExportFormat }, true)
-          }} />
-          <Select disabled={exportMode !== 'code' || exportFormat === 'svg'} className={styles['header-select']} placeholder="Trigger" value={trigger} options={TRIGGER_SELECT_OPTIONS} onChange={(option) => {
-            const newTrigger = option.value
-            if (trigger === newTrigger) { return }
-            update({ trigger: newTrigger }, true)
-          }} />
-        </>
-      )}>
-        {exportMode === 'code' && (
-          <Code value={formattedCode} indent />
-        )}
-      </Accordion>
+      <Navbar icon={ICON.UI_DOWNLOAD} label='Export'>
+        <Select className={styles['header-select']} placeholder="Export Format" value={exportFormat} options={EXPORT_FORMAT_SELECT_OPTIONS} onChange={(option) => {
+          const newExportFormat = option.value as ExportFormat
+          if (exportFormat === newExportFormat) { return }
+          update({ exportFormat: newExportFormat }, true)
+        }} />
+        <Select disabled={exportFormat === 'svg'} className={styles['header-select']} placeholder="Trigger" value={trigger} options={TRIGGER_SELECT_OPTIONS} onChange={(option) => {
+          const newTrigger = option.value
+          if (trigger === newTrigger) { return }
+          update({ trigger: newTrigger }, true)
+        }} />
+        <Button icon={ICON.UI_CLIPBOARD} onClick={() => {
+          if (!code) { return }
+          clipboard(prettyPrint(formattedCode))
+          notify('Code copied to clipboard')
+        }} />
+        <Button icon={ICON.UI_DOWNLOAD} onClick={() => {
+          if (!code) { return }
+          const { type, extension } = DOWNLOAD_OPTIONS_MAP[exportFormat]
+          uiDownload(prettyPrint(formattedCode), { type, filename: `${node.name}.${extension}` })
+        }} />
+      </Navbar>
+      <div className={styles['container']}>
+        <Code value={formattedCode} indent />
+      </div>
     </>
   )
 }

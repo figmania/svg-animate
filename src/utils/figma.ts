@@ -1,21 +1,32 @@
-import { FigmaNode, nodeClosest, nodeData, NodeDataModel, nodeHasSvgExport, nodeTree } from '@figmania/common'
+import { FigmaNode, nodeClosest, nodeHasSvgExport, nodeTree } from '@figmania/common'
 import { customAlphabet } from 'nanoid'
 import { NodeEvent, NodeType } from '../Schema'
-import { NodeData } from '../types/NodeData'
+import { NodeData, NodeModel } from '../types/NodeModel'
 
-export const DataModel: NodeDataModel<NodeData> = {
-  key: 'data',
-  defaults: { active: false, delay: 0, duration: 0.5, ease: 'power1.inOut', trigger: 'hover', animations: [], exportFormat: 'html' }
+export interface NodeSelection {
+  node?: FigmaNode
+  hash?: string
 }
 
-export function nodeToEvent(node: FigmaNode) {
-  const event: NodeEvent = {
-    node: nodeTree<NodeData>(node, DataModel),
-    type: nodeHasSvgExport(node) ? NodeType.MASTER : NodeType.CHILD
+export function nodeCreateHash(node: FigmaNode): string {
+  const parts = [node.exportSettings ? node.exportSettings.filter(({ format }) => format === 'SVG').length : 0]
+  return parts.map(String).join(':')
+}
+
+export function nodeToEvent(figmaNode: FigmaNode): NodeEvent {
+  const node = nodeTree<NodeData>(figmaNode, NodeModel)
+  const figmaMasterNode = nodeClosest(figmaNode, nodeHasSvgExport)
+  let type: NodeType
+  if (nodeHasSvgExport(figmaNode)) {
+    type = NodeType.MASTER
+  } else if (figmaMasterNode) {
+    type = NodeType.CHILD
+  } else {
+    type = NodeType.ORPHAN
   }
-  const masterNode = nodeClosest(node, nodeHasSvgExport)
-  if (masterNode) { event.masterData = nodeData<NodeData>(masterNode, DataModel) }
-  return event
+  let masterNode = type === NodeType.MASTER ? node : undefined
+  if (!masterNode && figmaMasterNode) { masterNode = nodeTree<NodeData>(figmaMasterNode, NodeModel) }
+  return { type, node, masterNode }
 }
 
 export const uuid = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 12)
