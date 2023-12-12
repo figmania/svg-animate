@@ -1,20 +1,35 @@
-import { TreeNode, transformSvg } from '@figmania/common'
+import { SerializerSettings, TreeNode, nodeList, transformSvg } from '@figmania/common'
 import { ICON, NavigationBar, useController, useNode } from '@figmania/ui'
 import { FunctionComponent, useEffect, useState } from 'react'
 import { NodeType, Schema } from './Schema'
+import { UpgradeBanner } from './components/UpgradeBanner'
 import { EditorScreen } from './screens/EditorScreen'
 import { EmptyScreen } from './screens/EmptyScreen'
 import { ExportScreen } from './screens/ExportScreen'
 import { PreviewScreen } from './screens/PreviewScreen'
 import { NodeData } from './types/NodeModel'
+import { hasMultiTimelines } from './utils/math'
 
 export enum Screen { PREVIEW, EXPORT, EDITOR }
 
 export const App: FunctionComponent = () => {
   const [screen, setScreen] = useState(Screen.PREVIEW)
   const [code, setCode] = useState<string>()
-  const { type, node, masterNode } = useNode<Schema>({ type: NodeType.NONE })
+  const { type, node, masterNode, paid } = useNode<Schema>({ type: NodeType.NONE, paid: true })
   const controller = useController<Schema>()
+  const [showBanner, setShowBanner] = useState(false)
+
+  useEffect(() => {
+    if (!node) {
+      setShowBanner(false)
+    } else {
+      setShowBanner(!paid && nodeList(node).some((child) => hasMultiTimelines(child.data.timelines)))
+    }
+  }, [paid, node?.data.timelines])
+
+  useEffect(() => {
+    SerializerSettings.getMaxTransitions = () => paid ? 0 : 1
+  }, [paid])
 
   const generateCode = async (targetNode?: TreeNode<NodeData>) => {
     if (!targetNode) { return }
@@ -40,6 +55,7 @@ export const App: FunctionComponent = () => {
       setCode(undefined)
       setCode(await generateCode(masterNode))
     }
+    setShowBanner(!paid && nodeList(node).some((child) => hasMultiTimelines(child.data.timelines)))
   }
 
   useEffect(() => {
@@ -59,7 +75,10 @@ export const App: FunctionComponent = () => {
     <>
       {screen === Screen.PREVIEW && masterNode && <PreviewScreen node={masterNode} update={updateMaster} code={code} />}
       {screen === Screen.EXPORT && masterNode && <ExportScreen node={masterNode} update={updateMaster} code={code} />}
-      {screen === Screen.EDITOR && <EditorScreen node={node} update={updateChild} duration={masterNode?.data.duration ?? 1000} />}
+      {screen === Screen.EDITOR && <EditorScreen node={node} update={updateChild} duration={masterNode?.data.duration ?? 1000} paid={paid} />}
+      {showBanner && <UpgradeBanner onUpgrade={() => {
+        setShowBanner(false)
+      }} />}
       <NavigationBar selectedIndex={screen} onChange={(_, index) => { setScreen(index) }} items={[
         { icon: ICON.CONTROL_PLAY, label: 'Preview' },
         { icon: ICON.UI_DOWNLOAD, label: 'Export' },
@@ -68,5 +87,3 @@ export const App: FunctionComponent = () => {
     </>
   )
 }
-
-// disabled: type === NodeType.MASTER

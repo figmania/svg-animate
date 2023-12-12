@@ -26,7 +26,7 @@ export function nodeToEvent(figmaNode: FigmaNode): NodeEvent {
   }
   let masterNode = type === NodeType.MASTER ? node : undefined
   if (!masterNode && figmaMasterNode) { masterNode = nodeTree<NodeData>(figmaMasterNode, NodeModel) }
-  return { type, node, masterNode }
+  return { type, node, masterNode, paid: figma.payments?.status.type === 'PAID' }
 }
 
 export const uuid = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 12)

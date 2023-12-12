@@ -30,7 +30,7 @@ export default defineConfig(({ command }) => {
       ],
       includedLanguages: ['svg-animate:html', 'svg-animate:web-component']
     }],
-    permissions: ['currentuser'],
+    permissions: ['currentuser', 'payments'],
     networkAccess: { allowedDomains: ['none'], devAllowedDomains: ['http://localhost:8080'] }
   })]
 

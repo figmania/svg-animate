@@ -8,10 +8,11 @@ import styles from './EditorScreen.module.scss'
 export interface EditorScreenProps {
   node: TreeNode<NodeData>
   duration: number
+  paid: boolean
   update: (data: Partial<NodeData>) => Promise<void>
 }
 
-export const EditorScreen: FunctionComponent<EditorScreenProps> = ({ node, duration, update }) => {
+export const EditorScreen: FunctionComponent<EditorScreenProps> = ({ node, duration, paid, update }) => {
   const [timelines, setTimelines] = useState(node.data.timelines ?? [])
 
   useEffect(() => { setTimelines(node.data.timelines) }, [node.data.timelines])
@@ -23,6 +24,7 @@ export const EditorScreen: FunctionComponent<EditorScreenProps> = ({ node, durat
         <Editor
           className={clsx(styles['flex-1'], styles['editor'])}
           timelines={timelines} bar={{ duration, tick: 0.1 }}
+          allowMultiple={paid}
           config={{
             opacity: { icon: ICON.ANIMATE_OPACITY, label: 'Opacity', from: 0, to: 1, min: 0, max: 1, step: 0.1, precision: 2, suffix: '%' },
             x: { icon: ICON.ANIMATE_X, label: 'Move X', from: 0, to: 100, min: -1000, max: 1000, step: 10, precision: 0, suffix: 'px' },

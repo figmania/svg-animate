@@ -7,6 +7,7 @@ export interface NodeEvent {
   type: NodeType
   node?: TreeNode<NodeData>
   masterNode?: TreeNode<NodeData>
+  paid: boolean
 }
 
 export interface User {
@@ -31,6 +32,9 @@ export type Schema = CreateSchema<{
   } | {
     name: 'export'
     data: [TreeNode<NodeData>, string]
+  } | {
+    name: 'purchase'
+    data: ['PAID_FEATURE' | 'TRIAL_ENDED' | 'SKIP', boolean]
   }
   events: {
     name: 'node:select'

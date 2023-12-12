@@ -16,7 +16,7 @@ export function initFigma() {
       if (!node) {
         delete selection.node
         delete selection.hash
-        return { type: NodeType.NONE }
+        return { type: NodeType.NONE, paid: figma.payments?.status.type === 'PAID' }
       } else {
         selection.node = node
         selection.hash = nodeCreateHash(node)
@@ -53,6 +53,13 @@ export function initFigma() {
     controller.addRequestHandler('export', (node) => {
       const figmaNode = figmaNodeById(node.id)
       return figmaExportAsync(figmaNode)
+    })
+
+    controller.addRequestHandler('purchase', (interstitial) => {
+      if (!figma.payments) { return false }
+      return figma.payments.initiateCheckoutAsync({ interstitial }).then(() => {
+        return figma.payments?.status.type === 'PAID'
+      })
     })
   })
 }

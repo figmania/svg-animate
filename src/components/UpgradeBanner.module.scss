@@ -1,0 +1,45 @@
+.banner {
+  background-color: #ee7752;
+	background-size: 400% 400%;
+	animation: banner-gradient 15s ease infinite;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 6px 6px 10px;
+  cursor: pointer;
+}
+
+.info {
+  color: #FFFFFF;
+  flex: 1;
+  line-height: 13px;
+}
+
+.button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #FFFFFF;
+  color: #ee7752;
+  border-radius: 3px;
+  padding: 4px 8px;
+  font-size: 12px;
+  animation: banner-color 15s ease infinite;
+}
+
+@keyframes banner-gradient {
+	0% { background-color: #CB451B; }
+  25% { background-color: #b35d1b; }
+  50% { background-color: #af991e; }
+  75% { background-color: #a78621; }
+  100% { background-color: #CB451B; }
+}
+
+@keyframes banner-color {
+	0% { color: #CB451B; }
+  25% { color: #b35d1b; }
+  50% { color: #af991e; }
+  75% { color: #a78621; }
+  100% { color: #CB451B; }
+}

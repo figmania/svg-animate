@@ -367,29 +367,29 @@
   resolved "https://registry.npmjs.org/@figma/plugin-typings/-/plugin-typings-1.82.0.tgz#7f8c8514bb18dc303e3b194b60827fec1f2a5e9f"
   integrity sha512-To5M9VRpNysrGGtZtPF5Ke9eobfhTUr7kieAsYMhpPg+VKdr0EM6XDFtCqhtuDrLfPAZFa/cBQo68auWwD4mlA==
 
-"@figmania/common@^3.2.4":
-  version "3.2.4"
-  resolved "https://registry.npmjs.org/@figmania/common/-/common-3.2.4.tgz#09831fb31c43498c188db16b0ae2c1589c484d42"
-  integrity sha512-7fMc2A0pO4zENkd2pnq4q1rmQ00QmHSyAzFZXe9eFduiSRk2Nb9XQVmYU7hZ09dYOaMOOjf3vT5AGFP7o/ozHQ==
+"@figmania/common@^3.2.7":
+  version "3.2.7"
+  resolved "https://registry.npmjs.org/@figmania/common/-/common-3.2.7.tgz#e3bdcfd1991a7bc3623c6c5a97e29303760b7de5"
+  integrity sha512-C28C9WzBDc5vk9NdlgkRPiPZyfP3b98uFU1lOLTQqexCEGpUrshWt6J8Tt1h8wt5WUuvza9yGrFkTYxS3Vi8tg==
   dependencies:
     debounce "^1.2.1"
     md5 "^2.3.0"
     unihtml "^2.0.8"
 
-"@figmania/gsap@^3.2.4":
-  version "3.2.4"
-  resolved "https://registry.npmjs.org/@figmania/gsap/-/gsap-3.2.4.tgz#a8eb7dc99bad22b6258e70e6730e076e2138b8cc"
-  integrity sha512-/4xVQs7S8JWZThaCs64SJ42Izf9n9sKGRN3EnEGHYKOuWkVney8CyrcCaBcPGo9rX41wxPMslAv7pGI+aODLnQ==
+"@figmania/gsap@^3.2.7":
+  version "3.2.7"
+  resolved "https://registry.npmjs.org/@figmania/gsap/-/gsap-3.2.7.tgz#fc35f2b4b3be0ef3b638d3adfe6c2e157eb49f32"
+  integrity sha512-vh81DDNlPLpaMFLkHbJpuN/8eRftsrnFXb/sFKeq9ojRH6YgAK35ucPKzJDhXg7CNv1VLMJ2D0riKT7VI6UBFQ==
   dependencies:
-    "@figmania/common" "^3.2.4"
+    "@figmania/common" "^3.2.7"
     camelcase "^6.2.0"
     decamelize "^4.0.0"
     gsap "^3.12.3"
 
-"@figmania/ui@^3.2.4":
-  version "3.2.4"
-  resolved "https://registry.npmjs.org/@figmania/ui/-/ui-3.2.4.tgz#001bccd63507ba89acfc4f45a66aea543dfb9bfe"
-  integrity sha512-MPT1/Q0SByjZwxDtNmgu4qRnXTb3uN9Pe+Ocd4vTvEeR7G6NFd/M5pSIJvjBS8bDu8CgtfQ8mNt6mGwkwi5JSQ==
+"@figmania/ui@^3.2.7":
+  version "3.2.7"
+  resolved "https://registry.npmjs.org/@figmania/ui/-/ui-3.2.7.tgz#bb3311d45696fbc307f9eed2270667fd276f5cd6"
+  integrity sha512-UgXEBwtdhDUP5z6+kgidYQ98cNKelawC/xyvXGqoT8M0irJsRThwvFVTUcwDcvq+6AWc1VeMVhmZS3M9srvNIw==
   dependencies:
     add "^2.0.6"
     clsx "^1.2.1"

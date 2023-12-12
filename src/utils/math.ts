@@ -1,4 +1,4 @@
-import { TreeNode } from '@figmania/common'
+import { AnimTimeline, TreeNode } from '@figmania/common'
 import { NodeData } from '../types/NodeModel'
 
 export function normalizeTick(value: number): number {
@@ -25,4 +25,8 @@ export function getNodeTreeMaxDuration(node: TreeNode<NodeData>): number {
     const timelineMax = maxTimelineDuration(flatNode)
     return Math.max(cur, timelineMax)
   }, 0)
+}
+
+export function hasMultiTimelines(timelines: AnimTimeline[]): boolean {
+  return timelines.some(({ transitions }) => transitions.length > 1)
 }
