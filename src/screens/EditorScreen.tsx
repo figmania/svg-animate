@@ -2,7 +2,10 @@ import { TreeNode } from '@figmania/common'
 import { Editor, ICON, Navbar } from '@figmania/ui'
 import clsx from 'clsx'
 import { FunctionComponent, useEffect, useState } from 'react'
+import { BetaBanner } from '../components/BetaBanner'
 import { NodeData } from '../types/NodeModel'
+import { DISABLE_PAYMENTS } from '../utils/contants'
+import { figmaIsPaid } from '../utils/figma'
 import styles from './EditorScreen.module.scss'
 
 export interface EditorScreenProps {
@@ -19,7 +22,13 @@ export const EditorScreen: FunctionComponent<EditorScreenProps> = ({ node, durat
 
   return (
     <>
-      <Navbar icon={ICON.SYMBOL_COMPONENT} label={node.name} />
+      <Navbar icon={ICON.SYMBOL_COMPONENT} label={node.name} style={{ paddingRight: 4 }}>
+        {(DISABLE_PAYMENTS || !figmaIsPaid()) && (
+          <BetaBanner cta='Learn More' onClick={() => {
+            window.open('https://www.figmania.app/')
+          }}>Timeline Editor has arrived</BetaBanner>
+        )}
+      </Navbar>
       <div className={clsx(styles['flex-1'], styles['editor-wrapper'])}>
         <Editor
           className={clsx(styles['flex-1'], styles['editor'])}

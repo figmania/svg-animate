@@ -35,3 +35,9 @@ input.unset {
 .notice > .icon {
   display: inline-flex;
 }
+
+.beta {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
