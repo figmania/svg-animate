@@ -1,6 +1,7 @@
 import { figma } from '@figmania/vite-plugin-figma'
 import react from '@vitejs/plugin-react'
 import { defineConfig, PluginOption } from 'vite'
+import { DISABLE_PAYMENTS } from './src/utils/contants'
 
 export default defineConfig(({ command }) => {
   const plugins: PluginOption[] = [react({
@@ -30,7 +31,7 @@ export default defineConfig(({ command }) => {
       ],
       includedLanguages: ['svg-animate:html', 'svg-animate:web-component']
     }],
-    permissions: ['currentuser', 'payments'],
+    permissions: DISABLE_PAYMENTS ? ['currentuser'] : ['currentuser', 'payments'],
     networkAccess: { allowedDomains: ['none'], devAllowedDomains: ['http://localhost:8080'] }
   })]
 

@@ -20,7 +20,6 @@ interface NodeDataV0 {
   trigger: string
   animations: { type: AnimProperty, from: number, to: number }[]
   exportFormat: ExportFormat
-  uuid?: string
 }
 
 const NodeModelV0: NodeDataModel<NodeDataV0> = {

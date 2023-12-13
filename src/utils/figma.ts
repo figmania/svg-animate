@@ -1,7 +1,7 @@
 import { FigmaNode, nodeClosest, nodeHasSvgExport, nodeTree } from '@figmania/common'
-import { customAlphabet } from 'nanoid'
 import { NodeEvent, NodeType } from '../Schema'
 import { NodeData, NodeModel } from '../types/NodeModel'
+import { DISABLE_PAYMENTS } from './contants'
 
 export interface NodeSelection {
   node?: FigmaNode
@@ -26,7 +26,19 @@ export function nodeToEvent(figmaNode: FigmaNode): NodeEvent {
   }
   let masterNode = type === NodeType.MASTER ? node : undefined
   if (!masterNode && figmaMasterNode) { masterNode = nodeTree<NodeData>(figmaMasterNode, NodeModel) }
-  return { type, node, masterNode, paid: figma.payments?.status.type === 'PAID' }
+  return { type, node, masterNode, paid: figmaIsPaid() }
 }
 
-export const uuid = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 12)
+export function figmaIsPaid(): boolean {
+  if (DISABLE_PAYMENTS) { return true }
+  return !figma.payments || figma.payments.status.type === 'PAID'
+}
+
+export async function figmaCheckout(interstitial: 'PAID_FEATURE' | 'TRIAL_ENDED' | 'SKIP'): Promise<boolean> {
+  if (DISABLE_PAYMENTS) { return true }
+  if (!figma.payments) { return false }
+  if (figma.payments.status.type !== 'PAID') {
+    await figma.payments.initiateCheckoutAsync({ interstitial })
+  }
+  return figma.payments.status.type === 'PAID'
+}
