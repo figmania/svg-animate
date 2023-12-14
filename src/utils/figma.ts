@@ -26,7 +26,7 @@ export function nodeToEvent(figmaNode: FigmaNode): NodeEvent {
   }
   let masterNode = type === NodeType.MASTER ? node : undefined
   if (!masterNode && figmaMasterNode) { masterNode = nodeTree<NodeData>(figmaMasterNode, NodeModel) }
-  return { type, node, masterNode, paid: figmaIsPaid() }
+  return { type, node, masterNode, paid: figmaIsPaid(), width: figmaNode.width, height: figmaNode.height }
 }
 
 export function figmaIsPaid(): boolean {

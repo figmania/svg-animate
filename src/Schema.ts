@@ -8,6 +8,8 @@ export interface NodeEvent {
   node?: TreeNode<NodeData>
   masterNode?: TreeNode<NodeData>
   paid: boolean
+  width?: number
+  height?: number
 }
 
 export interface User {

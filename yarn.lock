@@ -362,34 +362,63 @@
   resolved "https://registry.npmjs.org/@eslint/js/-/js-8.53.0.tgz#bea56f2ed2b5baea164348ff4d5a879f6f81f20d"
   integrity sha512-Kn7K8dx/5U6+cT1yEhpX1w4PCSg0M+XyRILPgvwcEBjerFWCwQj5sbr3/VmxqV0JGHCBCzyd6LxypEuehypY1w==
 
+"@ffmpeg/ffmpeg@^0.12.7":
+  version "0.12.7"
+  resolved "https://registry.npmjs.org/@ffmpeg/ffmpeg/-/ffmpeg-0.12.7.tgz#fbe8b28cae2183ff74456d77fdc2803e54048df0"
+  integrity sha512-Uw9h1tNU4/Q4YRrgBKvnKiH5gpL+nl8h4HRfvSK0K93MqVOan6Qs3Lj82l9i1qj6xQLPramXw0Wl6g65W4pfnA==
+  dependencies:
+    "@ffmpeg/types" "^0.12.2"
+
+"@ffmpeg/types@^0.12.2":
+  version "0.12.2"
+  resolved "https://registry.npmjs.org/@ffmpeg/types/-/types-0.12.2.tgz#bc7eef321ae50225c247091f1f23fd3087c6aa1d"
+  integrity sha512-NJtxwPoLb60/z1Klv0ueshguWQ/7mNm106qdHkB4HL49LXszjhjCCiL+ldHJGQ9ai2Igx0s4F24ghigy//ERdA==
+
+"@ffmpeg/util@^0.12.1":
+  version "0.12.1"
+  resolved "https://registry.npmjs.org/@ffmpeg/util/-/util-0.12.1.tgz#98afa20d7b4c0821eebdb205ddcfa5d07b0a4f53"
+  integrity sha512-10jjfAKWaDyb8+nAkijcsi9wgz/y26LOc1NKJradNMyCIl6usQcBbhkjX5qhALrSBcOy6TOeksunTYa+a03qNQ==
+
 "@figma/plugin-typings@^1.82.0":
   version "1.82.0"
   resolved "https://registry.npmjs.org/@figma/plugin-typings/-/plugin-typings-1.82.0.tgz#7f8c8514bb18dc303e3b194b60827fec1f2a5e9f"
   integrity sha512-To5M9VRpNysrGGtZtPF5Ke9eobfhTUr7kieAsYMhpPg+VKdr0EM6XDFtCqhtuDrLfPAZFa/cBQo68auWwD4mlA==
 
-"@figmania/common@^3.2.7":
-  version "3.2.7"
-  resolved "https://registry.npmjs.org/@figmania/common/-/common-3.2.7.tgz#e3bdcfd1991a7bc3623c6c5a97e29303760b7de5"
-  integrity sha512-C28C9WzBDc5vk9NdlgkRPiPZyfP3b98uFU1lOLTQqexCEGpUrshWt6J8Tt1h8wt5WUuvza9yGrFkTYxS3Vi8tg==
+"@figmania/common@^3.3.2":
+  version "3.3.2"
+  resolved "https://registry.npmjs.org/@figmania/common/-/common-3.3.2.tgz#59af2bbe7aafcd1cfccb9ee64e4bf077cae05c87"
+  integrity sha512-Qis/VIxAyZ+e/djTtBkXs47Jl8MolxoBlAaeh+tKF6WCULgn+otwZNdKhIeislpWERsnuDnIXwGvLI1mTOQafQ==
   dependencies:
     debounce "^1.2.1"
     md5 "^2.3.0"
     unihtml "^2.0.8"
 
-"@figmania/gsap@^3.2.7":
-  version "3.2.7"
-  resolved "https://registry.npmjs.org/@figmania/gsap/-/gsap-3.2.7.tgz#fc35f2b4b3be0ef3b638d3adfe6c2e157eb49f32"
-  integrity sha512-vh81DDNlPLpaMFLkHbJpuN/8eRftsrnFXb/sFKeq9ojRH6YgAK35ucPKzJDhXg7CNv1VLMJ2D0riKT7VI6UBFQ==
+"@figmania/converter@^3.3.2":
+  version "3.3.2"
+  resolved "https://registry.npmjs.org/@figmania/converter/-/converter-3.3.2.tgz#b0072b42d7f21bf86b9b7fd4fd108afd041fee3b"
+  integrity sha512-TA9AMFVmHSg1aOJnDSrbjcfC2eN0CfvwiOpk0q7+YvVr3PFCQRcE5L+PsIGsVMp+2wr7BISmPfIG/PEywJ7bxA==
   dependencies:
-    "@figmania/common" "^3.2.7"
+    "@ffmpeg/ffmpeg" "^0.12.7"
+    "@ffmpeg/util" "^0.12.1"
+    "@figmania/gsap" "^3.3.2"
+    canvg "^4.0.1"
+    gsap "^3.12.3"
+    upng-js "^2.1.0"
+
+"@figmania/gsap@^3.3.2":
+  version "3.3.2"
+  resolved "https://registry.npmjs.org/@figmania/gsap/-/gsap-3.3.2.tgz#743e48e23eaa5e9abe31fbcb4538dd55f0426787"
+  integrity sha512-novbpLYOZXCYALMlCLudggycjHAXD8HN7egyEuMcEtEkp21YSYdLCBVAJCFOGrxrXdsuJNgQbjAYjbBVYS9IYg==
+  dependencies:
+    "@figmania/common" "^3.3.2"
     camelcase "^6.2.0"
     decamelize "^4.0.0"
     gsap "^3.12.3"
 
-"@figmania/ui@^3.2.7":
-  version "3.2.7"
-  resolved "https://registry.npmjs.org/@figmania/ui/-/ui-3.2.7.tgz#bb3311d45696fbc307f9eed2270667fd276f5cd6"
-  integrity sha512-UgXEBwtdhDUP5z6+kgidYQ98cNKelawC/xyvXGqoT8M0irJsRThwvFVTUcwDcvq+6AWc1VeMVhmZS3M9srvNIw==
+"@figmania/ui@^3.3.2":
+  version "3.3.2"
+  resolved "https://registry.npmjs.org/@figmania/ui/-/ui-3.3.2.tgz#4428507b1218c7fccce381bcd1e12776782164da"
+  integrity sha512-mFDNRh2iM2eppyxVQCNVt9vzppoUZb2set79I68mhxKa87P1692tspd/p960wDDUTTRuqO/24k2+ijbzgiT+SA==
   dependencies:
     add "^2.0.6"
     clsx "^1.2.1"
@@ -612,6 +641,11 @@
   dependencies:
     undici-types "~5.26.4"
 
+"@types/offscreencanvas@^2019.6.4":
+  version "2019.7.3"
+  resolved "https://registry.npmjs.org/@types/offscreencanvas/-/offscreencanvas-2019.7.3.tgz#90267db13f64d6e9ccb5ae3eac92786a7c77a516"
+  integrity sha512-ieXiYmgSRXUDeOntE1InxjWyvEelZGP63M+cGuquuRLuIKKT1osnkXjxev9B7d1nXSug5vpunx+gNlbVxMlC9A==
+
 "@types/parse5@^6.0.0":
   version "6.0.3"
   resolved "https://registry.npmjs.org/@types/parse5/-/parse5-6.0.3.tgz#705bb349e789efa06f43f128cef51240753424cb"
@@ -621,6 +655,11 @@
   version "15.7.10"
   resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.10.tgz#892afc9332c4d62a5ea7e897fe48ed2085bbb08a"
   integrity sha512-mxSnDQxPqsZxmeShFH+uwQ4kO4gcJcGahjjMFeLbKE95IAZiiZyiEepGZjtXJ7hN/yfu0bu9xN2ajcU0JcxX6A==
+
+"@types/raf@^3.4.0":
+  version "3.4.3"
+  resolved "https://registry.npmjs.org/@types/raf/-/raf-3.4.3.tgz#85f1d1d17569b28b8db45e16e996407a56b0ab04"
+  integrity sha512-c4YAvMedbPZ5tEyxzQdMoOhhJ4RD3rngZIdwC2/qDN3d7JpEhB6fiBRKVY1lg5B7Wk+uPBjn5f39j1/2MY1oOw==
 
 "@types/react-dom@18.0.10":
   version "18.0.10"
@@ -978,6 +1017,18 @@ caniuse-lite@^1.0.30001541:
   version "1.0.30001562"
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001562.tgz#9d16c5fd7e9c592c4cd5e304bc0f75b0008b2759"
   integrity sha512-kfte3Hym//51EdX4239i+Rmp20EsLIYGdPkERegTgU19hQWCRhsRFGKHTliUlsry53tv17K7n077Kqa0WJU4ng==
+
+canvg@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.npmjs.org/canvg/-/canvg-4.0.1.tgz#122532dffeff6fc36074582af2cd37c454ae9ffa"
+  integrity sha512-5gD/d6SiCCT7baLnVr0hokYe93DfcHW2rSqdKOuOQD84YMlyfttnZ8iQsThTdX6koYam+PROz/FuQTo500zqGw==
+  dependencies:
+    "@types/offscreencanvas" "^2019.6.4"
+    "@types/raf" "^3.4.0"
+    raf "^3.4.1"
+    rgbcolor "^1.0.1"
+    stackblur-canvas "^2.0.0"
+    svg-pathdata "^6.0.3"
 
 ccount@^2.0.0:
   version "2.0.1"
@@ -2386,6 +2437,11 @@ p-locate@^5.0.0:
   dependencies:
     p-limit "^3.0.2"
 
+pako@^1.0.5:
+  version "1.0.11"
+  resolved "https://registry.npmjs.org/pako/-/pako-1.0.11.tgz#6c9599d340d54dfd3946380252a35705a6b992bf"
+  integrity sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==
+
 parent-module@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/parent-module/-/parent-module-1.0.1.tgz#691d2709e78c79fae3a156622452d00762caaaa2"
@@ -2431,6 +2487,11 @@ path-type@^4.0.0:
   resolved "https://registry.npmjs.org/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
+performance-now@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
+  integrity sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==
+
 picocolors@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
@@ -2474,6 +2535,13 @@ queue-microtask@^1.2.2:
   version "1.2.3"
   resolved "https://registry.npmjs.org/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
+
+raf@^3.4.1:
+  version "3.4.1"
+  resolved "https://registry.npmjs.org/raf/-/raf-3.4.1.tgz#0742e99a4a6552f445d73e3ee0328af0ff1ede39"
+  integrity sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==
+  dependencies:
+    performance-now "^2.1.0"
 
 react-dom@^18.2.0:
   version "18.2.0"
@@ -2576,6 +2644,11 @@ reusify@^1.0.4:
   version "1.0.4"
   resolved "https://registry.npmjs.org/reusify/-/reusify-1.0.4.tgz#90da382b1e126efc02146e90845a88db12925d76"
   integrity sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==
+
+rgbcolor@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/rgbcolor/-/rgbcolor-1.0.1.tgz#d6505ecdb304a6595da26fa4b43307306775945d"
+  integrity sha512-9aZLIrhRaD97sgVhtJOW6ckOEh6/GnvQtdVNfdZ6s67+3/XwLS9lBcQYzEEhYVeUowN7pRzMLsyGhK2i/xvWbw==
 
 rimraf@^3.0.2:
   version "3.0.2"
@@ -2717,6 +2790,11 @@ space-separated-tokens@^2.0.0:
   resolved "https://registry.npmjs.org/space-separated-tokens/-/space-separated-tokens-2.0.2.tgz#1ecd9d2350a3844572c3f4a312bceb018348859f"
   integrity sha512-PEGlAwrG8yXGXRjW32fGbg66JAlOAwbObuqVoJpv/mRgoWDQfgH1wDPvtzWyUSNAXBGSk8h755YDbbcEy3SH2Q==
 
+stackblur-canvas@^2.0.0:
+  version "2.6.0"
+  resolved "https://registry.npmjs.org/stackblur-canvas/-/stackblur-canvas-2.6.0.tgz#7876bab4ea99bfc97b69ce662614d7a1afb2d71b"
+  integrity sha512-8S1aIA+UoF6erJYnglGPug6MaHYGo1Ot7h5fuXx4fUPvcvQfcdw2o/ppCse63+eZf8PPidSu4v1JnmEVtEDnpg==
+
 "string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
   name string-width-cjs
   version "4.2.3"
@@ -2820,6 +2898,11 @@ supports-preserve-symlinks-flag@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
+
+svg-pathdata@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.npmjs.org/svg-pathdata/-/svg-pathdata-6.0.3.tgz#80b0e0283b652ccbafb69ad4f8f73e8d3fbf2cac"
+  integrity sha512-qsjeeq5YjBZ5eMdFuUa4ZosMLxgr5RZ+F+Y1OrDhuOCEInRMA3x74XdBtggJcj9kOeInz0WE+LgCPDkZFlBYJw==
 
 text-table@^0.2.0:
   version "0.2.0"
@@ -3054,6 +3137,13 @@ update-browserslist-db@^1.0.13:
   dependencies:
     escalade "^3.1.1"
     picocolors "^1.0.0"
+
+upng-js@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/upng-js/-/upng-js-2.1.0.tgz#7176e73973db361ca95d0fa14f958385db6b9dd2"
+  integrity sha512-d3xzZzpMP64YkjP5pr8gNyvBt7dLk/uGI67EctzDuVp4lCZyVMo0aJO6l/VDlgbInJYDY6cnClLoBp29eKWI6g==
+  dependencies:
+    pako "^1.0.5"
 
 uri-js@^4.2.2:
   version "4.4.1"

@@ -15,7 +15,7 @@ export enum Screen { PREVIEW, EXPORT, EDITOR }
 export const App: FunctionComponent = () => {
   const [screen, setScreen] = useState(Screen.PREVIEW)
   const [code, setCode] = useState<string>()
-  const { type, node, masterNode, paid } = useNode<Schema>({ type: NodeType.NONE, paid: true })
+  const { type, node, masterNode, paid, width, height } = useNode<Schema>({ type: NodeType.NONE, paid: true })
   const controller = useController<Schema>()
   const [showBanner, setShowBanner] = useState(false)
 
@@ -74,7 +74,7 @@ export const App: FunctionComponent = () => {
   return (
     <>
       {screen === Screen.PREVIEW && masterNode && <PreviewScreen node={masterNode} update={updateMaster} code={code} />}
-      {screen === Screen.EXPORT && masterNode && <ExportScreen node={masterNode} update={updateMaster} code={code} />}
+      {screen === Screen.EXPORT && masterNode && <ExportScreen node={masterNode} update={updateMaster} code={code} width={width} height={height} />}
       {screen === Screen.EDITOR && <EditorScreen node={node} update={updateChild} duration={masterNode?.data.duration ?? 1000} paid={paid} />}
       {showBanner && <UpgradeBanner onUpgrade={() => {
         setShowBanner(false)

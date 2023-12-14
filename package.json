@@ -13,13 +13,14 @@
     "prepack": "yarn clean && yarn build",
     "lint": "tsc --noEmit && eslint 'src/**/*.ts' 'src/**/*.tsx'",
     "figma": "/Applications/Figma.app/Contents/MacOS/Figma --args --remote-debugging-port=9222 --inspect --disable-web-security --log-level=2 -v=2",
-    "dev:link": "yarn link react react-dom @figmania/common @figmania/gsap @figmania/ui",
-    "dev:unlink": "yarn unlink react react-dom @figmania/common @figmania/gsap @figmania/ui"
+    "dev:link": "yarn link react react-dom @figmania/common @figmania/gsap @figmania/ui @figmania/converter",
+    "dev:unlink": "yarn unlink react react-dom @figmania/common @figmania/gsap @figmania/ui @figmania/converter"
   },
   "dependencies": {
-    "@figmania/common": "^3.2.7",
-    "@figmania/gsap": "^3.2.7",
-    "@figmania/ui": "^3.2.7",
+    "@figmania/common": "^3.3.2",
+    "@figmania/converter": "^3.3.2",
+    "@figmania/gsap": "^3.3.2",
+    "@figmania/ui": "^3.3.2",
     "clsx": "^1.2.1",
     "gsap": "^3.12.3",
     "react": "^18.2.0",
