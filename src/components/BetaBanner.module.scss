@@ -1,0 +1,40 @@
+.banner {
+  background-color: transparent;
+  background-size: 400% 400%;
+  animation: banner-gradient 1s ease;
+  animation-iteration-count: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 8px;
+  border: 1px solid #171717;
+  border-radius: 3px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #CB451B;
+  }
+}
+
+.info {
+  color: #FFFFFF;
+  flex: 1;
+  line-height: 13px;
+}
+
+.button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #FFFFFF;
+  font-weight: 600;
+  line-height: 13px;
+}
+
+@keyframes banner-gradient {
+  0% { background-color: transparent; }
+	25% { background-color: #CB451B; }
+  75% { background-color: #af991e; }
+  100% { background-color: transparent; }
+}

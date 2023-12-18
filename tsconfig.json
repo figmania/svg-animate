@@ -1,11 +1,27 @@
 {
-  "extends": "@magloft/devkit-core/tsconfig.json",
   "compilerOptions": {
     "outDir": "build/",
     "rootDir": "src/",
     "jsx": "react-jsx",
-    "types": ["@figma/plugin-typings", "gsap"]
+    "lib": ["ES2016", "DOM"],
+    "types": ["@figma/plugin-typings", "gsap"],
+    "target": "ES2015",
+    "module": "CommonJS",
+    "sourceMap": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true
   },
   "include": ["src/**/*"],
-  "exclude": ["../../node_modules", "build"]
+  "exclude": ["node_modules", "build"],
+  "ts-node": {
+    "esm": false,
+    "moduleTypes": {}
+  }
 }

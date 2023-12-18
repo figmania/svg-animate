@@ -1,18 +1,28 @@
 import { CreateSchema, TreeNode } from '@figmania/common'
-import { NodeData } from './types/NodeData'
+import { NodeData } from './types/NodeModel'
 
-export enum NodeType { NONE, MASTER, CHILD }
+export enum NodeType { NONE, MASTER, CHILD, ORPHAN }
 
 export interface NodeEvent {
-  node?: TreeNode<NodeData>
   type: NodeType
+  node?: TreeNode<NodeData>
   masterNode?: TreeNode<NodeData>
-  masterData?: NodeData
+  paid: boolean
+}
+
+export interface User {
+  id: string
+  name: string
+  email: string
+  image: string
+  accessToken: string
+  refreshToken: string
 }
 
 export interface Config {
-  theme: 'dark' | 'light'
   tutorial: boolean
+  userId: string
+  user?: User
 }
 
 export type Schema = CreateSchema<{
@@ -21,7 +31,10 @@ export type Schema = CreateSchema<{
     data: [TreeNode<NodeData>, void]
   } | {
     name: 'export'
-    data: [TreeNode<NodeData>, { buffer: Uint8Array, children: TreeNode<NodeData>[] }]
+    data: [TreeNode<NodeData>, string]
+  } | {
+    name: 'purchase'
+    data: ['PAID_FEATURE' | 'TRIAL_ENDED' | 'SKIP', boolean]
   }
   events: {
     name: 'node:select'
