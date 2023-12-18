@@ -21,6 +21,7 @@ export interface User {
 
 export interface Config {
   tutorial: boolean
+  help: boolean
   userId: string
   user?: User
 }

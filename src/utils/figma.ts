@@ -1,4 +1,4 @@
-import { FigmaNode, nodeClosest, nodeHasSvgExport, nodeTree } from '@figmania/common'
+import { FigmaNode, nodeHasSvgExport, nodeTree } from '@figmania/common'
 import { NodeEvent, NodeType } from '../Schema'
 import { NodeData, NodeModel } from '../types/NodeModel'
 import { DISABLE_PAYMENTS } from './contants'
@@ -13,9 +13,19 @@ export function nodeCreateHash(node: FigmaNode): string {
   return parts.map(String).join(':')
 }
 
+export function nodeFurthest(figmaNode: FigmaNode, predicate: (child: FigmaNode) => boolean): FigmaNode | null {
+  let result: FigmaNode | null = null
+  let current: FigmaNode = figmaNode
+  while (current) {
+    if (current && predicate(current)) { result = current }
+    current = current.parent as FigmaNode
+  }
+  return result
+}
+
 export function nodeToEvent(figmaNode: FigmaNode): NodeEvent {
   const node = nodeTree<NodeData>(figmaNode, NodeModel)
-  const figmaMasterNode = nodeClosest(figmaNode, nodeHasSvgExport)
+  const figmaMasterNode = nodeFurthest(figmaNode, nodeHasSvgExport)
   let type: NodeType
   if (nodeHasSvgExport(figmaNode)) {
     type = NodeType.MASTER
@@ -24,8 +34,9 @@ export function nodeToEvent(figmaNode: FigmaNode): NodeEvent {
   } else {
     type = NodeType.ORPHAN
   }
-  let masterNode = type === NodeType.MASTER ? node : undefined
-  if (!masterNode && figmaMasterNode) { masterNode = nodeTree<NodeData>(figmaMasterNode, NodeModel) }
+  //let masterNode = type === NodeType.MASTER ? node : undefined
+  // if (!masterNode && figmaMasterNode) { masterNode = nodeTree<NodeData>(figmaMasterNode, NodeModel) }
+  const masterNode = figmaMasterNode ? nodeTree<NodeData>(figmaMasterNode, NodeModel) : undefined
   return { type, node, masterNode, paid: figmaIsPaid() }
 }
 

@@ -18,9 +18,10 @@ export const Playback: FunctionComponent<PlaybackProps> = ({ code, loop: initial
   const ref = createRef<HTMLDivElement>()
 
   useLayoutEffect(() => {
+    let tl: gsap.core.Timeline
     const ctx = gsap.context(() => {
       const svg = ref.current!.firstChild as SVGSVGElement
-      const tl = render(svg) as gsap.core.Timeline
+      tl = render(svg) as gsap.core.Timeline
       tl.paused(false)
       tl.repeat(initialLoop ? -1 : 0)
       setTimeline(tl)
@@ -30,6 +31,9 @@ export const Playback: FunctionComponent<PlaybackProps> = ({ code, loop: initial
       setLoop(initialLoop)
       return () => ctx.revert()
     }, ref)
+    return () => {
+      if (tl != null) { tl.clear(true) }
+    }
   }, [code, initialLoop])
 
   useEffect(() => {
@@ -48,7 +52,7 @@ export const Playback: FunctionComponent<PlaybackProps> = ({ code, loop: initial
   }, [timeline])
 
   return (
-    <div className={styles['container']}>
+    <div className={styles['playback']}>
       <div ref={ref} className={styles['svg']} dangerouslySetInnerHTML={{ __html: code }} />
       {timeline && (
         <PlaybackControls loop={loop} time={time} duration={duration} paused={paused}

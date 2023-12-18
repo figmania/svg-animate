@@ -1,0 +1,42 @@
+.settings {
+  display: flex;
+  flex-direction: row;
+  background-color: var(--panel-inactive-color);
+  height: 0px;
+  transition: height 250ms;
+  overflow: hidden;
+
+  &.open {
+    height: 40px;
+    overflow: visible;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .setting {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 40px;
+    gap: 8px;
+    padding: 4px 4px 4px 12px;
+    border-right: 1px solid var(--border-color);
+    &:last-child { border-right: none; }
+
+    .setting-label {
+      font-size: 11px;
+      font-weight: 400;
+      color: #ffffffb2;
+      display: block;
+
+      @media only screen and (max-width: 604px) {
+        display: none;
+      }
+    }
+
+    .setting-select {
+      & > div {
+        min-width: 104px;
+      }
+    }
+  }
+}
