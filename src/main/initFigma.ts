@@ -9,7 +9,7 @@ export function initFigma() {
     const selection: NodeSelection = {}
     figma.on('run', runMigrations)
     const size = await resizePlugin(controller, { width: 422, height: 512 })
-    figma.showUI(__html__, { visible: true, ...size })
+    figma.showUI(__html__, { visible: true, themeColors: true, ...size })
     configPlugin<Config>(controller, { tutorial: true, help: true, userId: figma.currentUser?.id ?? 'unknown' })
     notifyPlugin(controller)
     nodePlugin(controller, (node) => {

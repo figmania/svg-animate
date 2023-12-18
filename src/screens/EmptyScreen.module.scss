@@ -1,7 +1,7 @@
 .tutorial {
   flex: 1;
   padding: 0px 20px 20px 20px;
-  color: var(--text-secondary);
+  color: var(--text-color-secondary);
   overflow-y: auto;
   min-height: 0;
   background-color: var(--background-color);
@@ -20,7 +20,7 @@
   .tutorial-step {
     background-color: var(--panel-color);
     box-shadow: 0px 1px 3px var(--border-color);
-    color: var(--text-secondary);
+    color: var(--text-color-secondary);
     font-size: 11px;
     line-height: 20px;
     padding: 8px 12px;

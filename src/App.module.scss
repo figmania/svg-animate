@@ -15,15 +15,3 @@
   & > div  { transition: transform 250ms; }
   &.selected > div { transform: rotateZ(103deg); }
 }
-
-.help {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px 8px;
-  gap: 4px;
-  background-color: var(--panel-inactive-color);
-  border-top: 1px solid var(--border-color);
-  height: 40px;
-  overflow: hidden;
-}

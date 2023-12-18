@@ -1,9 +1,11 @@
 import { prettyPrint, transformSvg, uiDownload } from '@figmania/common'
-import { Button, ICON, Icon, Tab, Tabs, useClipboard, useConfig, useController, useNotify } from '@figmania/ui'
+import { Button, ICON, Tab, Tabs, useClipboard, useConfig, useController, useNotify } from '@figmania/ui'
 import clsx from 'clsx'
 import { FunctionComponent, useEffect, useMemo, useState } from 'react'
 import styles from './App.module.scss'
 import { Config } from './Schema'
+import { HelpBar } from './components/HelpBar'
+import { HelpMarker } from './components/HelpMarker'
 import { SettingsPanel } from './components/SettingsPanel'
 import { useNode } from './hooks/useNode'
 import { EditorScreen } from './screens/EditorScreen'
@@ -11,10 +13,11 @@ import { ExportScreen } from './screens/ExportScreen'
 import { PreviewScreen } from './screens/PreviewScreen'
 import { TutorialScreen } from './screens/TutorialScreen'
 import { getFormattedCode } from './utils/code'
+import { HelpText } from './utils/help'
 import { nodeTreeHasTransitions } from './utils/math'
 import { DOWNLOAD_OPTIONS_MAP } from './utils/shared'
 
-export const ScreenComponents: FunctionComponent[] = [PreviewScreen, EditorScreen, ExportScreen]
+const ScreenComponents: FunctionComponent[] = [PreviewScreen, EditorScreen, ExportScreen]
 
 export const App: FunctionComponent = () => {
   const [screen, setScreen] = useState(0)
@@ -44,46 +47,53 @@ export const App: FunctionComponent = () => {
   const Component = ScreenComponents[screen]
   return (
     <div className={styles['layout']}>
-      {/* <BetaBanner cta='Learn More' onClick={() => { window.open('https://www.figmania.app/') }}>Timeline Editor has arrived</BetaBanner> */}
       <Tabs className={styles['tabs']} selectedIndex={screen} items={[
-        <Tab label='Preview' />,
-        <Tab label='Editor' />,
-        <Tab label='Export' />
+        <HelpMarker text={HelpText.TAB_PREVIEW}><Tab label='Preview' /></HelpMarker>,
+        <HelpMarker text={HelpText.TAB_EDITOR}><Tab label='Editor' /></HelpMarker>,
+        <HelpMarker text={HelpText.TAB_EXPORT}><Tab label='Export' /></HelpMarker>
       ]} onChange={setScreen}>
         {node && masterNode ? (
           <>
-            <Button icon={ICON.UI_CLIPBOARD} onClick={() => {
-              controller.request('export', node)
-                .then((value) => transformSvg(value, node))
-                .then((value) => getFormattedCode(value, masterNode.data.exportFormat, masterNode.data.trigger))
-                .then((value) => prettyPrint(value))
-                .then((value) => {
-                  clipboard(value)
-                  notify('Code copied to clipboard')
-                })
-            }} />
-            <Button icon={ICON.UI_DOWNLOAD} onClick={() => {
-              controller.request('export', node)
-                .then((value) => transformSvg(value, node))
-                .then((value) => getFormattedCode(value, masterNode.data.exportFormat, masterNode.data.trigger))
-                .then((value) => prettyPrint(value))
-                .then((value) => {
-                  const { type, extension } = DOWNLOAD_OPTIONS_MAP[masterNode.data.exportFormat]
-                  uiDownload(value, { type, filename: `${masterNode.name}.${extension}` })
-                })
-            }} />
-            <Button className={clsx(
-              styles['btn-settings'],
-              showSettings && styles['selected']
-            )} icon={ICON.APP_SETTINGS} selected={showSettings} onClick={() => {
-              setShowSettings(!showSettings)
-            }} />
-            <Button className={clsx(
-              styles['btn-help'],
-              config.help && styles['selected']
-            )} icon={ICON.UI_HELP} selected={config.help} onClick={() => {
-              saveConfig({ help: !config.help })
-            }} />
+            <HelpMarker text={HelpText.COPY_TO_CLIPBOARD}>
+              <Button icon={ICON.UI_CLIPBOARD} onClick={() => {
+                controller.request('export', node)
+                  .then((value) => transformSvg(value, node))
+                  .then((value) => getFormattedCode(value, masterNode.data.exportFormat, masterNode.data.trigger))
+                  .then((value) => prettyPrint(value))
+                  .then((value) => {
+                    clipboard(value)
+                    notify('Code copied to clipboard')
+                  })
+              }} />
+            </HelpMarker>
+            <HelpMarker text={HelpText.DOWNLOAD_TO_DISK}>
+              <Button icon={ICON.UI_DOWNLOAD} onClick={() => {
+                controller.request('export', node)
+                  .then((value) => transformSvg(value, node))
+                  .then((value) => getFormattedCode(value, masterNode.data.exportFormat, masterNode.data.trigger))
+                  .then((value) => prettyPrint(value))
+                  .then((value) => {
+                    const { type, extension } = DOWNLOAD_OPTIONS_MAP[masterNode.data.exportFormat]
+                    uiDownload(value, { type, filename: `${masterNode.name}.${extension}` })
+                  })
+              }} />
+            </HelpMarker>
+            <HelpMarker text={HelpText.TOGGLE_SETTINGS}>
+              <Button className={clsx(
+                styles['btn-settings'],
+                showSettings && styles['selected']
+              )} icon={ICON.APP_SETTINGS} selected={showSettings} onClick={() => {
+                setShowSettings(!showSettings)
+              }} />
+            </HelpMarker>
+            <HelpMarker text={HelpText.TOGGLE_HELP}>
+              <Button className={clsx(
+                styles['btn-help'],
+                config.help && styles['selected']
+              )} icon={ICON.UI_HELP} selected={config.help} onClick={() => {
+                saveConfig({ help: !config.help })
+              }} />
+            </HelpMarker>
           </>
         ) : (node && (
           <Button icon={ICON.CONTROL_CHECK} label="Create Animation" onClick={() => {
@@ -99,10 +109,7 @@ export const App: FunctionComponent = () => {
         <TutorialScreen />
       )}
       {node && masterNode && config.help && (
-        <div className={styles['help']}>
-          <Icon icon={ICON.UI_HELP} />
-          <div>TODO</div>
-        </div>
+        <HelpBar />
       )}
     </div>
   )

@@ -7,7 +7,6 @@ import { shared } from '../utils/styles'
 export const PreviewScreen: FunctionComponent = () => {
   const { masterNode } = useNode()
   const code = useCode()
-
   return (
     <div className={shared('screen')}>
       {masterNode && code && <Playback code={code} loop={masterNode.data.trigger === 'loop'} />}
