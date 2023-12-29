@@ -1,43 +1,12 @@
-@import url("../scss/common.scss");
-
-.editor-wrapper {
-  overflow-y: auto;
-  position: relative;
-}
-
 .editor {
   flex: 1;
   min-height: 100%;
   height: fit-content;
 }
 
-label.input.field-input {
-  min-width: 80px;
-  width: 80px;
-  margin-left: 8px;
-}
-
-input.unset {
-  color: #a9a9a9;
-}
-
-.notice {
-  padding: 16px;
-  text-align: center;
-  font-size: 11px;
-  line-height: 16px;
-  color: #666;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.notice > .icon {
-  display: inline-flex;
-}
-
-.beta {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+.svg {
+  svg {
+    width: 420px;
+    height: 256px;
+  }
 }

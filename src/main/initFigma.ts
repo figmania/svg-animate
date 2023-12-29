@@ -8,9 +8,9 @@ export function initFigma() {
   createController<Schema>(createFigmaDelegate(), async (controller) => {
     const selection: NodeSelection = {}
     figma.on('run', runMigrations)
-    const size = await resizePlugin(controller, { width: 400, height: 512 })
-    figma.showUI(__html__, { visible: true, ...size })
-    configPlugin<Config>(controller, { tutorial: true, userId: figma.currentUser?.id ?? 'unknown' })
+    const size = await resizePlugin(controller, { width: 422, height: 512 })
+    figma.showUI(__html__, { visible: true, themeColors: true, ...size })
+    configPlugin<Config>(controller, { tutorial: true, help: true, userId: figma.currentUser?.id ?? 'unknown' })
     notifyPlugin(controller)
     nodePlugin(controller, (node) => {
       if (!node) {

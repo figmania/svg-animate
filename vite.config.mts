@@ -4,9 +4,7 @@ import { defineConfig, PluginOption } from 'vite'
 import { DISABLE_PAYMENTS } from './src/utils/contants'
 
 export default defineConfig(({ command }) => {
-  const plugins: PluginOption[] = [react({
-    fastRefresh: true
-  }), figma(command, {
+  const plugins: PluginOption[] = [react(), figma(command, {
     editorType: ['figma', 'dev'],
     name: 'SVG Animate',
     api: '1.0.0',
@@ -32,7 +30,7 @@ export default defineConfig(({ command }) => {
       includedLanguages: ['svg-animate:html', 'svg-animate:web-component']
     }],
     permissions: DISABLE_PAYMENTS ? ['currentuser'] : ['currentuser', 'payments'],
-    networkAccess: { allowedDomains: ['none'], devAllowedDomains: ['http://localhost:8080'] }
+    networkAccess: { allowedDomains: ['http://localhost:8080', 'ws://localhost:8080'], reasoning: 'Sample' }
   })]
 
   return {

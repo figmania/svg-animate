@@ -1,31 +1,23 @@
-import { TreeNode } from '@figmania/common'
-import { Button, ICON, Navbar, useConfig, useController } from '@figmania/ui'
+import { Button, ICON, useConfig, useController } from '@figmania/ui'
 import { FunctionComponent } from 'react'
 import { Config, Schema } from '../Schema'
-import { NodeData } from '../types/NodeModel'
+import { useNode } from '../hooks/useNode'
 import styles from './EmptyScreen.module.scss'
 
-export interface EmptyScreenProps {
-  node?: TreeNode<NodeData>
-}
-
-export const EmptyScreen: FunctionComponent<EmptyScreenProps> = ({ node }) => {
+export const EmptyScreen: FunctionComponent = () => {
+  const { node } = useNode()
   const [config, saveConfig] = useConfig<Config>()
   const controller = useController<Schema>()
-  const label = node ? node.name : 'No node selected'
-
   return (
     <>
-      <Navbar icon={ICON.SYMBOL_COMPONENT} label={label} disabled={true}>
-        {node && (
-          <Button icon={ICON.CONTROL_CHECK} label="Enable SVG Export" onClick={() => {
-            controller.emit('export:enable', undefined)
-          }} />
-        )}
-        <Button className={styles['tutorial-button']} icon={ICON.APP_LIBRARY} label="Tutorial" selected={config.tutorial} onClick={() => {
-          saveConfig({ tutorial: !config.tutorial })
+      {node && (
+        <Button icon={ICON.CONTROL_CHECK} label="Enable SVG Export" onClick={() => {
+          controller.emit('export:enable', undefined)
         }} />
-      </Navbar>
+      )}
+      <Button className={styles['tutorial-button']} icon={ICON.APP_LIBRARY} label="Tutorial" selected={config.tutorial} onClick={() => {
+        saveConfig({ tutorial: !config.tutorial })
+      }} />
       {config.tutorial && (
         <div className={styles['tutorial']}>
           <div className={styles['tutorial-section']}>How to create Animations</div>

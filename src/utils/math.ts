@@ -19,6 +19,14 @@ export function maxTimelineDuration(node: TreeNode<NodeData>): number {
   }, 0)
 }
 
+export function nodeTreeHasTransitions(node: TreeNode<NodeData>): boolean {
+  return flattenNodeTree(node).some((child) => {
+    return child.data.timelines.some((timeline) => {
+      return timeline.transitions.length > 0
+    })
+  })
+}
+
 export function getNodeTreeMaxDuration(node: TreeNode<NodeData>): number {
   const flatNodes = flattenNodeTree(node)
   return flatNodes.reduce((cur, flatNode) => {

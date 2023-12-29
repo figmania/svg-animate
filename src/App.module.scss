@@ -1,3 +1,17 @@
-.container {
+@import url("scss/shared.module.scss");
+
+.tabs {
+  min-height: 41px;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
   flex: 1;
+  height: 100%;
+}
+
+.btn-settings {
+  & > div  { transition: transform 250ms; }
+  &.selected > div { transform: rotateZ(103deg); }
 }

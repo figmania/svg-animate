@@ -1,89 +1,116 @@
-import { SerializerSettings, TreeNode, nodeList, transformSvg } from '@figmania/common'
-import { ICON, NavigationBar, useController, useNode } from '@figmania/ui'
-import { FunctionComponent, useEffect, useState } from 'react'
-import { NodeType, Schema } from './Schema'
-import { UpgradeBanner } from './components/UpgradeBanner'
+import { prettyPrint, transformSvg, uiDownload } from '@figmania/common'
+import { Button, ICON, Tab, Tabs, useClipboard, useConfig, useController, useNotify } from '@figmania/ui'
+import clsx from 'clsx'
+import { FunctionComponent, useEffect, useMemo, useState } from 'react'
+import styles from './App.module.scss'
+import { Config } from './Schema'
+import { HelpBar } from './components/HelpBar'
+import { HelpMarker } from './components/HelpMarker'
+import { SettingsPanel } from './components/SettingsPanel'
+import { useNode } from './hooks/useNode'
 import { EditorScreen } from './screens/EditorScreen'
-import { EmptyScreen } from './screens/EmptyScreen'
 import { ExportScreen } from './screens/ExportScreen'
 import { PreviewScreen } from './screens/PreviewScreen'
-import { NodeData } from './types/NodeModel'
-import { hasMultiTimelines } from './utils/math'
+import { TutorialScreen } from './screens/TutorialScreen'
+import { getFormattedCode } from './utils/code'
+import { HelpText } from './utils/help'
+import { nodeTreeHasTransitions } from './utils/math'
+import { DOWNLOAD_OPTIONS_MAP } from './utils/shared'
 
-export enum Screen { PREVIEW, EXPORT, EDITOR }
+const ScreenComponents: FunctionComponent[] = [PreviewScreen, EditorScreen, ExportScreen]
 
 export const App: FunctionComponent = () => {
-  const [screen, setScreen] = useState(Screen.PREVIEW)
-  const [code, setCode] = useState<string>()
-  const { type, node, masterNode, paid, width, height } = useNode<Schema>({ type: NodeType.NONE, paid: true })
-  const controller = useController<Schema>()
-  const [showBanner, setShowBanner] = useState(false)
+  const [screen, setScreen] = useState(0)
+  const clipboard = useClipboard()
+  const notify = useNotify()
+  const controller = useController()
+  const { node, masterNode } = useNode()
+  const [showSettings, setShowSettings] = useState(false)
+  const [config, saveConfig] = useConfig<Config>()
 
-  useEffect(() => {
-    if (!node) {
-      setShowBanner(false)
-    } else {
-      setShowBanner(!paid && nodeList(node).some((child) => hasMultiTimelines(child.data.timelines)))
-    }
-  }, [paid, node?.data.timelines])
-
-  useEffect(() => {
-    SerializerSettings.getMaxTransitions = () => paid ? 0 : 1
-  }, [paid])
-
-  const generateCode = async (targetNode?: TreeNode<NodeData>) => {
-    if (!targetNode) { return }
-    const contents = await controller.request('export', targetNode)
-    return transformSvg(contents, targetNode)
-  }
-
-  const updateMaster = async (newData: Partial<NodeData>, shouldExport = false) => {
-    if (!masterNode) { throw new Error('Invalid node for update') }
-    Object.assign(masterNode.data, newData)
-    await controller.request('update', masterNode)
-    if (shouldExport) {
-      setCode(undefined)
-      setCode(await generateCode(masterNode))
-    }
-  }
-
-  const updateChild = async (newData: Partial<NodeData>, shouldExport = false) => {
-    if (!node) { throw new Error('Invalid node for update') }
-    Object.assign(node.data, newData)
-    await controller.request('update', node)
-    if (shouldExport) {
-      setCode(undefined)
-      setCode(await generateCode(masterNode))
-    }
-    setShowBanner(!paid && nodeList(node).some((child) => hasMultiTimelines(child.data.timelines)))
-  }
-
-  useEffect(() => {
-    if (!masterNode) { return }
-    setCode(undefined)
-    generateCode(masterNode).then(setCode)
+  const hasTransitions = useMemo(() => {
+    return masterNode ? nodeTreeHasTransitions(masterNode) : false
   }, [masterNode])
 
   useEffect(() => {
-    if (type === NodeType.MASTER && screen === Screen.EDITOR) { setScreen(Screen.PREVIEW) }
-    if (type === NodeType.CHILD && screen === Screen.PREVIEW) { setScreen(Screen.EDITOR) }
-  }, [type])
+    if (!node || !masterNode) { return }
+    if (screen === 1 && node.id === masterNode.id && hasTransitions) {
+      // Editor to Preview
+      setScreen(0)
+    } else if (screen === 0 && node.id !== masterNode.id) {
+      // Preview to Editor
+      setScreen(1)
 
-  if (!node || type === NodeType.ORPHAN) { return <EmptyScreen node={node} /> }
+    }
+  }, [node, masterNode])
 
+  const Component = ScreenComponents[screen]
   return (
-    <>
-      {screen === Screen.PREVIEW && masterNode && <PreviewScreen node={masterNode} update={updateMaster} code={code} />}
-      {screen === Screen.EXPORT && masterNode && <ExportScreen node={masterNode} update={updateMaster} code={code} width={width} height={height} />}
-      {screen === Screen.EDITOR && <EditorScreen node={node} update={updateChild} duration={masterNode?.data.duration ?? 1000} paid={paid} />}
-      {showBanner && <UpgradeBanner onUpgrade={() => {
-        setShowBanner(false)
-      }} />}
-      <NavigationBar selectedIndex={screen} onChange={(_, index) => { setScreen(index) }} items={[
-        { icon: ICON.CONTROL_PLAY, label: 'Preview' },
-        { icon: ICON.UI_DOWNLOAD, label: 'Export' },
-        { icon: ICON.UI_ADJUST, label: 'Editor' }
-      ]} />
-    </>
+    <div className={styles['layout']}>
+      <Tabs className={styles['tabs']} selectedIndex={screen} items={[
+        <HelpMarker text={HelpText.TAB_PREVIEW}><Tab label='Preview' /></HelpMarker>,
+        <HelpMarker text={HelpText.TAB_EDITOR}><Tab label='Editor' /></HelpMarker>,
+        <HelpMarker text={HelpText.TAB_EXPORT}><Tab label='Export' /></HelpMarker>
+      ]} onChange={setScreen}>
+        {node && masterNode ? (
+          <>
+            <HelpMarker text={HelpText.COPY_TO_CLIPBOARD}>
+              <Button icon={ICON.UI_CLIPBOARD} onClick={() => {
+                controller.request('export', node)
+                  .then((value) => transformSvg(value, node))
+                  .then((value) => getFormattedCode(value, masterNode.data.exportFormat, masterNode.data.trigger))
+                  .then((value) => prettyPrint(value))
+                  .then((value) => {
+                    clipboard(value)
+                    notify('Code copied to clipboard')
+                  })
+              }} />
+            </HelpMarker>
+            <HelpMarker text={HelpText.DOWNLOAD_TO_DISK}>
+              <Button icon={ICON.UI_DOWNLOAD} onClick={() => {
+                controller.request('export', node)
+                  .then((value) => transformSvg(value, node))
+                  .then((value) => getFormattedCode(value, masterNode.data.exportFormat, masterNode.data.trigger))
+                  .then((value) => prettyPrint(value))
+                  .then((value) => {
+                    const { type, extension } = DOWNLOAD_OPTIONS_MAP[masterNode.data.exportFormat]
+                    uiDownload(value, { type, filename: `${masterNode.name}.${extension}` })
+                  })
+              }} />
+            </HelpMarker>
+            <HelpMarker text={HelpText.TOGGLE_SETTINGS}>
+              <Button className={clsx(
+                styles['btn-settings'],
+                showSettings && styles['selected']
+              )} icon={ICON.APP_SETTINGS} selected={showSettings} onClick={() => {
+                setShowSettings(!showSettings)
+              }} />
+            </HelpMarker>
+            <HelpMarker text={HelpText.TOGGLE_HELP}>
+              <Button className={clsx(
+                styles['btn-help'],
+                config.help && styles['selected']
+              )} icon={ICON.UI_HELP} selected={config.help} onClick={() => {
+                saveConfig({ help: !config.help })
+              }} />
+            </HelpMarker>
+          </>
+        ) : (node && (
+          <Button icon={ICON.CONTROL_CHECK} label="Create Animation" onClick={() => {
+            controller.emit('export:enable', undefined)
+            setScreen(1)
+          }} />
+        ))}
+      </Tabs>
+      <SettingsPanel open={showSettings} />
+      {node && masterNode ? (
+        <Component />
+      ) : (
+        <TutorialScreen />
+      )}
+      {node && masterNode && config.help && (
+        <HelpBar />
+      )}
+    </div>
   )
 }
