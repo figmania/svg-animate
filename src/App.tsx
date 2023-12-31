@@ -65,12 +65,12 @@ export const App: FunctionComponent = () => {
               )} icon={ICON.LINK_WEB} loading={loading} onClick={() => {
                 if (!width || !height) { return }
                 setLoading(true)
-                controller.request('export', node).then((value) => transformSvg(value, node)).then((contents) => {
+                controller.request('export', masterNode).then((value) => transformSvg(value, masterNode)).then((contents) => {
                   if (contents.length >= 1048487) {
                     throw new Error('The size of this SVG is too large. Please avoid using embedded images')
                   }
                   return checkout().then(() => {
-                    const payload = { uuid, nodeId: node.id, userId: config.userId, name: node.name, contents }
+                    const payload = { uuid, nodeId: masterNode.id, userId: config.userId, name: masterNode.name, contents }
                     return fetchApi<{ url: string }>('/api/upload', payload)
                   }).then(({ url }) => {
                     window.open(url, '_blank')
@@ -84,8 +84,8 @@ export const App: FunctionComponent = () => {
             </HelpMarker>
             <HelpMarker text={HelpText.COPY_TO_CLIPBOARD}>
               <Button icon={ICON.UI_CLIPBOARD} onClick={() => {
-                controller.request('export', node)
-                  .then((value) => transformSvg(value, node))
+                controller.request('export', masterNode)
+                  .then((value) => transformSvg(value, masterNode))
                   .then((value) => getFormattedCode(value, masterNode.data.exportFormat, masterNode.data.trigger))
                   .then((value) => prettyPrint(value))
                   .then((value) => {
@@ -96,8 +96,8 @@ export const App: FunctionComponent = () => {
             </HelpMarker>
             <HelpMarker text={HelpText.DOWNLOAD_TO_DISK}>
               <Button icon={ICON.UI_DOWNLOAD} onClick={() => {
-                controller.request('export', node)
-                  .then((value) => transformSvg(value, node))
+                controller.request('export', masterNode)
+                  .then((value) => transformSvg(value, masterNode))
                   .then((value) => getFormattedCode(value, masterNode.data.exportFormat, masterNode.data.trigger))
                   .then((value) => prettyPrint(value))
                   .then((value) => {
