@@ -32,8 +32,6 @@ export const App: FunctionComponent = () => {
   const [paid, checkout] = useCheckout()
   const [loading, setLoading] = useState(false)
 
-  console.info('paid', paid)
-
   const hasTransitions = useMemo(() => {
     return masterNode ? nodeTreeHasTransitions(masterNode) : false
   }, [masterNode])
@@ -67,15 +65,18 @@ export const App: FunctionComponent = () => {
               )} icon={ICON.LINK_WEB} loading={loading} onClick={() => {
                 if (!width || !height) { return }
                 setLoading(true)
-                checkout().then(() => {
-                  return controller.request('export', node).then((value) => transformSvg(value, node))
-                }).then((contents) => {
-                  const payload = { uuid, nodeId: node.id, userId: config.userId, name: node.name, contents }
-                  return fetchApi<{ url: string }>('/api/upload', payload)
-                }).then(({ url }) => {
-                  window.open(url, '_blank')
-                }).catch(() => {
-                  notify('Unable to export to Video')
+                controller.request('export', node).then((value) => transformSvg(value, node)).then((contents) => {
+                  if (contents.length >= 1048487) {
+                    throw new Error('The size of this SVG is too large. Please avoid using embedded images')
+                  }
+                  return checkout().then(() => {
+                    const payload = { uuid, nodeId: node.id, userId: config.userId, name: node.name, contents }
+                    return fetchApi<{ url: string }>('/api/upload', payload)
+                  }).then(({ url }) => {
+                    window.open(url, '_blank')
+                  })
+                }).catch((error: Error) => {
+                  notify(error.message)
                 }).then(() => {
                   setLoading(false)
                 })

@@ -23,14 +23,12 @@ export function useCheckout(): [boolean, () => Promise<void>] {
             resolve()
           } else {
             setPaid(false)
-            reject()
+            reject(new Error('This feature requires a purchase'))
           }
         })
       }
     })
   }, [controller, paid])
-
-  console.info('paid', paid)
 
   return [paid, checkout]
 }

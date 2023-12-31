@@ -66,9 +66,7 @@ export const EASE_SELECT_OPTIONS: EaseOption[] = [
 export const EXPORT_FORMAT_SELECT_OPTIONS: ExportFormatOption[] = [
   { value: 'html', label: 'HTML' },
   { value: 'element', label: 'Element' },
-  { value: 'svg', label: 'SVG' },
-  { value: 'apng', label: 'APNG' },
-  { value: 'mp4', label: 'MP4' }
+  { value: 'svg', label: 'SVG' }
 ]
 
 export const EXPORT_FORMAT_LABELS: { [key: string]: string } = {
@@ -84,7 +82,5 @@ export type FormatDownloadMap = {
 export const DOWNLOAD_OPTIONS_MAP: FormatDownloadMap = {
   svg: { type: 'image/svg+xml', extension: 'svg' },
   element: { type: 'text/html', extension: 'html' },
-  html: { type: 'text/html', extension: 'html' },
-  apng: { type: 'image/apng', extension: 'png' },
-  mp4: { type: 'video/mp4', extension: 'mp4' }
+  html: { type: 'text/html', extension: 'html' }
 }
