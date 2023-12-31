@@ -1,7 +1,6 @@
 import { Button, useConfig } from '@figmania/ui'
 import { FunctionComponent } from 'react'
 import { Config } from '../Schema'
-import { FIGMANIA_HOST } from '../utils/contants'
 import { shared } from '../utils/styles'
 
 export const AccountScreen: FunctionComponent = () => {
@@ -10,9 +9,9 @@ export const AccountScreen: FunctionComponent = () => {
     <div className={shared('screen')}>
       <Button label="Login" onClick={() => {
         saveConfig({ user: undefined })
-        fetch(`https://${FIGMANIA_HOST}/api/authSessions/create/${config.userId}`, { method: 'POST' }).then((response) => response.json()).then(({ readKey, writeKey }) => {
+        fetch(`${import.meta.env.VITE_FIGMANIA_URL}/api/authSessions/create/${config.userId}`, { method: 'POST' }).then((response) => response.json()).then(({ readKey, writeKey }) => {
           const interval = setInterval(() => {
-            fetch(`https://${FIGMANIA_HOST}/api/authSessions/poll/${readKey}`, { method: 'GET' })
+            fetch(`${import.meta.env.VITE_FIGMANIA_URL}/api/authSessions/poll/${readKey}`, { method: 'GET' })
               .then((response) => response.json())
               .then(({ complete, user }) => {
                 if (!complete || !user) { return }
@@ -20,8 +19,8 @@ export const AccountScreen: FunctionComponent = () => {
                 clearInterval(interval)
               })
           }, 5000)
-          console.info(`https://www.figmania.dev/authSession/${writeKey}`)
-          // window.open(`https://www.figmania.dev/authSession/${writeKey}`, 'authWindow', 'popup=1,width=320,height=480')
+          // window.location.href = `http://localhost:3000/authSession/${writeKey}`
+          // window.open(`http://localhost:3000/authSession/${writeKey}`, 'authWindow', 'popup=1,width=320,height=480')
         })
       }} />
       {config.user && (

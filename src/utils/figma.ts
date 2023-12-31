@@ -1,7 +1,10 @@
 import { FigmaNode, nodeHasSvgExport, nodeTree } from '@figmania/common'
+import { customAlphabet } from 'nanoid/non-secure'
 import { NodeEvent, NodeType } from '../Schema'
 import { NodeData, NodeModel } from '../types/NodeModel'
 import { DISABLE_PAYMENTS } from './contants'
+
+export const uid = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 12)
 
 export interface NodeSelection {
   node?: FigmaNode
@@ -35,7 +38,7 @@ export function nodeToEvent(figmaNode: FigmaNode): NodeEvent {
     type = NodeType.ORPHAN
   }
   const masterNode = figmaMasterNode ? nodeTree<NodeData>(figmaMasterNode, NodeModel) : undefined
-  return { type, node, masterNode, paid: figmaIsPaid() }
+  return { uuid: getDocumentUuid(), type, node, masterNode, paid: figmaIsPaid(), width: figmaMasterNode?.width, height: figmaMasterNode?.height }
 }
 
 export function figmaIsPaid(): boolean {
@@ -50,4 +53,16 @@ export async function figmaCheckout(interstitial: 'PAID_FEATURE' | 'TRIAL_ENDED'
     await figma.payments.initiateCheckoutAsync({ interstitial })
   }
   return figma.payments.status.type === 'PAID'
+}
+
+export function ensurePluginData(node: FigmaNode | PageNode | DocumentNode, key: string, generatorFn: () => string) {
+  const value = node.getPluginData(key)
+  if (value) { return value }
+  const newValue = generatorFn()
+  node.setPluginData(key, newValue)
+  return newValue
+}
+
+export function getDocumentUuid() {
+  return ensurePluginData(figma.root, 'uuid', () => uid())
 }

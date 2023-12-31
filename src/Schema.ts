@@ -5,6 +5,7 @@ export enum NodeType { NONE, MASTER, CHILD, ORPHAN }
 
 export interface NodeEvent {
   type: NodeType
+  uuid: string
   node?: TreeNode<NodeData>
   masterNode?: TreeNode<NodeData>
   paid: boolean

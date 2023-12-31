@@ -3,15 +3,17 @@ import { Button, ICON, Tab, Tabs, useClipboard, useConfig, useController, useNot
 import clsx from 'clsx'
 import { FunctionComponent, useEffect, useMemo, useState } from 'react'
 import styles from './App.module.scss'
-import { Config } from './Schema'
+import { Config, Schema } from './Schema'
 import { HelpBar } from './components/HelpBar'
 import { HelpMarker } from './components/HelpMarker'
 import { SettingsPanel } from './components/SettingsPanel'
+import { useCheckout } from './hooks/useCheckout'
 import { useNode } from './hooks/useNode'
 import { EditorScreen } from './screens/EditorScreen'
 import { ExportScreen } from './screens/ExportScreen'
 import { PreviewScreen } from './screens/PreviewScreen'
 import { TutorialScreen } from './screens/TutorialScreen'
+import { fetchApi } from './utils/api'
 import { getFormattedCode } from './utils/code'
 import { HelpText } from './utils/help'
 import { nodeTreeHasTransitions } from './utils/math'
@@ -23,10 +25,14 @@ export const App: FunctionComponent = () => {
   const [screen, setScreen] = useState(0)
   const clipboard = useClipboard()
   const notify = useNotify()
-  const controller = useController()
-  const { node, masterNode } = useNode()
+  const controller = useController<Schema>()
+  const { uuid, node, masterNode, width, height } = useNode()
   const [showSettings, setShowSettings] = useState(false)
   const [config, saveConfig] = useConfig<Config>()
+  const [paid, checkout] = useCheckout()
+  const [loading, setLoading] = useState(false)
+
+  console.info('paid', paid)
 
   const hasTransitions = useMemo(() => {
     return masterNode ? nodeTreeHasTransitions(masterNode) : false
@@ -54,6 +60,27 @@ export const App: FunctionComponent = () => {
       ]} onChange={setScreen}>
         {node && masterNode ? (
           <>
+            <HelpMarker text={HelpText.EXPORT}>
+              <Button className={clsx(
+                styles['pro-button'],
+                !paid && styles['locked']
+              )} icon={ICON.LINK_WEB} loading={loading} onClick={() => {
+                if (!width || !height) { return }
+                setLoading(true)
+                checkout().then(() => {
+                  return controller.request('export', node).then((value) => transformSvg(value, node))
+                }).then((contents) => {
+                  const payload = { uuid, nodeId: node.id, userId: config.userId, name: node.name, contents }
+                  return fetchApi<{ url: string }>('/api/upload', payload)
+                }).then(({ url }) => {
+                  window.open(url, '_blank')
+                }).catch(() => {
+                  notify('Unable to export to Video')
+                }).then(() => {
+                  setLoading(false)
+                })
+              }} />
+            </HelpMarker>
             <HelpMarker text={HelpText.COPY_TO_CLIPBOARD}>
               <Button icon={ICON.UI_CLIPBOARD} onClick={() => {
                 controller.request('export', node)

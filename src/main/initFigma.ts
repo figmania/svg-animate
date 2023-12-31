@@ -1,7 +1,7 @@
 import { configPlugin, createController, createFigmaDelegate, figmaExportAsync, figmaNodeById, nodePlugin, notifyPlugin, resizePlugin, setNodeData } from '@figmania/common'
 import { Config, NodeType, Schema } from '../Schema'
 import { NodeData, NodeModel } from '../types/NodeModel'
-import { NodeSelection, figmaCheckout, figmaIsPaid, nodeCreateHash, nodeToEvent } from '../utils/figma'
+import { NodeSelection, figmaCheckout, figmaIsPaid, getDocumentUuid, nodeCreateHash, nodeToEvent } from '../utils/figma'
 import { runMigrations } from '../utils/migrate'
 
 export function initFigma() {
@@ -16,7 +16,7 @@ export function initFigma() {
       if (!node) {
         delete selection.node
         delete selection.hash
-        return { type: NodeType.NONE, paid: figmaIsPaid() }
+        return { uuid: getDocumentUuid(), type: NodeType.NONE, paid: figmaIsPaid() }
       } else {
         selection.node = node
         selection.hash = nodeCreateHash(node)

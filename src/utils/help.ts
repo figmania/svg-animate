@@ -1,5 +1,6 @@
 export enum HelpText {
   DEFAULT = 'Hover over an Element to show relevant help information',
+  EXPORT = 'Pro Feature: Export your SVG Animation to Video (MP4, WebM)',
   COPY_TO_CLIPBOARD = 'Copy the current master frame animation to your clipboard',
   DOWNLOAD_TO_DISK = 'Download the current master frame animation to your disk',
   TOGGLE_SETTINGS = 'Show / Hide Master Frame settings',
@@ -11,6 +12,7 @@ export enum HelpText {
   TAB_PREVIEW = 'Preview your Master Frame animation',
   TAB_EDITOR = 'Animate layers within your Master Frame animation',
   TAB_EXPORT = 'Export the code of your animations',
+  TAB_ACCOUNT = 'Manage your Figmania Account',
   EDITOR = 'Drag to create / resize transitions. Double-click to delete transitions.',
   SETTINGS_DURATION = 'The full duration of your animation. Changing this value will increase the available timeline in the Editor.',
   SETTINGS_EASING = 'The default easing setting when creating new transitions. Does not change any existing easing preferences.',

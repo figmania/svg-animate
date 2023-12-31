@@ -1,9 +1,11 @@
 import { figma } from '@figmania/vite-plugin-figma'
 import react from '@vitejs/plugin-react'
-import { defineConfig, PluginOption } from 'vite'
+import { PluginOption, defineConfig, loadEnv } from 'vite'
 import { DISABLE_PAYMENTS } from './src/utils/contants'
+import './src/vite-env.d.ts'
 
-export default defineConfig(({ command }) => {
+export default defineConfig(({ command, mode }) => {
+  const { VITE_FIGMANIA_URL } = loadEnv(mode, process.cwd()) as ImportMetaEnv
   const plugins: PluginOption[] = [react(), figma(command, {
     editorType: ['figma', 'dev'],
     name: 'SVG Animate',
@@ -30,7 +32,14 @@ export default defineConfig(({ command }) => {
       includedLanguages: ['svg-animate:html', 'svg-animate:web-component']
     }],
     permissions: DISABLE_PAYMENTS ? ['currentuser'] : ['currentuser', 'payments'],
-    networkAccess: { allowedDomains: ['http://localhost:8080', 'ws://localhost:8080'], reasoning: 'Sample' }
+    networkAccess: {
+      allowedDomains: [VITE_FIGMANIA_URL],
+      devAllowedDomains: [
+        'http://localhost:8080',
+        'ws://localhost:8080'
+      ],
+      reasoning: 'Authentication with Figmania Server'
+    }
   })]
 
   return {
