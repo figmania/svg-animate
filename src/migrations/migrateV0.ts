@@ -27,8 +27,8 @@ const NodeModelV0: NodeDataModel<NodeDataV0> = {
   defaults: { active: false, delay: 0, duration: 0.5, ease: 'power1.inOut', trigger: 'hover', animations: [], exportFormat: 'html' }
 }
 
-export const migrateV0: MigrationFn = () => {
-  const masterFigmaNodes = figmaNodeList(figma.root)
+export const migrateV0: MigrationFn = (page) => {
+  const masterFigmaNodes = figmaNodeList(page)
     .filter(nodeHasSvgExport)
     .filter((figmaNode) => figmaNode.getPluginDataKeys().includes('data'))
     .reverse()

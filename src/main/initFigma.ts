@@ -7,7 +7,8 @@ import { runMigrations } from '../utils/migrate'
 export function initFigma() {
   createController<Schema>(createFigmaDelegate(), async (controller) => {
     const selection: NodeSelection = {}
-    figma.on('run', runMigrations)
+    runMigrations(figma.currentPage)
+    figma.on('currentpagechange', () => { runMigrations(figma.currentPage) })
     const size = await resizePlugin(controller, { width: 422, height: 512 })
     figma.showUI(__html__, { visible: true, themeColors: true, ...size })
     const user: User | undefined = figma.currentUser ? {
