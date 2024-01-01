@@ -1,5 +1,5 @@
 import { configPlugin, createController, createFigmaDelegate, figmaExportAsync, figmaNodeById, nodePlugin, notifyPlugin, resizePlugin, setNodeData } from '@figmania/common'
-import { Config, NodeType, Schema } from '../Schema'
+import { Config, NodeType, Schema, User } from '../Schema'
 import { NodeData, NodeModel } from '../types/NodeModel'
 import { NodeSelection, figmaCheckout, figmaIsPaid, getDocumentUuid, nodeCreateHash, nodeToEvent } from '../utils/figma'
 import { runMigrations } from '../utils/migrate'
@@ -10,7 +10,12 @@ export function initFigma() {
     figma.on('run', runMigrations)
     const size = await resizePlugin(controller, { width: 422, height: 512 })
     figma.showUI(__html__, { visible: true, themeColors: true, ...size })
-    configPlugin<Config>(controller, { tutorial: true, help: true, userId: figma.currentUser?.id ?? 'unknown' })
+    const user: User | undefined = figma.currentUser ? {
+      id: figma.currentUser.id!,
+      name: figma.currentUser.name!,
+      image: figma.currentUser.photoUrl!
+    } : undefined
+    configPlugin<Config>(controller, { tutorial: true, help: true, user, userId: figma.currentUser?.id ?? 'unknown' })
     notifyPlugin(controller)
     nodePlugin(controller, (node) => {
       if (!node) {

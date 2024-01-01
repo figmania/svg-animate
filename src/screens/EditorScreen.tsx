@@ -3,13 +3,16 @@ import { FunctionComponent, useEffect, useState } from 'react'
 import tutorial3 from '../assets/tutorials/tutorial-03.svg?raw'
 import { HelpMarker } from '../components/HelpMarker'
 import { SvgAnimate } from '../components/SvgAnimate'
+import { MPEvent, useAnalytics } from '../hooks/useAnalytics'
 import { useNode } from '../hooks/useNode'
 import { HelpText } from '../utils/help'
+import { getTimelinesHash } from '../utils/math'
 import { shared } from '../utils/styles'
 import styles from './EditorScreen.module.scss'
 
 export const EditorScreen: FunctionComponent = () => {
   const { node, masterNode, update } = useNode()
+  const { trackEvent } = useAnalytics()
   const duration = masterNode?.data.duration ?? 1000
   const [timelines, setTimelines] = useState(node?.data.timelines ?? [])
 
@@ -42,7 +45,10 @@ export const EditorScreen: FunctionComponent = () => {
               rotation: { icon: ICON.ANIMATE_ROTATION, label: 'Rotation', from: 0, to: 360, min: -720, max: 720, step: 10, precision: 0, suffix: '°' }
             }} onChange={(newTimelines) => {
               if (!node) { return }
+              if (getTimelinesHash(timelines) === getTimelinesHash(newTimelines)) { return }
               setTimelines(newTimelines)
+              const transitionCount = newTimelines.reduce((cur, timeline) => cur + timeline.transitions.length, 0)
+              trackEvent(MPEvent.EDIT_TIMELINE, { transitionCount })
               update(node, { timelines: newTimelines })
             }} />
         </HelpMarker>

@@ -16,10 +16,10 @@ export interface NodeEvent {
 export interface User {
   id: string
   name: string
-  email: string
   image: string
-  accessToken: string
-  refreshToken: string
+  email?: string
+  accessToken?: string
+  refreshToken?: string
 }
 
 export interface Config {

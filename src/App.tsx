@@ -7,6 +7,7 @@ import { Config, Schema } from './Schema'
 import { HelpBar } from './components/HelpBar'
 import { HelpMarker } from './components/HelpMarker'
 import { SettingsPanel } from './components/SettingsPanel'
+import { MPEvent, useAnalytics } from './hooks/useAnalytics'
 import { useCheckout } from './hooks/useCheckout'
 import { useNode } from './hooks/useNode'
 import { EditorScreen } from './screens/EditorScreen'
@@ -20,6 +21,7 @@ import { nodeTreeHasTransitions } from './utils/math'
 import { DOWNLOAD_OPTIONS_MAP } from './utils/shared'
 
 const ScreenComponents: FunctionComponent[] = [PreviewScreen, EditorScreen, ExportScreen]
+const ScreenNames: string[] = ['Preview', 'Editor', 'Export']
 
 export const App: FunctionComponent = () => {
   const [screen, setScreen] = useState(0)
@@ -31,6 +33,17 @@ export const App: FunctionComponent = () => {
   const [config, saveConfig] = useConfig<Config>()
   const [paid, checkout] = useCheckout()
   const [loading, setLoading] = useState(false)
+  const { identify, trackEvent } = useAnalytics()
+
+  useEffect(() => {
+    if (!config.userId || config.userId === 'unknown') { return }
+    identify(config.userId, config.user)
+  }, [config.userId])
+
+  useEffect(() => {
+    if (!ScreenNames[screen]) { return }
+    trackEvent(MPEvent.VIEW_SCREEN, { name: ScreenNames[screen] })
+  }, [screen])
 
   const hasTransitions = useMemo(() => {
     return masterNode ? nodeTreeHasTransitions(masterNode) : false
@@ -44,7 +57,6 @@ export const App: FunctionComponent = () => {
     } else if (screen === 0 && node.id !== masterNode.id) {
       // Preview to Editor
       setScreen(1)
-
     }
   }, [node, masterNode])
 
@@ -73,6 +85,7 @@ export const App: FunctionComponent = () => {
                     const payload = { uuid, nodeId: masterNode.id, userId: config.userId, name: masterNode.name, contents }
                     return fetchApi<{ url: string }>('/api/upload', payload)
                   }).then(({ url }) => {
+                    trackEvent(MPEvent.EXPORT_SVG, { type: 'upload', size: contents.length })
                     window.open(url, '_blank')
                   })
                 }).catch((error: Error) => {
@@ -90,6 +103,7 @@ export const App: FunctionComponent = () => {
                   .then((value) => prettyPrint(value))
                   .then((value) => {
                     clipboard(value)
+                    trackEvent(MPEvent.EXPORT_SVG, { type: 'clipboard', size: value.length })
                     notify('Code copied to clipboard')
                   })
               }} />
@@ -101,6 +115,7 @@ export const App: FunctionComponent = () => {
                   .then((value) => getFormattedCode(value, masterNode.data.exportFormat, masterNode.data.trigger))
                   .then((value) => prettyPrint(value))
                   .then((value) => {
+                    trackEvent(MPEvent.EXPORT_SVG, { type: 'download', size: value.length })
                     const { type, extension } = DOWNLOAD_OPTIONS_MAP[masterNode.data.exportFormat]
                     uiDownload(value, { type, filename: `${masterNode.name}.${extension}` })
                   })
@@ -125,6 +140,7 @@ export const App: FunctionComponent = () => {
           </>
         ) : (node && (
           <Button icon={ICON.CONTROL_CHECK} label="Create Animation" onClick={() => {
+            trackEvent(MPEvent.CREATE_ANIMATION)
             controller.emit('export:enable', undefined)
             setScreen(1)
           }} />
