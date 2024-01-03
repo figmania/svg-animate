@@ -18,9 +18,9 @@
     "dev:unlink": "yarn unlink react react-dom @figmania/common @figmania/gsap @figmania/ui"
   },
   "dependencies": {
-    "@figmania/common": "^3.3.7",
-    "@figmania/gsap": "^3.3.7",
-    "@figmania/ui": "^3.3.7",
+    "@figmania/common": "^3.3.8",
+    "@figmania/gsap": "^3.3.8",
+    "@figmania/ui": "^3.3.8",
     "clsx": "^1.2.1",
     "gsap": "^3.12.3",
     "mixpanel-figma": "^2.0.4",

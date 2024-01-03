@@ -33,7 +33,7 @@ export default defineConfig(({ command, mode }) => {
     }],
     permissions: DISABLE_PAYMENTS ? ['currentuser'] : ['currentuser', 'payments'],
     networkAccess: {
-      allowedDomains: [VITE_FIGMANIA_URL, 'https://api-js.mixpanel.com'],
+      allowedDomains: [VITE_FIGMANIA_URL, 'https://storage.googleapis.com', 'https://api-js.mixpanel.com'],
       devAllowedDomains: [
         'http://localhost:8080',
         'ws://localhost:8080'

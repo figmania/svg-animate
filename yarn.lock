@@ -403,29 +403,29 @@
   resolved "https://registry.npmjs.org/@figma/plugin-typings/-/plugin-typings-1.82.0.tgz#7f8c8514bb18dc303e3b194b60827fec1f2a5e9f"
   integrity sha512-To5M9VRpNysrGGtZtPF5Ke9eobfhTUr7kieAsYMhpPg+VKdr0EM6XDFtCqhtuDrLfPAZFa/cBQo68auWwD4mlA==
 
-"@figmania/common@^3.3.7":
-  version "3.3.7"
-  resolved "https://registry.npmjs.org/@figmania/common/-/common-3.3.7.tgz#8b6b1d77f9ff2829bb287cea6eaf7c1dbfd9630d"
-  integrity sha512-egvy1wMX135JYwNtkCKgwcgBOmKJPv9USssCF3llEBDdqH4i0Du/ROvbxq2PZQ2UrIUtpuOSdAGw98bUE34Bkw==
+"@figmania/common@^3.3.8":
+  version "3.3.8"
+  resolved "https://registry.npmjs.org/@figmania/common/-/common-3.3.8.tgz#096db27cd0a90c2d429bdf1c1c055f1ca8216706"
+  integrity sha512-CfEH0zp+FKarZmEqbf55kuZ6QSasnNSVZEf+zXZutiXyUzp+zW2pIOH/8SP0Aj52ogirtm99Pvetsgm0GGSMyQ==
   dependencies:
     debounce "^1.2.1"
     md5 "^2.3.0"
     unihtml "^2.0.8"
 
-"@figmania/gsap@^3.3.7":
-  version "3.3.7"
-  resolved "https://registry.npmjs.org/@figmania/gsap/-/gsap-3.3.7.tgz#77d24c17f25e83cf92a741f4c4c40a788c627641"
-  integrity sha512-08xutx0enDQapTD8wnNeLTGB3baho5BBhipmhQmrayMcjurunqf78Emabcomqxey++LZXTePi4n6HxIpXHqW1w==
+"@figmania/gsap@^3.3.8":
+  version "3.3.8"
+  resolved "https://registry.npmjs.org/@figmania/gsap/-/gsap-3.3.8.tgz#380d106da6bdaf1b82fcad060ecce392bfc82ee8"
+  integrity sha512-B2yWr2pJbJXKl22kjcuR7A7/7QPeYtHl36OAa3ipa/34oW80zeuAO2ylRm3WOwIwl9NZpi85lsCJKCXONSAOww==
   dependencies:
-    "@figmania/common" "^3.3.7"
+    "@figmania/common" "^3.3.8"
     camelcase "^6.2.0"
     decamelize "^4.0.0"
     gsap "^3.12.3"
 
-"@figmania/ui@^3.3.7":
-  version "3.3.7"
-  resolved "https://registry.npmjs.org/@figmania/ui/-/ui-3.3.7.tgz#4709a1278d31e227b5daca788ef73555a45f4f7a"
-  integrity sha512-GIULo7d/Te8FfXWa7yM2+9nCE1r7LmNmike12XtSvQfQpCDyT9xomnxROnk27uF1AJAQ3Z4GKyUzyj8jpnxzmw==
+"@figmania/ui@^3.3.8":
+  version "3.3.8"
+  resolved "https://registry.npmjs.org/@figmania/ui/-/ui-3.3.8.tgz#8d8fa2d9d3f2231b083f05f3140f61484863d424"
+  integrity sha512-ZMeb2F70HBNsOCaI6X0NIvzNAMqWNDFWd+7iZimQ6htdi8F1I7ccMul/yAR11afL56YPOts0zzFAlsu7RSvxJw==
   dependencies:
     add "^2.0.6"
     clsx "^1.2.1"

@@ -4,17 +4,16 @@ import clsx from 'clsx'
 import { FunctionComponent, useEffect, useMemo, useState } from 'react'
 import styles from './App.module.scss'
 import { Config, Schema } from './Schema'
+import { ExportButton } from './components/ExportButton'
 import { HelpBar } from './components/HelpBar'
 import { HelpMarker } from './components/HelpMarker'
 import { SettingsPanel } from './components/SettingsPanel'
 import { MPEvent, useAnalytics } from './hooks/useAnalytics'
-import { useCheckout } from './hooks/useCheckout'
 import { useNode } from './hooks/useNode'
 import { EditorScreen } from './screens/EditorScreen'
 import { ExportScreen } from './screens/ExportScreen'
 import { PreviewScreen } from './screens/PreviewScreen'
 import { TutorialScreen } from './screens/TutorialScreen'
-import { fetchApi } from './utils/api'
 import { getFormattedCode } from './utils/code'
 import { HelpText } from './utils/help'
 import { nodeTreeHasTransitions } from './utils/math'
@@ -28,11 +27,9 @@ export const App: FunctionComponent = () => {
   const clipboard = useClipboard()
   const notify = useNotify()
   const controller = useController<Schema>()
-  const { uuid, node, masterNode, width, height } = useNode()
+  const { node, masterNode } = useNode()
   const [showSettings, setShowSettings] = useState(false)
   const [config, saveConfig] = useConfig<Config>()
-  const [paid, checkout] = useCheckout()
-  const [loading, setLoading] = useState(false)
   const { identify, trackEvent } = useAnalytics()
 
   useEffect(() => {
@@ -71,29 +68,7 @@ export const App: FunctionComponent = () => {
         {node && masterNode ? (
           <>
             <HelpMarker text={HelpText.EXPORT}>
-              <Button className={clsx(
-                styles['pro-button'],
-                !paid && styles['locked']
-              )} icon={ICON.LINK_WEB} loading={loading} onClick={() => {
-                if (!width || !height) { return }
-                setLoading(true)
-                controller.request('export', masterNode).then((value) => transformSvg(value, masterNode)).then((contents) => {
-                  if (contents.length >= 1048487) {
-                    throw new Error('The size of this SVG is too large. Please avoid using embedded images')
-                  }
-                  return checkout().then(() => {
-                    const payload = { uuid, nodeId: masterNode.id, userId: config.userId, name: masterNode.name, contents }
-                    return fetchApi<{ url: string }>('/api/upload', payload)
-                  }).then(({ url }) => {
-                    trackEvent(MPEvent.EXPORT_SVG, { type: 'upload', size: contents.length })
-                    window.open(url, '_blank')
-                  })
-                }).catch((error: Error) => {
-                  notify(error.message)
-                }).then(() => {
-                  setLoading(false)
-                })
-              }} />
+              <ExportButton icon={ICON.UI_VIDEO} />
             </HelpMarker>
             <HelpMarker text={HelpText.COPY_TO_CLIPBOARD}>
               <Button icon={ICON.UI_CLIPBOARD} onClick={() => {
