@@ -2,6 +2,7 @@
 
 interface ImportMetaEnv {
   readonly VITE_FIGMANIA_URL: string
+  readonly VITE_FUNCTIONS_URL: string
   readonly VITE_MIXPANEL_TOKEN: string
 }
 

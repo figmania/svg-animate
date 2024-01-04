@@ -412,7 +412,27 @@
     md5 "^2.3.0"
     unihtml "^2.0.8"
 
-"@figmania/gsap@^3.3.8":
+"@figmania/encoder-sequence@^3.3.9":
+  version "3.3.9"
+  resolved "https://registry.npmjs.org/@figmania/encoder-sequence/-/encoder-sequence-3.3.9.tgz#e12f8edcfe4532e8efe14c79ecbafb6955508f08"
+  integrity sha512-RM5KzOJRoOnVX2OxuhCsJSS+APfCgfqfMjJ4PahyF4uOUr0JUn1Wp/qmoJ65iR2IcCyvd6xbzM/z2uw0hQlETw==
+  dependencies:
+    "@figmania/encoder-svg-renderer" "^3.3.9"
+    "@figmania/gsap" "^3.3.6"
+    gsap "^3.12.3"
+    jszip "^3.10.1"
+
+"@figmania/encoder-svg-renderer@^3.3.9":
+  version "3.3.9"
+  resolved "https://registry.npmjs.org/@figmania/encoder-svg-renderer/-/encoder-svg-renderer-3.3.9.tgz#018a652b2c9e6759d732ee1de843a6ae78638778"
+  integrity sha512-ZSkZS2RgkUL/o+GCB65beaHKDbBnw3v2BY9cb+RTSVasUUNKyRLtD0/W2/67GgAsZp7M20tzAzKcoQJ+kCuDHA==
+  dependencies:
+    "@figmania/gsap" "^3.3.6"
+    gsap "^3.12.3"
+    mp4-muxer "^3.0.2"
+    webm-muxer "^3.1.3"
+
+"@figmania/gsap@^3.3.6", "@figmania/gsap@^3.3.8":
   version "3.3.8"
   resolved "https://registry.npmjs.org/@figmania/gsap/-/gsap-3.3.8.tgz#380d106da6bdaf1b82fcad060ecce392bfc82ee8"
   integrity sha512-B2yWr2pJbJXKl22kjcuR7A7/7QPeYtHl36OAa3ipa/34oW80zeuAO2ylRm3WOwIwl9NZpi85lsCJKCXONSAOww==
@@ -722,6 +742,11 @@
   dependencies:
     "@babel/types" "^7.20.7"
 
+"@types/dom-webcodecs@^0.1.4", "@types/dom-webcodecs@^0.1.6":
+  version "0.1.11"
+  resolved "https://registry.npmjs.org/@types/dom-webcodecs/-/dom-webcodecs-0.1.11.tgz#2e36e5cc71789551f107e2fe15d956845fa19567"
+  integrity sha512-yPEZ3z7EohrmOxbk/QTAa0yonMFkNkjnVXqbGb7D4rMr+F1dGQ8ZUFxXkyLLJuiICPejZ0AZE9Rrk9wUCczx4A==
+
 "@types/hast@^2.0.0":
   version "2.3.8"
   resolved "https://registry.npmjs.org/@types/hast/-/hast-2.3.8.tgz#4ac5caf38b262b7bd5ca3202dda71f0271635660"
@@ -802,6 +827,11 @@
   version "2.0.10"
   resolved "https://registry.npmjs.org/@types/unist/-/unist-2.0.10.tgz#04ffa7f406ab628f7f7e97ca23e290cd8ab15efc"
   integrity sha512-IfYcSBWE3hLpBg8+X2SEa8LVkJdJEkT2Ese2aaLs3ptGdVtABxndrMaxuFlQ1qdFf9Q5rDvDpxI3WwgvKFAsQA==
+
+"@types/wicg-file-system-access@^2020.9.5":
+  version "2020.9.8"
+  resolved "https://registry.npmjs.org/@types/wicg-file-system-access/-/wicg-file-system-access-2020.9.8.tgz#a8b739854ccb74b8048ef607d3701e9d506830e7"
+  integrity sha512-ggMz8nOygG7d/stpH40WVaNvBwuyYLnrg5Mbyf6bmsj/8+gb6Ei4ZZ9/4PNpcPNTT8th9Q8sM8wYmWGjMWLX/A==
 
 "@typescript-eslint/eslint-plugin@^5.36.2":
   version "5.62.0"
@@ -2034,6 +2064,11 @@ ignore@^5.2.0:
   resolved "https://registry.npmjs.org/ignore/-/ignore-5.2.4.tgz#a291c0c6178ff1b960befe47fcdec301674a6324"
   integrity sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==
 
+immediate@~3.0.5:
+  version "3.0.6"
+  resolved "https://registry.npmjs.org/immediate/-/immediate-3.0.6.tgz#9db1dbd0faf8de6fbe0f5dd5e56bb606280de69b"
+  integrity sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==
+
 immutable@^4.0.0:
   version "4.3.4"
   resolved "https://registry.npmjs.org/immutable/-/immutable-4.3.4.tgz#2e07b33837b4bb7662f288c244d1ced1ef65a78f"
@@ -2289,6 +2324,16 @@ json5@^2.2.3:
   resolved "https://registry.npmjs.org/json5/-/json5-2.2.3.tgz#78cd6f1a19bdc12b73db5ad0c61efd66c1e29283"
   integrity sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==
 
+jszip@^3.10.1:
+  version "3.10.1"
+  resolved "https://registry.npmjs.org/jszip/-/jszip-3.10.1.tgz#34aee70eb18ea1faec2f589208a157d1feb091c2"
+  integrity sha512-xXDvecyTpGLrqFrvkrUSoxxfJI5AH7U8zxxtVclpsUtMCq4JQ290LY8AW5c7Ggnr/Y/oK+bQMbqK2qmtk3pN4g==
+  dependencies:
+    lie "~3.3.0"
+    pako "~1.0.2"
+    readable-stream "~2.3.6"
+    setimmediate "^1.0.5"
+
 keyv@^4.5.3:
   version "4.5.4"
   resolved "https://registry.npmjs.org/keyv/-/keyv-4.5.4.tgz#a879a99e29452f942439f2a405e3af8b31d4de93"
@@ -2303,6 +2348,13 @@ levn@^0.4.1:
   dependencies:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
+
+lie@~3.3.0:
+  version "3.3.0"
+  resolved "https://registry.npmjs.org/lie/-/lie-3.3.0.tgz#dcf82dee545f46074daf200c7c1c5a08e0f40f6a"
+  integrity sha512-UaiMJzeWRlEujzAuw5LokY1L5ecNQYZKfmyZ9L7wDHb/p5etKaxXhohBcrw0EYby+G/NA52vRSN4N39dxHAIwQ==
+  dependencies:
+    immediate "~3.0.5"
 
 locate-path@^6.0.0:
   version "6.0.0"
@@ -2399,6 +2451,14 @@ mixpanel-figma@^2.0.4:
   version "2.0.4"
   resolved "https://registry.npmjs.org/mixpanel-figma/-/mixpanel-figma-2.0.4.tgz#b5b158cd998b7a84d0699961593c0b8268d74278"
   integrity sha512-2hRh8jN0u06r//uB4ZOWODO9Xq8t34PApFCrLIl2rjWxtfkuFbkLbJl6QIjpPdynWtzXQWQNQJ5fKjEBWHMhvw==
+
+mp4-muxer@^3.0.2:
+  version "3.0.3"
+  resolved "https://registry.npmjs.org/mp4-muxer/-/mp4-muxer-3.0.3.tgz#36c81dce4edeea0e0a79a16fa1eebe2c53e0b0f9"
+  integrity sha512-JJYXBomAq7f6II6jG2CI98nE8AwblyBWZbZF5EjFSXC5oSsflfcOIyr/SORM4xW1wsHM0W0xDGtgy4wCx1lTHw==
+  dependencies:
+    "@types/dom-webcodecs" "^0.1.6"
+    "@types/wicg-file-system-access" "^2020.9.5"
 
 ms@2.0.0:
   version "2.0.0"
@@ -2522,6 +2582,11 @@ p-locate@^5.0.0:
   integrity sha512-LaNjtRWUBY++zB5nE/NwcaoMylSPk+S+ZHNB1TzdbMJMny6dynpAGt7X/tl/QYq3TIeE6nxHppbo2LGymrG5Pw==
   dependencies:
     p-limit "^3.0.2"
+
+pako@~1.0.2:
+  version "1.0.11"
+  resolved "https://registry.npmjs.org/pako/-/pako-1.0.11.tgz#6c9599d340d54dfd3946380252a35705a6b992bf"
+  integrity sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==
 
 parent-module@^1.0.0:
   version "1.0.1"
@@ -2647,7 +2712,7 @@ react@^18.2.0:
   dependencies:
     loose-envify "^1.1.0"
 
-readable-stream@^2.2.2:
+readable-stream@^2.2.2, readable-stream@~2.3.6:
   version "2.3.8"
   resolved "https://registry.npmjs.org/readable-stream/-/readable-stream-2.3.8.tgz#91125e8042bba1b9887f49345f6277027ce8be9b"
   integrity sha512-8p0AUk4XODgIewSi0l8Epjs+EVnWiK7NoDIEGU0HhE7+ZyY8D1IMY7odu5lRrFXGg71L15KG8QrPmum45RTtdA==
@@ -2832,6 +2897,11 @@ set-function-name@^2.0.0:
     define-data-property "^1.0.1"
     functions-have-names "^1.2.3"
     has-property-descriptors "^1.0.0"
+
+setimmediate@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.npmjs.org/setimmediate/-/setimmediate-1.0.5.tgz#290cbb232e306942d7d7ea9b83732ab7856f8285"
+  integrity sha512-MATJdZp8sLqDl/68LfQmbP8zKPLQNV6BIZoIgrscFDQ+RsvK/BxeDQOgyxKKoh0y/8h3BqVFnCqQ/gd+reiIXA==
 
 shebang-command@^2.0.0:
   version "2.0.0"
@@ -3277,6 +3347,14 @@ web-namespaces@^2.0.0:
   version "2.0.1"
   resolved "https://registry.npmjs.org/web-namespaces/-/web-namespaces-2.0.1.tgz#1010ff7c650eccb2592cebeeaf9a1b253fd40692"
   integrity sha512-bKr1DkiNa2krS7qxNtdrtHAmzuYGFQLiQ13TsorsdT6ULTkPLKuu5+GsFpDlg6JFjUTwX2DyhMPG2be8uPrqsQ==
+
+webm-muxer@^3.1.3:
+  version "3.2.1"
+  resolved "https://registry.npmjs.org/webm-muxer/-/webm-muxer-3.2.1.tgz#a5b73d5dddcfe8b3a27379fb249efc3add806236"
+  integrity sha512-DMqlcZLNyFd5cVRkTfeKaeqnK0DXM+fvQQ8UwpUBxe+nfI9tb44bjbF4sGhkb8EDNgycGbIopAn9EhHXvPZI8g==
+  dependencies:
+    "@types/dom-webcodecs" "^0.1.4"
+    "@types/wicg-file-system-access" "^2020.9.5"
 
 which-boxed-primitive@^1.0.2:
   version "1.0.2"

@@ -5,7 +5,7 @@ import { DISABLE_PAYMENTS } from './src/utils/contants'
 import './src/vite-env.d.ts'
 
 export default defineConfig(({ command, mode }) => {
-  const { VITE_FIGMANIA_URL } = loadEnv(mode, process.cwd()) as ImportMetaEnv
+  const { VITE_FIGMANIA_URL, VITE_FUNCTIONS_URL } = loadEnv(mode, process.cwd()) as ImportMetaEnv
   const plugins: PluginOption[] = [react(), figma(command, {
     editorType: ['figma', 'dev'],
     name: 'SVG Animate',
@@ -33,11 +33,8 @@ export default defineConfig(({ command, mode }) => {
     }],
     permissions: DISABLE_PAYMENTS ? ['currentuser'] : ['currentuser', 'payments'],
     networkAccess: {
-      allowedDomains: [VITE_FIGMANIA_URL, 'https://storage.googleapis.com', 'https://api-js.mixpanel.com'],
-      devAllowedDomains: [
-        'http://localhost:8080',
-        'ws://localhost:8080'
-      ],
+      allowedDomains: [VITE_FIGMANIA_URL, VITE_FUNCTIONS_URL, 'https://storage.googleapis.com', 'https://api-js.mixpanel.com'],
+      devAllowedDomains: ['http://localhost:8080', 'ws://localhost:8080', 'http://localhost:8081'],
       reasoning: 'Authentication with Figmania Server and anonymous usage analytics'
     }
   })]
