@@ -403,6 +403,15 @@
   resolved "https://registry.npmjs.org/@figma/plugin-typings/-/plugin-typings-1.82.0.tgz#7f8c8514bb18dc303e3b194b60827fec1f2a5e9f"
   integrity sha512-To5M9VRpNysrGGtZtPF5Ke9eobfhTUr7kieAsYMhpPg+VKdr0EM6XDFtCqhtuDrLfPAZFa/cBQo68auWwD4mlA==
 
+"@figmania/common@^3.3.10":
+  version "3.3.10"
+  resolved "https://registry.npmjs.org/@figmania/common/-/common-3.3.10.tgz#29976d7cbb2c9f00b27243d6215e858df30826b8"
+  integrity sha512-+a1T+L9gqseSBs5wTxP7NdWEb51u+1YSWFXWfx3jExHTT3581wn53QtmZe27D9PdIjDXN0ENxKpi6RLHp2fFdg==
+  dependencies:
+    debounce "^1.2.1"
+    md5 "^2.3.0"
+    unihtml "^2.0.8"
+
 "@figmania/common@^3.3.8":
   version "3.3.8"
   resolved "https://registry.npmjs.org/@figmania/common/-/common-3.3.8.tgz#096db27cd0a90c2d429bdf1c1c055f1ca8216706"
@@ -412,27 +421,37 @@
     md5 "^2.3.0"
     unihtml "^2.0.8"
 
-"@figmania/encoder-sequence@^3.3.9":
-  version "3.3.9"
-  resolved "https://registry.npmjs.org/@figmania/encoder-sequence/-/encoder-sequence-3.3.9.tgz#e12f8edcfe4532e8efe14c79ecbafb6955508f08"
-  integrity sha512-RM5KzOJRoOnVX2OxuhCsJSS+APfCgfqfMjJ4PahyF4uOUr0JUn1Wp/qmoJ65iR2IcCyvd6xbzM/z2uw0hQlETw==
+"@figmania/encoder-sequence@^3.3.10":
+  version "3.3.10"
+  resolved "https://registry.npmjs.org/@figmania/encoder-sequence/-/encoder-sequence-3.3.10.tgz#44f8896010d68b02c81c6852f134a0da2c873b82"
+  integrity sha512-z2/98sLHSIojPn38wlWJ9VlGPZ3ta7ClBIY0YTMG08H173WXXPPsOui6aiqPo8Z4PDoHuBNLmTWQR00t84BJaw==
   dependencies:
-    "@figmania/encoder-svg-renderer" "^3.3.9"
+    "@figmania/encoder-svg-renderer" "^3.3.10"
     "@figmania/gsap" "^3.3.6"
     gsap "^3.12.3"
     jszip "^3.10.1"
 
-"@figmania/encoder-svg-renderer@^3.3.9":
-  version "3.3.9"
-  resolved "https://registry.npmjs.org/@figmania/encoder-svg-renderer/-/encoder-svg-renderer-3.3.9.tgz#018a652b2c9e6759d732ee1de843a6ae78638778"
-  integrity sha512-ZSkZS2RgkUL/o+GCB65beaHKDbBnw3v2BY9cb+RTSVasUUNKyRLtD0/W2/67GgAsZp7M20tzAzKcoQJ+kCuDHA==
+"@figmania/encoder-svg-renderer@^3.3.10":
+  version "3.3.10"
+  resolved "https://registry.npmjs.org/@figmania/encoder-svg-renderer/-/encoder-svg-renderer-3.3.10.tgz#a1c24ffe7f5675d91a22fc5341b0a36b6f6f25d9"
+  integrity sha512-YD2ZZojGItA3k7z6Gbt/PJN6QC+FVe2sy7MPQ9/N+nHhmoX+KpOjhlsSw9DmLT873onzMqaskN10Wv5FT/vSvA==
   dependencies:
     "@figmania/gsap" "^3.3.6"
     gsap "^3.12.3"
     mp4-muxer "^3.0.2"
     webm-muxer "^3.1.3"
 
-"@figmania/gsap@^3.3.6", "@figmania/gsap@^3.3.8":
+"@figmania/gsap@^3.3.10":
+  version "3.3.10"
+  resolved "https://registry.npmjs.org/@figmania/gsap/-/gsap-3.3.10.tgz#576e567394ff86897fa1cb9585cce7d4c3d1d22a"
+  integrity sha512-UC7jAwRtCTXCHPeRtytLsyUIPdbra1Gi7O2jRE1q2nva8NGy8NV8QVU6dwc9SPj6bwdQNHxlBraehDj2/cs5UA==
+  dependencies:
+    "@figmania/common" "^3.3.10"
+    camelcase "^6.2.0"
+    decamelize "^4.0.0"
+    gsap "^3.12.3"
+
+"@figmania/gsap@^3.3.6":
   version "3.3.8"
   resolved "https://registry.npmjs.org/@figmania/gsap/-/gsap-3.3.8.tgz#380d106da6bdaf1b82fcad060ecce392bfc82ee8"
   integrity sha512-B2yWr2pJbJXKl22kjcuR7A7/7QPeYtHl36OAa3ipa/34oW80zeuAO2ylRm3WOwIwl9NZpi85lsCJKCXONSAOww==
@@ -442,10 +461,10 @@
     decamelize "^4.0.0"
     gsap "^3.12.3"
 
-"@figmania/ui@^3.3.8":
-  version "3.3.8"
-  resolved "https://registry.npmjs.org/@figmania/ui/-/ui-3.3.8.tgz#8d8fa2d9d3f2231b083f05f3140f61484863d424"
-  integrity sha512-ZMeb2F70HBNsOCaI6X0NIvzNAMqWNDFWd+7iZimQ6htdi8F1I7ccMul/yAR11afL56YPOts0zzFAlsu7RSvxJw==
+"@figmania/ui@^3.3.10":
+  version "3.3.10"
+  resolved "https://registry.npmjs.org/@figmania/ui/-/ui-3.3.10.tgz#2f74b2188a5d84db7daf5c6bf6986973831a0fdc"
+  integrity sha512-75Zb6J6HHQMtROWA7K20anxkQOIusK0pefFCm6I9+MN0SSCr8DM4TEMOTJLYGmSoIyvxUiZHDP5oFlZ7We47Uw==
   dependencies:
     add "^2.0.6"
     clsx "^1.2.1"

@@ -18,11 +18,11 @@
     "dev:unlink": "yarn unlink react react-dom @figmania/common @figmania/gsap @figmania/ui"
   },
   "dependencies": {
-    "@figmania/common": "^3.3.8",
-    "@figmania/gsap": "^3.3.8",
-    "@figmania/ui": "^3.3.8",
-    "@figmania/encoder-sequence": "^3.3.9",
-    "@figmania/encoder-svg-renderer": "^3.3.9",
+    "@figmania/common": "^3.3.10",
+    "@figmania/gsap": "^3.3.10",
+    "@figmania/ui": "^3.3.10",
+    "@figmania/encoder-sequence": "^3.3.10",
+    "@figmania/encoder-svg-renderer": "^3.3.10",
     "clsx": "^1.2.1",
     "gsap": "^3.12.3",
     "mixpanel-figma": "^2.0.4",

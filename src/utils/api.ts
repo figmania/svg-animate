@@ -33,16 +33,40 @@ export async function apiUsersStatus(userId: string, params?: User): Promise<Api
   return fetchApi('/api/users/status', { userId, name: params?.name, image: params?.image })
 }
 
-export async function apiSvgsPolicy(userId: string, uuid: string, nodeId: string): Promise<{ svgUrl: string, zipUrl: string }> {
-  return fetchApi('/api/svgs/policy', { userId, uuid, nodeId })
+export interface ApiSvgsCreateParams {
+  id: string
+  name: string
+  user: {
+    id: string
+    name?: string
+    image?: string
+  }
 }
 
-export async function apiSvgsCreate(userId: string, uuid: string, nodeId: string, name: string): Promise<{ url: string }> {
-  return fetchApi('/api/svgs/create', { userId, uuid, nodeId, name })
+export type ApiSvgsCreateResponse = {
+  success: true
+  svgUrl: string
+  zipUrl: string
+  viewUrl: string
+} | {
+  success: false
+  error: 'TrialExpired' | 'Unknown'
+  message: string
 }
 
-export async function functionApiEncode(userId: string, svgId: string): Promise<{ url: string }> {
-  return fetchFunction('/api/encode', { userId, svgId })
+export async function apiSvgsCreate(params: ApiSvgsCreateParams): Promise<ApiSvgsCreateResponse> {
+  return fetchApi('/api/svgs/create', params)
+}
+
+export interface FunctionApiEncodeParams {
+  svgId: string
+  userId: string
+  framerate: number
+  numFrames: number
+}
+
+export async function functionApiEncode(params: FunctionApiEncodeParams): Promise<{ url: string }> {
+  return fetchFunction('/api/encode', params)
 }
 
 export enum PurchaseStatus { UNPAID, TRIAL, PAID }

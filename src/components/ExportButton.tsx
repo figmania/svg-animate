@@ -8,7 +8,7 @@ import { Config, Schema } from '../Schema'
 import { MPEvent, useAnalytics } from '../hooks/useAnalytics'
 import { useCheckout } from '../hooks/useCheckout'
 import { useNode } from '../hooks/useNode'
-import { PurchaseStatus, apiSvgsCreate, apiSvgsPolicy, apiUsersStatus, fetchUpload, functionApiEncode } from '../utils/api'
+import { apiSvgsCreate, fetchUpload, functionApiEncode } from '../utils/api'
 import styles from './ExportButton.module.scss'
 
 export interface ExportButtonProps extends Omit<ButtonProps, 'loading' | 'onClick'> { }
@@ -25,22 +25,37 @@ export const ExportButton: FunctionComponent<ExportButtonProps> = ({ className, 
   async function runExport() {
     if (!masterNode) { return }
     const contents = await controller.request('export', masterNode).then((value) => transformSvg(value, masterNode))
-    const { purchaseStatus } = await apiUsersStatus(config.userId, config.user)
-    if (purchaseStatus === PurchaseStatus.UNPAID) { await checkout('TRIAL_ENDED') }
     trackEvent(MPEvent.EXPORT_SVG, { type: 'upload', size: contents.length })
-    const { svgUrl, zipUrl } = await apiSvgsPolicy(config.userId, uuid, masterNode.id)
+
+    // Create and Provision SVG
+    const id = `${uuid}:${masterNode.id}`
+    const response = await apiSvgsCreate({
+      id,
+      name: masterNode.name,
+      user: { id: config.userId, name: config.user?.name, image: config.user?.image }
+    })
+    if (!response.success) {
+      await checkout('TRIAL_ENDED')
+      runExport()
+      return
+    }
+
+    // Generate Zip Package
     const svg = createSvg(contents)
     svg.setAttribute('width', String(width))
     svg.setAttribute('height', String(height))
-    const zip = await sequence(svg, 30)
+    const framerate = 30
+    const [zip, numFrames] = await sequence(svg, framerate)
+
+    // Upload Assets
     await Promise.all([
-      fetchUpload(svgUrl, contents, 'image/svg+xml'),
-      fetchUpload(zipUrl, zip, 'application/zip')
+      fetchUpload(response.svgUrl, contents, 'image/svg+xml'),
+      fetchUpload(response.zipUrl, zip, 'application/zip')
     ])
-    const svgId = `${uuid}:${masterNode.id}`
-    const { url } = await functionApiEncode(config.userId, svgId)
+
+    // EncodeVideo
+    const { url } = await functionApiEncode({ svgId: id, userId: config.userId, framerate, numFrames })
     window.open(url, '_blank')
-    await apiSvgsCreate(config.userId, uuid, masterNode.id, masterNode.name)
   }
 
   if (!masterNode) { return <></> }
