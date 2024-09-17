@@ -22,7 +22,7 @@ export const ExportButton: FunctionComponent<ExportButtonProps> = ({ className, 
   const [paid, checkout] = useCheckout()
   const [loading, setLoading] = useState(false)
 
-  async function runExport() {
+  async function runExport(retry = true) {
     if (!masterNode) { return }
     const contents = await controller.request('export', masterNode).then((value) => transformSvg(value, masterNode))
     trackEvent(MPEvent.EXPORT_SVG, { type: 'upload', size: contents.length })
@@ -35,8 +35,9 @@ export const ExportButton: FunctionComponent<ExportButtonProps> = ({ className, 
       user: { id: config.userId, name: config.user?.name, image: config.user?.image }
     })
     if (!response.success) {
-      await checkout('TRIAL_ENDED')
-      runExport()
+      if (!retry) { return }
+      await checkout('PAID_FEATURE')
+      runExport(false)
       return
     }
 
@@ -66,7 +67,7 @@ export const ExportButton: FunctionComponent<ExportButtonProps> = ({ className, 
         <div className={styles['tooltip']}>
           <strong>Video Export</strong> is a <strong>PRO Feature</strong>
           <br />
-          Try 7 days for free
+          Subscribe for $9/month
         </div>
       )}
       <Button className={clsx(
